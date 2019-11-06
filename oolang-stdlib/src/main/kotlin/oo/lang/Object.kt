@@ -1,8 +1,20 @@
 package oo.lang
 
+import oo.internal.Expected
+import oo.internal.Modifier
+
 /**
  * The root of the Oolang class hierarchy. Every Oolang class has [Object] as a superclass.
  */
-abstract class Object : Any(), IObject {
+@Expected(Modifier.OPEN)
+abstract class Object : IObject {
+    @Expected(Modifier.OPEN)
     abstract override fun equals(other: Object?): Boolean
+
+    @Expected(Modifier.OPEN)
+    abstract override fun hashCode(): Int
+
+    // todo replace with real name "toString" when in oolang file
+    @Expected(Modifier.OPEN, "toString")
+    abstract override fun toString_(): String
 }

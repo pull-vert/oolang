@@ -2,6 +2,7 @@ package oo.lang
 
 /**
  * The root of the Oolang interface hierarchy. Every Oolang interface has [IObject] as a superinterface.
+ * [IObject] is virtual, it is not present in an Oolang interface .class file
  */
 interface IObject {
     /**
@@ -28,6 +29,7 @@ interface IObject {
 
     /**
      * Returns a string representation of the object.
+     * todo replace with real name "toString" when in oolang file
      */
-    override fun toString(): String
+    fun toString_(): String
 }
