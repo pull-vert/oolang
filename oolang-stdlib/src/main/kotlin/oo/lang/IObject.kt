@@ -1,8 +1,12 @@
+/*
+ * This is free and unencumbered software released into the public domain, following <https://unlicense.org>
+ */
+
 package oo.lang
 
 /**
  * The root of the Oolang interface hierarchy. Every Oolang interface has [IObject] as a superinterface.
- * [IObject] is virtual, it is not present in an Oolang interface .class file
+ * [IObject] is virtual, it is not present in any Oolang interface corresponding .class file
  */
 interface IObject {
     /**
@@ -14,8 +18,6 @@ interface IObject {
      * * Transitive:  for any non-null values `x`, `y`, and `z`, if `x.equals(y)` returns true and `y.equals(z)` returns true, then `x.equals(z)` should return true.
      * * Consistent:  for any non-null values `x` and `y`, multiple invocations of `x.equals(y)` consistently return true or consistently return false, provided no information used in `equals` comparisons on the objects is modified.
      * * Never equal to null: for any non-null value `x`, `x.equals(null)` should return false.
-     *
-     * Read more about [equality](https://kotlinlang.org/docs/reference/equality.html) in Kotlin.
      */
     fun equals(other: Object?): Boolean
 

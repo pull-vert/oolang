@@ -1,3 +1,7 @@
+/*
+ * This is free and unencumbered software released into the public domain, following <https://unlicense.org>
+ */
+
 package oo.lang
 
 import oo.internal.Expected
@@ -15,6 +19,6 @@ abstract class Object : IObject {
     abstract override fun hashCode(): Int
 
     // todo replace with real name "toString" when in oolang file
-    @Expected(Modifier.OPEN, "toString")
+    @Expected(Modifier.OPEN)
     abstract override fun toString_(): String
 }
