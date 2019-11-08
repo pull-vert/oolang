@@ -16,7 +16,8 @@ abstract class Object : IObject {
     abstract override fun equals(other: Object?): Boolean
 
     @Expected(Modifier.OPEN)
-    abstract override fun hashCode(): Int
+    // todo replace with real name "hashCode" when in oolang file
+    abstract override fun hashCode_(): Integer
 
     // todo replace with real name "toString" when in oolang file
     @Expected(Modifier.OPEN)
