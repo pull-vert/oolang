@@ -1,19 +1,16 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' apply false
-    id 'org.jetbrains.dokka' apply false
     id 'net.researchgate.release'
 }
 
 println("Using Gradle version: $gradle.gradleVersion")
 
 subprojects {
-    apply plugin: 'org.jetbrains.kotlin.jvm'
-    apply plugin: 'jacoco'
-    apply plugin: 'org.jetbrains.dokka'
-
-    // Regular java modules need 'java-library' plugin for proper publication
     apply plugin: 'java-library'
+    apply plugin: 'jacoco'
     apply plugin: 'maven-publish'
+
+    sourceCompatibility = JavaVersion.VERSION_13
+    targetCompatibility = JavaVersion.VERSION_13
 
     repositories {
         jcenter()
@@ -21,23 +18,15 @@ subprojects {
 
     dependencies {
         // import BOM
-        implementation platform("org.junit:junit-bom:$junit_bom_version")
+        testImplementation platform("org.junit:junit-bom:$junit_bom_version")
 
-        implementation 'org.jetbrains.kotlin:kotlin-stdlib'
+        testImplementation 'org.junit.jupiter:junit-jupiter-api'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     }
 
-    compileKotlin {
-        kotlinOptions {
-            freeCompilerArgs = ['-Xjvm-default=enable']
-            jvmTarget = '1.8'
-        }
-    }
-
-    compileTestKotlin {
-        kotlinOptions {
-            freeCompilerArgs = ['-Xjvm-default=enable']
-            jvmTarget = '1.8'
-        }
+    java {
+        withJavadocJar()
+        withSourcesJar()
     }
 
     test {
@@ -61,29 +50,6 @@ subprojects {
         }
     }
 
-    // --------------- Source & Javadoc artefacts + publishing ---------------
-
-    // generate xxx-sources.jar
-    task sourcesJar(type: Jar) {
-        from sourceSets.main.allSource
-        archiveClassifier = 'sources'
-    }
-
-    dokka {
-        outputFormat = 'html'
-        outputDirectory = "$buildDir/javadoc"
-
-        configuration {
-            jdkVersion = 8
-        }
-    }
-
-    // generate xxx-javadoc.jar
-    task javadocJar(type: Jar, dependsOn: dokka) {
-        from "$buildDir/javadoc"
-        archiveClassifier = 'javadoc'
-    }
-
     publishing {
         repositories {
             maven {
@@ -103,16 +69,16 @@ subprojects {
             maven(MavenPublication) {
                 artifactId = project.name
                 from components.java
-                artifact sourcesJar
-                artifact javadocJar
+//                artifact sourcesJar todo check if still required
+//                artifact javadocJar todo check if still required
                 pom {
                     name = project.name
                     description = 'The Oolang JVM language'
                     url = 'https://github.com/pull-vert/oolang'
                     licenses {
                         license {
-                            name = 'The Apache License, Version 2.0'
-                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            name = 'The Unlicence'
+                            url = 'https://unlicense.org'
                         }
                     }
                     scm {
@@ -132,7 +98,6 @@ task build {
 
 // execute ./gradlew wrapper then remove .gradle directory when version change
 wrapper {
-    gradleVersion = '5.6.4'
+    gradleVersion = '6.0'
     distributionType = Wrapper.DistributionType.ALL
 }
-
