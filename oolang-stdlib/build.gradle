@@ -1,3 +1,11 @@
 plugins {
     id 'org.javamodularity.moduleplugin'
 }
+
+dependencies {
+    implementation "com.google.code.findbugs:jsr305:$jsr305_version"
+}
+
+javadoc {
+    options.tags = [ "apiNote:a:API Note:", "implSpec:a:Implementation Requirements:", "implNote:a:Implementation Note:" ]
+}

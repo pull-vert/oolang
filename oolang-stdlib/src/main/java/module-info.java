@@ -3,6 +3,8 @@
  */
 
 module oolang.stdlib {
+	requires jsr305;
+
 	exports oo.io;
 	exports oo.lang;
 }
