@@ -4,6 +4,7 @@
 
 package oo;
 
+import oo.internal.Operator;
 import oo.lang.Boolean;
 import oo.lang.Integer;
 import oo.lang.Object;
@@ -102,6 +103,7 @@ public interface IObject {
 	 * @see     oo.lang.Object#hashCode_()
 	 * @see     java.util.HashMap
 	 */
+	@Operator
 	@Nonnull
 	Boolean equals(@Nullable Object obj);
 

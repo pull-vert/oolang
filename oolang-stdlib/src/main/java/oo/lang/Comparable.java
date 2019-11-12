@@ -7,6 +7,7 @@ package oo.lang;
 import oo.IObject;
 import oo.internal.Expected;
 import oo.internal.Modifier;
+import oo.internal.Operator;
 
 import javax.annotation.Nonnull;
 
@@ -52,6 +53,7 @@ public interface Comparable<T> extends IObject {
 	 * @return  a negative integer, zero, or a positive integer as this object
 	 *          is less than, equal to, or greater than the specified object.
 	 */
+	@Operator
 	@Nonnull
 	Integer compareTo(@Nonnull T o);
 }
