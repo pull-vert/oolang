@@ -9,4 +9,4 @@ rootProject.name = 'oolang'
 
 include 'oolang-stdlib'
 
-include 'oolang-core'
+include 'oolang-base'

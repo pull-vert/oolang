@@ -2,16 +2,15 @@
  * This is free and unencumbered software released into the public domain, following <https://unlicense.org>
  */
 
-package oo;
+package oo.base;
 
-import oo.internal.Operator;
-import oo.lang.Boolean;
-import oo.lang.Integer;
-import oo.lang.Object;
-import oo.lang.String;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import oo.lang.NotNull;
+import oo.lang.Nullable;
+import oo.lang.Operator;
+import oo.base.lang.Boolean;
+import oo.base.lang.Integer;
+import oo.base.lang.Object;
+import oo.base.lang.String;
 
 /**
  * The root of the Oolang interface hierarchy. Every Oolang interface has {@link IObject} as a superinterface.
@@ -38,7 +37,7 @@ public interface IObject {
 	 *     method, then calling the {@code hashCode} method on each of
 	 *     the two objects must produce the same integer result.
 	 * <li>It is <em>not</em> required that if two objects are unequal
-	 *     according to the {@link oo.lang.Object#equals(oo.lang.Object)}
+	 *     according to the {@link oo.base.lang.Object#equals(oo.base.lang.Object)}
 	 *     method, then calling the {@code hashCode} method on each of the
 	 *     two objects must produce distinct integer results.  However, the
 	 *     programmer should be aware that producing distinct integer results
@@ -50,10 +49,10 @@ public interface IObject {
 	 * by class {@code Object} returns distinct integers for distinct objects.
 	 *
 	 * @return  a hash code value for this object.
-	 * @see     oo.lang.Object#equals(oo.lang.Object)
+	 * @see     oo.base.lang.Object#equals(oo.base.lang.Object)
 	 * @see     java.lang.System#identityHashCode
 	 */
-	@Nonnull
+	@NotNull
 	Integer hashCode_();
 
 	/**
@@ -100,11 +99,11 @@ public interface IObject {
 	 * @param   obj   the reference object with which to compare.
 	 * @return  {@code true} if this object is the same as the obj
 	 *          argument; {@code false} otherwise.
-	 * @see     oo.lang.Object#hashCode_()
+	 * @see     oo.base.lang.Object#hashCode_()
 	 * @see     java.util.HashMap
 	 */
 	@Operator
-	@Nonnull
+	@NotNull
 	Boolean equals(@Nullable Object obj);
 
 	/**
@@ -128,6 +127,6 @@ public interface IObject {
 	 *
 	 * @return  a string representation of the object.
 	 */
-	@Nonnull
+	@NotNull
 	String toString_();
 }

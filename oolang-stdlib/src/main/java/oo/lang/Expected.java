@@ -2,7 +2,7 @@
  * This is free and unencumbered software released into the public domain, following <https://unlicense.org>
  */
 
-package oo.internal;
+package oo.lang;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,8 +10,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Identify an operation that allow specific syntax (eg : {@code Boolean equals(Object?)} will be callable with {@code ==})
+ * Indicate target annotated element is an expected class, interface, method or field
+ * <p>This annotated element will be replaced by another actual element when compiled to bytecode
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
-public @interface Operator { }
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
+public @interface Expected {
+	Modifier value();
+}

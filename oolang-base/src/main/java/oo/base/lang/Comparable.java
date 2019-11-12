@@ -2,14 +2,13 @@
  * This is free and unencumbered software released into the public domain, following <https://unlicense.org>
  */
 
-package oo.lang;
+package oo.base.lang;
 
-import oo.IObject;
-import oo.internal.Expected;
-import oo.internal.Modifier;
-import oo.internal.Operator;
-
-import javax.annotation.Nonnull;
+import oo.base.IObject;
+import oo.lang.Expected;
+import oo.lang.Modifier;
+import oo.lang.NotNull;
+import oo.lang.Operator;
 
 /**
  * Classes which inherit from this interface have a defined total ordering between their instances.
@@ -54,6 +53,6 @@ public interface Comparable<T> extends IObject {
 	 *          is less than, equal to, or greater than the specified object.
 	 */
 	@Operator
-	@Nonnull
-	Integer compareTo(@Nonnull T o);
+	@NotNull
+	Integer compareTo(@NotNull T o);
 }

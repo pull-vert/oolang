@@ -2,28 +2,27 @@
  * This is free and unencumbered software released into the public domain, following <https://unlicense.org>
  */
 
-package oo.lang;
+package oo.base.lang;
 
-import oo.internal.Expected;
-import oo.internal.Modifier;
-
-import javax.annotation.Nonnull;
+import oo.lang.Expected;
+import oo.lang.Modifier;
+import oo.lang.NotNull;
 
 @Expected(Modifier.FINAL)
 public abstract class Integer extends Number implements Comparable<Integer> {
 
 	private Integer() { }
 
-	@Nonnull
+	@NotNull
 	@Expected(Modifier.FINAL)
 	public static Integer MIN_VALUE;
 
-	@Nonnull
+	@NotNull
 	@Expected(Modifier.FINAL)
 	public static Integer MAX_VALUE;
 
 	@Override
-	@Nonnull
+	@NotNull
 	@Expected(Modifier.FINAL)
 	public abstract Integer intValue();
 
@@ -40,7 +39,7 @@ public abstract class Integer extends Number implements Comparable<Integer> {
 	 *           comparison).
 	 */
 	@Override
-	@Nonnull
+	@NotNull
 	@Expected(Modifier.FINAL)
-	public abstract Integer compareTo(@Nonnull Integer anotherInteger);
+	public abstract Integer compareTo(@NotNull Integer anotherInteger);
 }

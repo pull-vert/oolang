@@ -5,5 +5,5 @@
 module oolang.stdlib {
 	requires jsr305;
 
-	exports oo.internal;
+	exports oo.lang;
 }

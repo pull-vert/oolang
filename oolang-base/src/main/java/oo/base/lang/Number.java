@@ -2,13 +2,12 @@
  * This is free and unencumbered software released into the public domain, following <https://unlicense.org>
  */
 
-package oo.lang;
+package oo.base.lang;
 
-import oo.internal.Expected;
-import oo.internal.Modifier;
-import oo.io.Serializable;
-
-import javax.annotation.Nonnull;
+import oo.lang.Expected;
+import oo.lang.Modifier;
+import oo.base.io.Serializable;
+import oo.lang.NotNull;
 
 /**
  * Superclass for all platform classes representing numeric values.
@@ -27,7 +26,7 @@ public abstract class Number extends Object implements Serializable {
 	 * @return  the numeric value represented by this object after conversion
 	 *          to type {@code Integer}.
 	 */
-	@Nonnull
+	@NotNull
 	@Expected(Modifier.ABSTRACT)
 	public abstract Integer intValue();
 }

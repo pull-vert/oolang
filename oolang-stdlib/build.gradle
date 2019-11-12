@@ -3,5 +3,5 @@ plugins {
 }
 
 dependencies {
-    compile "com.google.code.findbugs:jsr305:$jsr305_version"
+    api "com.google.code.findbugs:jsr305:$jsr305_version"
 }

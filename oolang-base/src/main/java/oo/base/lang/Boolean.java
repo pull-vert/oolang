@@ -2,13 +2,12 @@
  * This is free and unencumbered software released into the public domain, following <https://unlicense.org>
  */
 
-package oo.lang;
+package oo.base.lang;
 
-import oo.internal.Expected;
-import oo.internal.Modifier;
-import oo.io.Serializable;
-
-import javax.annotation.Nonnull;
+import oo.lang.Expected;
+import oo.lang.Modifier;
+import oo.base.io.Serializable;
+import oo.lang.NotNull;
 
 /**
  * Represents a value which is either `true` or `false`.
@@ -30,7 +29,7 @@ public abstract class Boolean extends Object implements Serializable, Comparable
 	 * @see     Comparable
 	 */
 	@Override
-	@Nonnull
+	@NotNull
 	@Expected(Modifier.FINAL)
-	public abstract Integer compareTo(@Nonnull Boolean b);
+	public abstract Integer compareTo(@NotNull Boolean b);
 }
