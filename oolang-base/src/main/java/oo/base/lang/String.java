@@ -9,6 +9,10 @@ import oo.lang.Modifier;
 import oo.base.io.Serializable;
 import oo.lang.NotNull;
 
+/**
+ * The `String` class represents character strings. All string literals in Oolang programs, such as `"abc"`, are
+ * implemented as instances of this class.
+ */
 @Expected(Modifier.FINAL)
 public abstract class String extends Object implements Serializable, Comparable<String> {
 
