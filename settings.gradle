@@ -8,3 +8,5 @@ pluginManagement {
 rootProject.name = 'oolang'
 
 include 'oolang-stdlib'
+
+include 'oolang-core'

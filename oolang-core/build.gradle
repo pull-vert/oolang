@@ -1,0 +1,11 @@
+plugins {
+    id 'org.javamodularity.moduleplugin'
+}
+
+dependencies {
+    compile project(':oolang-stdlib')
+}
+
+javadoc {
+    options.tags = [ "apiNote:a:API Note:", "implSpec:a:Implementation Requirements:", "implNote:a:Implementation Note:" ]
+}
