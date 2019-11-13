@@ -1,0 +1,13 @@
+plugins {
+    id 'org.javamodularity.moduleplugin'
+    id 'antlr'
+}
+
+dependencies {
+    antlr "org.antlr:antlr4:4.7.2"
+}
+
+generateGrammarSource {
+    maxHeapSize = "64m"
+//    arguments += ["-visitor", "-long-messages"]
+}
