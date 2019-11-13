@@ -1,5 +1,39 @@
 grammar Oolang;
 
+classOrInterfaceType
+	:	(	classType_lfno_classOrInterfaceType
+		|	interfaceType_lfno_classOrInterfaceType
+		)
+		(	classType_lf_classOrInterfaceType
+		|	interfaceType_lf_classOrInterfaceType
+		)*
+	;
+
+classType
+	:	annotation* identifier typeArguments?
+	|	classOrInterfaceType '.' annotation* identifier typeArguments?
+	;
+
+classType_lf_classOrInterfaceType
+	:	'.' annotation* identifier typeArguments?
+	;
+
+classType_lfno_classOrInterfaceType
+	:	annotation* identifier typeArguments?
+	;
+
+interfaceType
+	:	classType
+	;
+
+interfaceType_lf_classOrInterfaceType
+	:	classType_lf_classOrInterfaceType
+	;
+
+interfaceType_lfno_classOrInterfaceType
+	:	classType_lfno_classOrInterfaceType
+	;
+
 classDeclaration
 	:	normalClassDeclaration
 //	|	enumDeclaration
@@ -23,11 +57,11 @@ typeParameterList
 	;
 
 parents
-	:	'is' parentTypeList
+	:	'is' classType? ','? interfaceTypeList?
 	;
 
-parentTypeList
-	:	parentType (',' parentType)*
+interfaceTypeList
+	:	interfaceType (',' interfaceType)*
 	;
 
 classBody
