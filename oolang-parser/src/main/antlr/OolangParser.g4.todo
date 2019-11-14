@@ -1,0 +1,116 @@
+parser grammar OolangParser;
+
+//topClassDeclaration
+//	:	'open'? 'class' topClassIdentifier
+//	;
+
+// todo delete start
+//classOrInterfaceType
+//	:  	(	classType_lfno_classOrInterfaceType
+//		|	interfaceType_lfno_classOrInterfaceType
+//		)
+//		(	classType_lf_classOrInterfaceType
+//		|	interfaceType_lf_classOrInterfaceType
+//		)*
+//	;
+//
+//classType
+//	:	annotation* javaIdentifier typeArguments?
+//	|	classOrInterfaceType '.' annotation* javaIdentifier typeArguments?
+//	;
+//
+//classType_lf_classOrInterfaceType
+//	:	'.' annotation* javaIdentifier typeArguments?
+//	;
+//
+//classType_lfno_classOrInterfaceType
+//	:	annotation* javaIdentifier typeArguments?
+//	;
+//
+//interfaceType
+//	:	classType
+//	;
+//
+//interfaceType_lf_classOrInterfaceType
+//	:	classType_lf_classOrInterfaceType
+//	;
+//
+//interfaceType_lfno_classOrInterfaceType
+//	:	classType_lfno_classOrInterfaceType
+//	;
+//
+//classDeclaration
+//	:	normalClassDeclaration
+////	|	enumDeclaration
+//	;
+//
+//normalClassDeclaration
+//	:	annotation* classModifier? 'class' javaIdentifier typeParameters? parents? classBody
+//	;
+//
+//classModifier
+//	:	'abstract'
+//	|	'open'
+//	;
+//
+//typeParameters
+//	:	'<' typeParameterList '>'
+//	;
+//
+//typeParameterList
+//	:	typeParameter (',' typeParameter)*
+//	;
+//
+//parents
+//	:	'is' classType? ','? interfaceTypeList?
+//	;
+//
+//interfaceTypeList
+//	:	interfaceType (',' interfaceType)*
+//	;
+//
+//classBody
+//	:	'{  }'
+//	;
+//
+//annotation
+//	:	normalAnnotation
+//	|	markerAnnotation
+//	|	singleElementAnnotation
+//	;
+//
+//normalAnnotation
+//	:	'@' typeName '(' elementValuePairList? ')'
+//	;
+//
+//elementValuePairList
+//	:	elementValuePair (',' elementValuePair)*
+//	;
+//
+//elementValuePair
+//	:	javaIdentifier '=' elementValue
+//	;
+//
+//elementValue
+//	:	conditionalExpression
+//	|	elementValueArrayInitializer
+//	|	annotation
+//	;
+//
+//elementValueArrayInitializer
+//	:	'{' elementValueList? ','? '}'
+//	;
+//
+//elementValueList
+//	:	elementValue (',' elementValue)*
+//	;
+//
+//markerAnnotation
+//	:	'@' typeName
+//	;
+//
+//singleElementAnnotation
+//	:	'@' typeName '(' elementValue ')'
+//	;
+
+// todo delete end
