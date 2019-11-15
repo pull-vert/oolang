@@ -1,0 +1,20 @@
+package ool.test
+
+class ClassBikeOptimized {
+    Integer cadence
+    Integer gear
+    private var _speed = 0
+    Integer speed { get = _speed }
+
+    ClassBikeOptimized(this.cadence, this.gear)
+
+    Void applyBrake(Integer decrement) {
+        _speed -= decrement
+    }
+
+    Void speedUp(Integer increment) {
+        _speed += increment
+    }
+
+    override String toString() = "Bicycle: $_speed mph"
+}
