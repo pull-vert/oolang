@@ -4,7 +4,7 @@ class ClassBikeOptimized {
     Integer cadence
     Integer gear
     private var _speed = 0
-    Integer speed { get = _speed }
+    Integer speed { get() = _speed }
 
     ClassBikeOptimized(this.cadence, this.gear)
 
