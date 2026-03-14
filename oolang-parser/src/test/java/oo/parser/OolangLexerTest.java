@@ -30,7 +30,7 @@ class OolangLexerTest {
                 tokens.add("EOF");
             } else {
                 if (t.getType() != OolangLexer.WS) {
-                    tokens.add(OolangLexer.ruleNames[t.getType() - 1]);
+                    tokens.add(OolangLexer.ruleNames[t.getType()]);
                 }
             }
         } while (t.getType() != -1);
@@ -40,12 +40,12 @@ class OolangLexerTest {
     @Test
     void parseSimplestClass() {
         assertThat(tokens(lexerForCode("class A")))
-                .containsExactly("CLASS_KW", "Identifier", "EOF");
+                .containsExactly("CLASS", "HexDigitOrSeparator", "EOF");
     }
 
     @Test
     void parseSimplestClassWithBraces() {
         assertThat(tokens(lexerForCode("class A {}")))
-                .containsExactly("CLASS_KW", "Identifier", "LBRACE", "RBRACE", "EOF");
+                .containsExactly("CLASS", "HexDigitOrSeparator", "LBRACE", "RBRACE", "EOF");
     }
 }
