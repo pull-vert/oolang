@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Test
 
 class OolangLexerTest {
     @Test
-    fun parseSimplestClass() {
+    fun lexSimplestClass() {
         assertThat(tokens(lexerForCode("class A")))
             .containsExactly("CLASS", "HexDigitOrSeparator", "EOF")
     }
 
     @Test
-    fun parseSimplestClassWithBraces() {
+    fun lexSimplestClassWithBraces() {
         assertThat(tokens(lexerForCode("class A {}")))
             .containsExactly("CLASS", "HexDigitOrSeparator", "LBRACE", "RBRACE", "EOF")
     }

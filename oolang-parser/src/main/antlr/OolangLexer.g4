@@ -1,6 +1,7 @@
 /**
- * https://github.com/kotlinx/ast/blob/master/grammar-kotlin-parser-common/src/commonAntlr/antlr/KotlinLexer.g4
  * Oolang lexical grammar in ANTLR4 notation
+ * derived from
+ * https://github.com/kotlinx/ast/blob/master/grammar-kotlin-parser-common/src/commonAntlr/antlr/KotlinLexer.g4
  */
 
 lexer grammar OolangLexer;
@@ -87,11 +88,11 @@ AMP: '&';
 RANGE: '..';
 RANGE_UNTIL: '..<';
 DOUBLE_SEMICOLON: ';;';
-HASH: '#';
+HASH: '#'; */
 AT_NO_WS: '@';
 AT_POST_WS: '@' (Hidden | NL);
 AT_PRE_WS: (Hidden | NL) '@' ;
-AT_BOTH_WS: (Hidden | NL) '@' (Hidden | NL); */
+AT_BOTH_WS: (Hidden | NL) '@' (Hidden | NL);
 
 // SECTION: keywords
 
@@ -102,11 +103,12 @@ THIS_AT: 'this@' Identifier;
 SUPER_AT: 'super@' Identifier;
 
 FILE: 'file';
-FIELD: 'field';
-PROPERTY: 'property';
+PROPERTY: 'property'; */
 GET: 'get';
 SET: 'set';
-RECEIVER: 'receiver';
+VALUE: 'value';
+FIELD: 'field';
+/* RECEIVER: 'receiver';
 PARAM: 'param';
 SETPARAM: 'setparam'; */
 DELEGATE: 'delegate';
@@ -144,10 +146,10 @@ CONTINUE: 'continue';
 AS: 'as';
 IS: 'is';
 NOT_IS: '!is' (Hidden | NL);
-/* IN: 'in';
-NOT_IN: '!in' (Hidden | NL);
+IN: 'in';
+// NOT_IN: '!in' (Hidden | NL);
 OUT: 'out';
-DYNAMIC: 'dynamic'; */
+// DYNAMIC: 'dynamic';
 
 // SECTION: lexicalModifiers
 
@@ -160,7 +162,6 @@ SEALED: 'sealed';
 ANNOTATION: 'annotation';
 // DATA: 'data';
 INNER: 'inner';
-// VALUE: 'value';
 // TAILREC: 'tailrec';
 // OPERATOR: 'operator';
 // INLINE: 'inline';
@@ -171,7 +172,7 @@ OVERRIDE: 'override';
 ABSTRACT: 'abstract';
 FINAL: 'final';
 OPEN: 'open';
-CONST: 'const';
+// CONST: 'const';
 // LATEINIT: 'lateinit';
 VARARG: 'vararg';
 /* NOINLINE: 'noinline';
@@ -280,7 +281,7 @@ IdentifierOrSoftKey
 //    | NOINLINE
     | OPEN
 //    | OPERATOR
-//    | OUT
+    | OUT
     | OVERRIDE
     | PRIVATE
     | PROTECTED
@@ -290,9 +291,10 @@ IdentifierOrSoftKey
 //    | TAILREC
     | VARARG
     | WHERE
-//    | GET
-//    | SET
-//    | FIELD
+    | GET
+    | SET
+    | VALUE
+    | FIELD
 //    | PROPERTY
 //    | RECEIVER
 //    | PARAM
@@ -301,9 +303,8 @@ IdentifierOrSoftKey
 //    | FILE
 //    | EXPECT
 //    | ACTUAL
-//    | VALUE
     /* Strong keyword */
-    | CONST
+//    | CONST
 //    | SUSPEND
     ;
 
@@ -425,10 +426,10 @@ Inside_RESERVED: RESERVED -> type(RESERVED);
 Inside_COLONCOLON: COLONCOLON  -> type(COLONCOLON);
 // Inside_DOUBLE_SEMICOLON: DOUBLE_SEMICOLON  -> type(DOUBLE_SEMICOLON);
 // Inside_HASH: HASH  -> type(HASH);
-// Inside_AT_NO_WS: AT_NO_WS  -> type(AT_NO_WS);
-// Inside_AT_POST_WS: AT_POST_WS  -> type(AT_POST_WS);
-// Inside_AT_PRE_WS: AT_PRE_WS  -> type(AT_PRE_WS);
-// Inside_AT_BOTH_WS: AT_BOTH_WS  -> type(AT_BOTH_WS);
+Inside_AT_NO_WS: AT_NO_WS  -> type(AT_NO_WS);
+Inside_AT_POST_WS: AT_POST_WS  -> type(AT_POST_WS);
+Inside_AT_PRE_WS: AT_PRE_WS  -> type(AT_PRE_WS);
+Inside_AT_BOTH_WS: AT_BOTH_WS  -> type(AT_BOTH_WS);
 Inside_QUEST_WS: '?' (Hidden | NL) -> type(QUEST_WS);
 Inside_QUEST_NO_WS: QUEST_NO_WS -> type(QUEST_NO_WS);
 Inside_LANGLE: LANGLE  -> type(LANGLE);
@@ -454,13 +455,14 @@ Inside_VAR: VAR -> type(VAR);
 Inside_FUN: FUN -> type(FUN);
 // Inside_OBJECT: OBJECT -> type(OBJECT);
 Inside_SUPER: SUPER -> type(SUPER);
-// Inside_IN: IN -> type(IN);
-// Inside_OUT: OUT -> type(OUT);
-// Inside_FIELD: FIELD -> type(FIELD);
+Inside_IN: IN -> type(IN);
+Inside_OUT: OUT -> type(OUT);
 // Inside_FILE: FILE -> type(FILE);
 // Inside_PROPERTY: PROPERTY -> type(PROPERTY);
-// Inside_GET: GET -> type(GET);
-// Inside_SET: SET -> type(SET);
+Inside_GET: GET -> type(GET);
+Inside_SET: SET -> type(SET);
+Inside_VALUE: VALUE -> type(VALUE);
+Inside_FIELD: FIELD -> type(FIELD);
 // Inside_RECEIVER: RECEIVER -> type(RECEIVER);
 // Inside_PARAM: PARAM -> type(PARAM);
 // Inside_SETPARAM: SETPARAM -> type(SETPARAM);
@@ -491,7 +493,6 @@ Inside_SEALED: SEALED -> type(SEALED);
 Inside_ANNOTATION: ANNOTATION -> type(ANNOTATION);
 // Inside_DATA: DATA -> type(DATA);
 Inside_INNER: INNER -> type(INNER);
-// Inside_VALUE: VALUE -> type(VALUE);
 // Inside_TAILREC: TAILREC -> type(TAILREC);
 // Inside_OPERATOR: OPERATOR -> type(OPERATOR);
 // Inside_INLINE: INLINE -> type(INLINE);
@@ -502,7 +503,7 @@ Inside_OVERRIDE: OVERRIDE -> type(OVERRIDE);
 Inside_ABSTRACT: ABSTRACT -> type(ABSTRACT);
 Inside_FINAL: FINAL -> type(FINAL);
 Inside_OPEN: OPEN -> type(OPEN);
-Inside_CONST: CONST -> type(CONST);
+// Inside_CONST: CONST -> type(CONST);
 // Inside_LATEINIT: LATEINIT -> type(LATEINIT);
 Inside_VARARG: VARARG -> type(VARARG);
 // Inside_NOINLINE: NOINLINE -> type(NOINLINE);
