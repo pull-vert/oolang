@@ -11,11 +11,13 @@ fun catalogVersion(lib: String) =
         ?: throw GradleException("Version '$lib' is not specified in the toml version catalog")
 
 dependencies {
+    api(project(":oolang-ast"))
     antlr("org.antlr:antlr4:${catalogVersion("antlr4")}")
 }
 
 tasks.generateGrammarSource {
-    packageName = "oo.parser"
-    maxHeapSize = "64m"
-    arguments = arguments + listOf("-visitor", "-no-listener")
+    packageName = "oolang.parser.generated"
+    outputDirectory = File("$projectDir/src/main/java")
+//    maxHeapSize = "64m"
+//    arguments = arguments + listOf("-visitor", "-no-listener")
 }

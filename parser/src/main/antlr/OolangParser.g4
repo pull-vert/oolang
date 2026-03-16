@@ -250,16 +250,16 @@ enumEntry
 // SECTION: types
 
 type
-    : typeModifiers? (functionType | parenthesizedType | nullableType | typeReference | definitelyNonNullableType)
+    : /* typeModifiers? */ annotations? (functionType | parenthesizedType | nullableType | /* typeReference */ userType | definitelyNonNullableType)
     ;
 
-typeReference
+/* typeReference
     : userType
-//    | DYNAMIC
-    ;
+    | DYNAMIC
+    ; */
 
 nullableType
-    : (typeReference | parenthesizedType) NL* quest+
+    : (/* typeReference */ userType | parenthesizedType) NL* quest+
     ;
 
 quest
@@ -302,7 +302,7 @@ parenthesizedType
     ;
 
 receiverType
-    : typeModifiers? (parenthesizedType | nullableType | typeReference)
+    : /* typeModifiers? */ annotations? (parenthesizedType | nullableType | /* typeReference */ userType)
     ;
 
 parenthesizedUserType
@@ -310,7 +310,7 @@ parenthesizedUserType
     ;
 
 definitelyNonNullableType
-    : typeModifiers? (userType | parenthesizedUserType) NL* AMP NL* typeModifiers? (userType | parenthesizedUserType)
+    : /* typeModifiers? */ annotations? (userType | parenthesizedUserType) NL* AMP NL* /* typeModifiers? */ annotations? (userType | parenthesizedUserType)
     ;
 
 // SECTION: statements
@@ -324,7 +324,7 @@ statement
     ;
 
 label
-    : simpleIdentifier /* (AT_NO_WS | AT_POST_WS) */ NL*
+    : simpleIdentifier (AT_NO_WS | AT_POST_WS) NL*
     ;
 
 controlStructureBody
@@ -756,7 +756,7 @@ modifiers
     ;
 
 parameterModifiers
-    : (annotation | parameterModifier)+
+    : annotation+ VARARG? /*(annotation | parameterModifier)+*/
     ;
 
 modifier
@@ -766,18 +766,18 @@ modifier
 //    | functionModifier
 //    | propertyModifier
     | inheritanceModifier
-    | parameterModifier) NL*
-//    | platformModifier) NL*
+    | VARARG ) NL* /* | parameterModifier
+    | platformModifier) NL* */
     ;
 
-typeModifiers
+/* typeModifiers
     : typeModifier+
     ;
 
 typeModifier
     : annotation
-//    | SUSPEND NL*
-    ;
+    | SUSPEND NL*
+    ; */
 
 classModifier
     : ENUM
@@ -790,6 +790,7 @@ classModifier
 
 memberModifier
     : OVERRIDE
+    | STATIC // oolang addition
 //    | LATEINIT
     ;
 
@@ -834,13 +835,13 @@ inheritanceModifier
     | OPEN
     ;
 
-parameterModifier
+/* parameterModifier
     : VARARG
-//    | NOINLINE
-//    | CROSSINLINE
+    | NOINLINE
+    | CROSSINLINE
     ;
 
-/* reificationModifier
+reificationModifier
     : REIFIED
     ;
 
@@ -850,6 +851,10 @@ platformModifier
     ; */
 
 // SECTION: annotations
+
+annotations // oolang addition
+    : annotation+
+    ;
 
 annotation
     : (singleAnnotation | multiAnnotation) NL*
@@ -864,7 +869,7 @@ multiAnnotation
     ;
 
 annotationUseSiteTarget
-    : (AT_NO_WS | AT_PRE_WS) (FIELD /* | PROPERTY */ | GET | SET /* | RECEIVER | PARAM | SETPARAM */ | DELEGATE) NL* COLON
+    : (AT_NO_WS | AT_PRE_WS) (FIELD /* | PROPERTY */ | GET | SET /* | RECEIVER*/ | PARAM | SETPARAM | DELEGATE) NL* COLON
     ;
 
 unescapedAnnotation
@@ -902,6 +907,7 @@ simpleIdentifier
 //    | OPERATOR
     | OUT
     | OVERRIDE
+    | STATIC // oolang addition
     | PRIVATE
     | PROTECTED
     | PUBLIC
@@ -914,8 +920,8 @@ simpleIdentifier
     | FIELD
 //    | PROPERTY
 //    | RECEIVER
-//    | PARAM
-//    | SETPARAM
+    | PARAM
+    | SETPARAM
     | DELEGATE
 //    | FILE
 //    | EXPECT
