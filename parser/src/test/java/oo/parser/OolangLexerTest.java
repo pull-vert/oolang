@@ -1,5 +1,10 @@
+/*
+ * This is free and unencumbered software released into the public domain, following <https://unlicense.org>
+ */
+
 package oo.parser;
 
+import oolang.parser.generated.OolangLexer;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.Token;
 import org.junit.jupiter.api.Test;

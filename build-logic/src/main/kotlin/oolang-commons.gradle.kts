@@ -19,6 +19,8 @@ repositories {
 }
 
 dependencies {
+    api("org.jspecify:jspecify:${catalogVersion("jspecify")}")
+
     testImplementation("org.junit.jupiter:junit-jupiter:${catalogVersion("junit")}")
     testImplementation("org.assertj:assertj-core:${catalogVersion("assertj")}")
 
