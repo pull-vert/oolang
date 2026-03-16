@@ -3,12 +3,6 @@
 java = "25"
 
 # plugins
-# https://github.com/JetBrains/kotlin/releases
-kotlin = "2.3.10"
-# https://github.com/Kotlin/dokka/releases
-dokka = "2.1.0"
-# https://github.com/Kotlin/kotlinx-kover/releases
-kover = "0.9.7"
 # https://github.com/researchgate/gradle-release/releases
 release = "3.1.0"
 
@@ -21,12 +15,5 @@ junit = "6.0.2"
 # https://mvnrepository.com/artifact/org.assertj/assertj-core
 assertj = "3.27.7"
 
-[libraries]
-kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
-dokka-gradle-plugin = { group = "org.jetbrains.dokka", name = "dokka-gradle-plugin", version.ref = "dokka" }
-kover-gradle-plugin = { group = "org.jetbrains.kotlinx", name = "kover-gradle-plugin", version.ref = "kover" }
-
 [plugins]
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 release = { id = "net.researchgate.release", version.ref = "release" }
