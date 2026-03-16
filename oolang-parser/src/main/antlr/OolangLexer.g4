@@ -108,9 +108,9 @@ GET: 'get';
 SET: 'set';
 VALUE: 'value';
 FIELD: 'field';
-/* RECEIVER: 'receiver';
+// RECEIVER: 'receiver';
 PARAM: 'param';
-SETPARAM: 'setparam'; */
+SETPARAM: 'setparam';
 DELEGATE: 'delegate';
 
 PACKAGE: 'package';
@@ -297,8 +297,8 @@ IdentifierOrSoftKey
     | FIELD
 //    | PROPERTY
 //    | RECEIVER
-//    | PARAM
-//    | SETPARAM
+    | PARAM
+    | SETPARAM
     | DELEGATE
 //    | FILE
 //    | EXPECT
@@ -464,8 +464,8 @@ Inside_SET: SET -> type(SET);
 Inside_VALUE: VALUE -> type(VALUE);
 Inside_FIELD: FIELD -> type(FIELD);
 // Inside_RECEIVER: RECEIVER -> type(RECEIVER);
-// Inside_PARAM: PARAM -> type(PARAM);
-// Inside_SETPARAM: SETPARAM -> type(SETPARAM);
+Inside_PARAM: PARAM -> type(PARAM);
+Inside_SETPARAM: SETPARAM -> type(SETPARAM);
 Inside_DELEGATE: DELEGATE -> type(DELEGATE);
 Inside_THROW: THROW -> type(THROW);
 Inside_RETURN: RETURN -> type(RETURN);

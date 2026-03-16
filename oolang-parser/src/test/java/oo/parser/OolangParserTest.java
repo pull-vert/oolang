@@ -1,5 +1,7 @@
 package oo.parser;
 
+import oo.parser.generated.OolangLexer;
+import oo.parser.generated.OolangParser;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.jupiter.api.Test;
