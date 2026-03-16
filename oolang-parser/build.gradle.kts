@@ -17,4 +17,5 @@ dependencies {
 tasks.generateGrammarSource {
     packageName = "oo.parser"
     maxHeapSize = "64m"
+    arguments = arguments + listOf("-visitor", "-no-listener")
 }
