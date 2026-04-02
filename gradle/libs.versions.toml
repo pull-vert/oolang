@@ -9,11 +9,12 @@ release = "3.1.0"
 # main
 # https://github.com/jspecify/jspecify/releases
 jspecify = "1.0.0"
+# https://mvnrepository.com/artifact/org.antlr/antlr4
 antlr4 = "4.13.2"
 
 # test + test fixtures
 # https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
-junit = "6.0.2"
+junit = "6.0.3"
 # https://mvnrepository.com/artifact/org.assertj/assertj-core
 assertj = "3.27.7"
 
