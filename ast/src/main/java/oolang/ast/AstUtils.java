@@ -2,21 +2,23 @@
  * This is free and unencumbered software released into the public domain, following <https://unlicense.org>
  */
 
-package oolang.ast.element;
+package oolang.ast;
 
 import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-final class ElementUtils {
+public final class AstUtils {
     // un-instantiable
-    private ElementUtils() {
+    private AstUtils() {
     }
 
-    static String identifierName(final @NonNull List<@NonNull ElementIdentifier> list) {
+    public static @NonNull String identifierName(final @NonNull List<@NonNull Identifier> list) {
+        assert list != null;
+
         return list.stream()
-                .map(ElementIdentifier::rawName)
+                .map(Identifier::rawName)
                 .collect(Collectors.joining("."));
     }
 }

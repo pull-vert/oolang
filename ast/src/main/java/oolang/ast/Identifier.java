@@ -2,21 +2,20 @@
  * This is free and unencumbered software released into the public domain, following <https://unlicense.org>
  */
 
-package oolang.ast.element;
+package oolang.ast;
 
-import oolang.ast.Ast;
 import org.jspecify.annotations.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public record ElementIdentifier(
+public record Identifier(
         @NonNull String identifier,
         boolean nullable,
-        @Override
-        @NonNull List<@NonNull Ast> children
-) implements ElementNode {
-    @NonNull String rawName() {
+        @Override @NonNull List<@NonNull Ast> content
+) implements AstNode {
+    public @NonNull String rawName() {
         final var sb = new StringBuilder();
         sb.append(identifier);
         if (nullable) {
@@ -27,7 +26,7 @@ public record ElementIdentifier(
 
     @Override
     public @NonNull String description() {
-        return "ElementIdentifier(" + rawName() + ")";
+        return "Identifier(" + rawName() + ")";
     }
 
     public static final class Builder {
@@ -36,11 +35,11 @@ public record ElementIdentifier(
         private final @NonNull List<@NonNull Ast> children = new ArrayList<>();
 
         public Builder(final @NonNull String identifier) {
-            this.identifier = identifier;
+            this.identifier = Objects.requireNonNull(identifier);
         }
 
-        public @NonNull ElementIdentifier build() {
-            return new ElementIdentifier(identifier, nullable, List.copyOf(children));
+        public @NonNull Identifier build() {
+            return new Identifier(identifier, nullable, List.copyOf(children));
         }
     }
 }

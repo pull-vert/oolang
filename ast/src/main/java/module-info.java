@@ -7,4 +7,6 @@ module oolang.ast {
 
     exports oolang.ast;
     exports oolang.ast.element;
+    exports oolang.ast.expression;
+    exports oolang.ast.statement;
 }

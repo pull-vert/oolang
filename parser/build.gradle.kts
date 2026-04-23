@@ -19,5 +19,5 @@ tasks.generateGrammarSource {
     packageName = "oolang.parser.generated"
     outputDirectory = File("$projectDir/src/main/java")
 //    maxHeapSize = "64m"
-//    arguments = arguments + listOf("-visitor", "-no-listener")
+    arguments = arguments + listOf("-visitor", "-no-listener")
 }

@@ -4,18 +4,25 @@
 
 package oolang.ast;
 
-import oolang.ast.element.ElementDeclaration;
+import oolang.ast.element.RealElement;
 import org.jspecify.annotations.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public record FileAst(@NonNull List<@NonNull ElementDeclaration> rootElements) {
-    public static final class Builder {
-        private final @NonNull List<@NonNull ElementDeclaration> rootElements = new ArrayList<>();
+public record FileAst(@NonNull List<@NonNull RealElement> rootElements) implements Ast {
+    @Override
+    public @NonNull String description() {
+        final var sb = new StringBuilder();
+        new FileAstWriter(this).write(sb);
+        return sb.toString();
+    }
 
-        public Builder addRootElement(final @NonNull ElementDeclaration element) {
+    public static final class Builder {
+        private final @NonNull List<@NonNull RealElement> rootElements = new ArrayList<>();
+
+        public Builder addRootElement(final @NonNull RealElement element) {
             rootElements.add(Objects.requireNonNull(element));
             return this;
         }
