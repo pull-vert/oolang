@@ -2,9 +2,9 @@
  * This is free and unencumbered software released into the public domain, following <https://unlicense.org>
  */
 
-package oolang.ast.element;
+package oolang.ast.statement;
 
 import oolang.ast.AstNode;
 
-public sealed interface ElementNode extends Element, AstNode permits ClassBody, RealElement {
+public sealed interface StatementNode extends Statement, AstNode permits Block, RealStatement {
 }

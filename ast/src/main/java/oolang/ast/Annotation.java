@@ -2,9 +2,8 @@
  * This is free and unencumbered software released into the public domain, following <https://unlicense.org>
  */
 
-package oolang.ast.element;
+package oolang.ast;
 
-import oolang.ast.Ast;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
@@ -13,16 +12,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-import static oolang.ast.element.ElementUtils.identifierName;
+import static oolang.ast.AstUtils.identifierName;
 
-public record ElementAnnotation(
-        @NonNull List<@NonNull ElementIdentifier> identifier,
+public record Annotation(
+        @NonNull List<@NonNull Identifier> identifier,
         @Nullable UseSiteTarget target
-) implements ElementNode {
+) implements AstNode {
     @Override
     public @NonNull String description() {
         final var sb = new StringBuilder();
-        sb.append("ElementAnnotation(");
+        sb.append("Annotation(");
         if (target != null) {
             sb.append(target.name().toLowerCase(Locale.US)).append(":");
         }
@@ -31,15 +30,15 @@ public record ElementAnnotation(
     }
 
     @Override
-    public @NonNull List<@NonNull Ast> children() {
+    public @NonNull List<@NonNull Ast> content() {
         return List.of();
     }
 
     public static final class Builder {
-        private final @NonNull List<@NonNull ElementIdentifier> identifier = new ArrayList<>();
+        private final @NonNull List<@NonNull Identifier> identifier = new ArrayList<>();
         private @Nullable UseSiteTarget target;
 
-        public Builder addIdentifier(final @NonNull ElementIdentifier identifier) {
+        public Builder addIdentifier(final @NonNull Identifier identifier) {
             this.identifier.add(Objects.requireNonNull(identifier));
             return this;
         }
@@ -49,8 +48,8 @@ public record ElementAnnotation(
             return this;
         }
 
-        public @NonNull ElementAnnotation build() {
-            return new ElementAnnotation(List.copyOf(identifier), target);
+        public @NonNull Annotation build() {
+            return new Annotation(List.copyOf(identifier), target);
         }
     }
 

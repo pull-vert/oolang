@@ -21,7 +21,7 @@ public final class FileAstWriter {
         Objects.requireNonNull(appendable);
 
         try {
-            for (var element : fileAst.rootElements()) {
+            for (final var element : fileAst.rootElements()) {
                 write(element, appendable, 0);
             }
         } catch (IOException e) {
@@ -38,7 +38,7 @@ public final class FileAstWriter {
         indent(appendable, depth);
         appendable.append(ast.description()).append(System.lineSeparator());
         if (ast instanceof AstNode astNode) {
-            for (final var child : astNode.children()) {
+            for (final var child : astNode.content()) {
                 write(child, appendable, depth + 1);
             }
         }

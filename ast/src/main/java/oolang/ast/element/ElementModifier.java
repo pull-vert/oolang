@@ -8,10 +8,10 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.Locale;
 
-public record ElementModifier(@NonNull String modifier, @NonNull ModifierType type) implements Element {
+public record ElementModifier(@NonNull ModifierType type, @NonNull String modifier) implements Element {
     @Override
     public @NonNull String description() {
-        return "ElementModifier(" + modifier + ", " + type.name().toLowerCase(Locale.US) + "Modifier)";
+        return "ElementModifier(" + modifier + " [" + type.name().toLowerCase(Locale.US) + "Modifier])";
     }
 
     public enum ModifierType {

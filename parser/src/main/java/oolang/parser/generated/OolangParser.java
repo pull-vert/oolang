@@ -256,12 +256,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_oolangFile; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterOolangFile(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitOolangFile(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitOolangFile(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -319,12 +316,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_packageHeader; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterPackageHeader(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitPackageHeader(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitPackageHeader(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -383,12 +377,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_importList; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterImportList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitImportList(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitImportList(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -445,12 +436,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_importHeader; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterImportHeader(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitImportHeader(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitImportHeader(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -543,12 +531,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_importAlias; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterImportAlias(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitImportAlias(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitImportAlias(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -588,12 +573,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_topLevelObject; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterTopLevelObject(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitTopLevelObject(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitTopLevelObject(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -645,12 +627,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_declaration; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitDeclaration(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitDeclaration(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -734,12 +713,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_classDeclaration; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterClassDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitClassDeclaration(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitClassDeclaration(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1009,12 +985,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_primaryConstructor; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterPrimaryConstructor(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitPrimaryConstructor(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitPrimaryConstructor(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1090,12 +1063,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_classBody; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterClassBody(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitClassBody(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitClassBody(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1179,12 +1149,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_classParameters; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterClassParameters(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitClassParameters(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitClassParameters(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1352,12 +1319,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_classParameter; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterClassParameter(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitClassParameter(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitClassParameter(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1504,12 +1468,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_delegationSpecifiers; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterDelegationSpecifiers(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitDelegationSpecifiers(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitDelegationSpecifiers(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1603,12 +1564,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_delegationSpecifier; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterDelegationSpecifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitDelegationSpecifier(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitDelegationSpecifier(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1677,12 +1635,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_constructorInvocation; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterConstructorInvocation(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitConstructorInvocation(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitConstructorInvocation(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1744,12 +1699,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_annotatedDelegationSpecifier; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterAnnotatedDelegationSpecifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitAnnotatedDelegationSpecifier(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitAnnotatedDelegationSpecifier(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1827,12 +1779,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_explicitDelegation; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterExplicitDelegation(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitExplicitDelegation(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitExplicitDelegation(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1927,12 +1876,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_typeParameters; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterTypeParameters(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitTypeParameters(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitTypeParameters(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2086,12 +2032,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_typeParameter; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterTypeParameter(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitTypeParameter(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitTypeParameter(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2203,12 +2146,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_typeConstraints; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterTypeConstraints(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitTypeConstraints(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitTypeConstraints(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2321,12 +2261,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_typeConstraint; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterTypeConstraint(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitTypeConstraint(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitTypeConstraint(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2417,12 +2354,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_classMemberDeclarations; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterClassMemberDeclarations(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitClassMemberDeclarations(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitClassMemberDeclarations(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2486,12 +2420,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_classMemberDeclaration; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterClassMemberDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitClassMemberDeclaration(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitClassMemberDeclaration(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2551,12 +2482,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_anonymousInitializer; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterAnonymousInitializer(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitAnonymousInitializer(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitAnonymousInitializer(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2621,12 +2549,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_functionValueParameters; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterFunctionValueParameters(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitFunctionValueParameters(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitFunctionValueParameters(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2786,12 +2711,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_functionValueParameter; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterFunctionValueParameter(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitFunctionValueParameter(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitFunctionValueParameter(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2905,12 +2827,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_functionDeclaration; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterFunctionDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitFunctionDeclaration(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitFunctionDeclaration(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -3148,12 +3067,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_functionBody; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterFunctionBody(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitFunctionBody(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitFunctionBody(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -3234,12 +3150,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_variableDeclaration; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterVariableDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitVariableDeclaration(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitVariableDeclaration(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -3356,12 +3269,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_multiVariableDeclaration; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterMultiVariableDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitMultiVariableDeclaration(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitMultiVariableDeclaration(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -3543,12 +3453,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_propertyDeclaration; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterPropertyDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitPropertyDeclaration(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitPropertyDeclaration(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -3963,12 +3870,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_propertyDelegate; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterPropertyDelegate(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitPropertyDelegate(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitPropertyDelegate(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -4034,12 +3938,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_getter; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterGetter(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitGetter(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitGetter(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -4199,12 +4100,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_setter; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterSetter(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitSetter(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitSetter(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -4399,12 +4297,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_parametersWithOptionalType; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterParametersWithOptionalType(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitParametersWithOptionalType(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitParametersWithOptionalType(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -4564,12 +4459,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_functionValueParameterWithOptionalType; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterFunctionValueParameterWithOptionalType(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitFunctionValueParameterWithOptionalType(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitFunctionValueParameterWithOptionalType(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -4663,12 +4555,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_parameterWithOptionalType; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterParameterWithOptionalType(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitParameterWithOptionalType(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitParameterWithOptionalType(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -4755,12 +4644,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_parameter; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterParameter(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitParameter(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitParameter(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -4843,12 +4729,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_secondaryConstructor; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterSecondaryConstructor(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitSecondaryConstructor(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitSecondaryConstructor(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -4983,12 +4866,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_constructorDelegationCall; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterConstructorDelegationCall(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitConstructorDelegationCall(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitConstructorDelegationCall(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -5058,12 +4938,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_enumClassBody; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterEnumClassBody(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitEnumClassBody(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitEnumClassBody(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -5195,12 +5072,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_enumEntries; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterEnumEntries(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitEnumEntries(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitEnumEntries(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -5322,12 +5196,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_enumEntry; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterEnumEntry(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitEnumEntry(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitEnumEntry(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -5450,12 +5321,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_type; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterType(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitType(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitType(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -5545,12 +5413,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_nullableType; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterNullableType(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitNullableType(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitNullableType(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -5664,12 +5529,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_quest; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterQuest(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitQuest(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitQuest(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -5724,12 +5586,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_userType; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterUserType(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitUserType(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitUserType(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -5819,12 +5678,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_simpleUserType; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterSimpleUserType(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitSimpleUserType(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitSimpleUserType(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -5888,12 +5744,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_typeProjection; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterTypeProjection(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitTypeProjection(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitTypeProjection(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -5988,12 +5841,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_typeProjectionModifiers; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterTypeProjectionModifiers(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitTypeProjectionModifiers(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitTypeProjectionModifiers(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -6054,12 +5904,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_typeProjectionModifier; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterTypeProjectionModifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitTypeProjectionModifier(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitTypeProjectionModifier(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -6138,12 +5985,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_functionType; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterFunctionType(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitFunctionType(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitFunctionType(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -6270,12 +6114,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_functionTypeParameters; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterFunctionTypeParameters(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitFunctionTypeParameters(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitFunctionTypeParameters(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -6450,12 +6291,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_parenthesizedType; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterParenthesizedType(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitParenthesizedType(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitParenthesizedType(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -6532,12 +6370,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_receiverType; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterReceiverType(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitReceiverType(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitReceiverType(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -6612,12 +6447,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_parenthesizedUserType; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterParenthesizedUserType(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitParenthesizedUserType(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitParenthesizedUserType(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -6749,12 +6581,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_definitelyNonNullableType; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterDefinitelyNonNullableType(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitDefinitelyNonNullableType(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitDefinitelyNonNullableType(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -6939,12 +6768,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_statements; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterStatements(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitStatements(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitStatements(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -7038,12 +6864,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_statement; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitStatement(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitStatement(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -7170,12 +6993,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_label; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterLabel(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitLabel(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitLabel(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -7241,12 +7061,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_controlStructureBody; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterControlStructureBody(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitControlStructureBody(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitControlStructureBody(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -7300,12 +7117,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_block; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitBlock(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitBlock(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -7379,12 +7193,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_loopStatement; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterLoopStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitLoopStatement(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitLoopStatement(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -7457,12 +7268,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_forStatement; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterForStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitForStatement(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitForStatement(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -7623,12 +7431,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_whileStatement; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterWhileStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitWhileStatement(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitWhileStatement(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -7795,12 +7600,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_assignment; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterAssignment(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitAssignment(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitAssignment(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -7872,12 +7674,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_semi; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterSemi(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitSemi(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitSemi(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -7943,12 +7742,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_semis; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterSemis(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitSemis(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitSemis(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -8011,12 +7807,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_expression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitExpression(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -8062,12 +7855,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_disjunction; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterDisjunction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitDisjunction(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitDisjunction(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -8161,12 +7951,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_conjunction; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterConjunction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitConjunction(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitConjunction(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -8262,12 +8049,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_equality; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterEquality(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitEquality(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitEquality(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -8349,12 +8133,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_comparison; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterComparison(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitComparison(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitComparison(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -8429,12 +8210,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_genericCallLikeComparison; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterGenericCallLikeComparison(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitGenericCallLikeComparison(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitGenericCallLikeComparison(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -8511,12 +8289,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_infixOperation; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterInfixOperation(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitInfixOperation(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitInfixOperation(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -8629,12 +8404,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_elvisExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterElvisExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitElvisExpression(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitElvisExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -8716,12 +8488,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_elvis; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterElvis(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitElvis(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitElvis(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -8771,12 +8540,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_infixFunctionCall; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterInfixFunctionCall(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitInfixFunctionCall(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitInfixFunctionCall(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -8852,12 +8618,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_rangeExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterRangeExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitRangeExpression(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitRangeExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -8937,12 +8700,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_additiveExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterAdditiveExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitAdditiveExpression(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitAdditiveExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -9024,12 +8784,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_multiplicativeExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterMultiplicativeExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitMultiplicativeExpression(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitMultiplicativeExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -9114,12 +8871,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_asExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterAsExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitAsExpression(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitAsExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -9208,12 +8962,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_prefixUnaryExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterPrefixUnaryExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitPrefixUnaryExpression(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitPrefixUnaryExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -9275,12 +9026,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_unaryPrefix; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterUnaryPrefix(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitUnaryPrefix(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitUnaryPrefix(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -9392,12 +9140,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_postfixUnaryExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterPostfixUnaryExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitPostfixUnaryExpression(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitPostfixUnaryExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -9461,12 +9206,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_postfixUnarySuffix; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterPostfixUnarySuffix(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitPostfixUnarySuffix(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitPostfixUnarySuffix(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -9544,12 +9286,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_directlyAssignableExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterDirectlyAssignableExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitDirectlyAssignableExpression(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitDirectlyAssignableExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -9612,12 +9351,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_parenthesizedDirectlyAssignableExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterParenthesizedDirectlyAssignableExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitParenthesizedDirectlyAssignableExpression(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitParenthesizedDirectlyAssignableExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -9688,12 +9424,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_assignableExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterAssignableExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitAssignableExpression(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitAssignableExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -9747,12 +9480,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_parenthesizedAssignableExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterParenthesizedAssignableExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitParenthesizedAssignableExpression(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitParenthesizedAssignableExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -9826,12 +9556,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_assignableSuffix; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterAssignableSuffix(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitAssignableSuffix(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitAssignableSuffix(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -9904,12 +9631,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_indexingSuffix; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterIndexingSuffix(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitIndexingSuffix(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitIndexingSuffix(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -10059,12 +9783,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_navigationSuffix; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterNavigationSuffix(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitNavigationSuffix(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitNavigationSuffix(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -10172,12 +9893,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_callSuffix; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterCallSuffix(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitCallSuffix(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitCallSuffix(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -10260,12 +9978,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_annotatedLambda; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterAnnotatedLambda(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitAnnotatedLambda(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitAnnotatedLambda(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -10352,12 +10067,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_typeArguments; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterTypeArguments(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitTypeArguments(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitTypeArguments(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -10509,12 +10221,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_valueArguments; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterValueArguments(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitValueArguments(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitValueArguments(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -10677,12 +10386,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_valueArgument; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterValueArgument(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitValueArgument(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitValueArgument(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -10847,12 +10553,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_primaryExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterPrimaryExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitPrimaryExpression(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitPrimaryExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -10983,12 +10686,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_parenthesizedExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterParenthesizedExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitParenthesizedExpression(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitParenthesizedExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -11069,12 +10769,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_collectionLiteral; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterCollectionLiteral(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitCollectionLiteral(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitCollectionLiteral(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -11226,12 +10923,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_literalConstant; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterLiteralConstant(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitLiteralConstant(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitLiteralConstant(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -11278,12 +10972,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_stringLiteral; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterStringLiteral(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitStringLiteral(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitStringLiteral(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -11344,12 +11035,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_lineStringLiteral; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterLineStringLiteral(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitLineStringLiteral(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitLineStringLiteral(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -11432,12 +11120,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_multiLineStringLiteral; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterMultiLineStringLiteral(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitMultiLineStringLiteral(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitMultiLineStringLiteral(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -11507,12 +11192,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_lineStringContent; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterLineStringContent(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitLineStringContent(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitLineStringContent(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -11562,12 +11244,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_lineStringExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterLineStringExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitLineStringExpression(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitLineStringExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -11635,12 +11314,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_multiLineStringContent; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterMultiLineStringContent(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitMultiLineStringContent(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitMultiLineStringContent(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -11690,12 +11366,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_multiLineStringExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterMultiLineStringExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitMultiLineStringExpression(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitMultiLineStringExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -11773,12 +11446,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_lambdaLiteral; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterLambdaLiteral(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitLambdaLiteral(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitLambdaLiteral(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -11910,12 +11580,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_lambdaParameters; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterLambdaParameters(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitLambdaParameters(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitLambdaParameters(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -12035,12 +11702,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_lambdaParameter; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterLambdaParameter(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitLambdaParameter(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitLambdaParameter(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -12181,12 +11845,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_anonymousFunction; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterAnonymousFunction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitAnonymousFunction(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitAnonymousFunction(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -12369,12 +12030,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_functionLiteral; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterFunctionLiteral(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitFunctionLiteral(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitFunctionLiteral(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -12422,12 +12080,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_thisExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterThisExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitThisExpression(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitThisExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -12469,12 +12124,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_superExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterSuperExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitSuperExpression(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitSuperExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -12570,12 +12222,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_ifExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterIfExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitIfExpression(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitIfExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -12862,12 +12511,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_whenSubject; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterWhenSubject(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitWhenSubject(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitWhenSubject(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -13007,12 +12653,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_whenExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterWhenExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitWhenExpression(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitWhenExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -13172,12 +12815,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_whenEntry; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterWhenEntry(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitWhenEntry(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitWhenEntry(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -13451,12 +13091,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_whenCondition; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterWhenCondition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitWhenCondition(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitWhenCondition(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -13580,12 +13217,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_rangeTest; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterRangeTest(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitRangeTest(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitRangeTest(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -13644,12 +13278,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_typeTest; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterTypeTest(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitTypeTest(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitTypeTest(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -13715,12 +13346,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_tryExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterTryExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitTryExpression(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitTryExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -13880,12 +13508,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_catchBlock; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterCatchBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitCatchBlock(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitCatchBlock(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -14004,12 +13629,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_finallyBlock; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterFinallyBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitFinallyBlock(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitFinallyBlock(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -14068,12 +13690,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_jumpExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterJumpExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitJumpExpression(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitJumpExpression(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -14166,12 +13785,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_callableReference; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterCallableReference(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitCallableReference(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitCallableReference(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -14279,12 +13895,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_assignmentAndOperator; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterAssignmentAndOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitAssignmentAndOperator(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitAssignmentAndOperator(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -14329,12 +13942,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_equalityOperator; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterEqualityOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitEqualityOperator(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitEqualityOperator(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -14379,12 +13989,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_comparisonOperator; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterComparisonOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitComparisonOperator(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitComparisonOperator(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -14426,12 +14033,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_inOperator; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterInOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitInOperator(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitInOperator(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -14465,12 +14069,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_isOperator; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterIsOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitIsOperator(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitIsOperator(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -14513,12 +14114,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_additiveOperator; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterAdditiveOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitAdditiveOperator(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitAdditiveOperator(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -14562,12 +14160,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_multiplicativeOperator; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterMultiplicativeOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitMultiplicativeOperator(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitMultiplicativeOperator(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -14610,12 +14205,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_asOperator; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterAsOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitAsOperator(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitAsOperator(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -14663,12 +14255,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_prefixUnaryOperator; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterPrefixUnaryOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitPrefixUnaryOperator(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitPrefixUnaryOperator(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -14743,12 +14332,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_postfixUnaryOperator; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterPostfixUnaryOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitPostfixUnaryOperator(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitPostfixUnaryOperator(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -14806,12 +14392,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_excl; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterExcl(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitExcl(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitExcl(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -14861,12 +14444,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_memberAccessOperator; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterMemberAccessOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitMemberAccessOperator(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitMemberAccessOperator(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -14949,12 +14529,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_safeNav; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterSafeNav(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitSafeNav(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitSafeNav(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -15000,12 +14577,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_modifiers; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterModifiers(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitModifiers(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitModifiers(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -15091,12 +14665,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_parameterModifiers; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterParameterModifiers(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitParameterModifiers(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitParameterModifiers(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -15168,12 +14739,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_modifier; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterModifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitModifier(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitModifier(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -15270,12 +14838,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_classModifier; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterClassModifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitClassModifier(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitClassModifier(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -15318,12 +14883,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_memberModifier; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterMemberModifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitMemberModifier(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitMemberModifier(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -15367,12 +14929,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_visibilityModifier; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterVisibilityModifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitVisibilityModifier(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitVisibilityModifier(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -15415,12 +14974,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_varianceModifier; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterVarianceModifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitVarianceModifier(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitVarianceModifier(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -15467,12 +15023,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_typeParameterModifiers; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterTypeParameterModifiers(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitTypeParameterModifiers(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitTypeParameterModifiers(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -15533,12 +15086,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_typeParameterModifier; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterTypeParameterModifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitTypeParameterModifier(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitTypeParameterModifier(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -15607,12 +15157,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_inheritanceModifier; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterInheritanceModifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitInheritanceModifier(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitInheritanceModifier(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -15659,12 +15206,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_annotations; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterAnnotations(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitAnnotations(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitAnnotations(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -15725,12 +15269,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_annotation; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterAnnotation(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitAnnotation(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitAnnotation(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -15805,12 +15346,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_singleAnnotation; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterSingleAnnotation(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitSingleAnnotation(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitSingleAnnotation(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -15896,12 +15434,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_multiAnnotation; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterMultiAnnotation(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitMultiAnnotation(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitMultiAnnotation(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -15999,12 +15534,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_annotationUseSiteTarget; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterAnnotationUseSiteTarget(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitAnnotationUseSiteTarget(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitAnnotationUseSiteTarget(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -16077,12 +15609,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_unescapedAnnotation; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterUnescapedAnnotation(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitUnescapedAnnotation(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitUnescapedAnnotation(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -16156,12 +15685,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_simpleIdentifier; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterSimpleIdentifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitSimpleIdentifier(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitSimpleIdentifier(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -16216,12 +15742,9 @@ public class OolangParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_identifier; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).enterIdentifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof OolangParserListener ) ((OolangParserListener)listener).exitIdentifier(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof OolangParserVisitor ) return ((OolangParserVisitor<? extends T>)visitor).visitIdentifier(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
