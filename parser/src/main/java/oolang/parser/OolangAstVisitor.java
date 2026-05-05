@@ -5,14 +5,12 @@
 package oolang.parser;
 
 import oolang.ast.Annotation;
-import oolang.ast.Ast;
 import oolang.ast.FileAst;
 import oolang.ast.Identifier;
 import oolang.ast.element.ClassBody;
 import oolang.ast.element.ElementModifier;
 import oolang.ast.element.RealElement;
 import oolang.ast.expression.Expression;
-import oolang.ast.expression.ExpressionNode;
 import oolang.ast.expression.RealExpression;
 import oolang.ast.expression.SimpleString;
 import oolang.ast.statement.Block;
@@ -37,7 +35,7 @@ import static oolang.ast.element.RealElement.ElementType.VAR;
 import static oolang.ast.expression.RealExpression.ExpressionType.ARGUMENT;
 import static oolang.ast.expression.RealExpression.ExpressionType.FUN_CALL;
 
-public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
+public final class OolangAstVisitor extends OolangParserBaseVisitor<Object> {
     @Override
     public @NonNull FileAst visitOolangFile(final @NonNull OolangFileContext ctx) {
         assert ctx != null;
@@ -56,8 +54,7 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
         final var classBuilder = new RealElement.Builder().elementType(CLASS);
 
         if (ctx.simpleIdentifier() != null) {
-            final var classId = new Identifier.Builder(ctx.simpleIdentifier().getText()).build();
-            classBuilder.identifier(classId);
+            classBuilder.identifier(visitSimpleIdentifier(ctx.simpleIdentifier()).build());
         }
 
         addModifiersAndAnnotations(ctx.modifiers(), classBuilder);
@@ -99,10 +96,9 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
         } else {
             classParamBuilder.elementType(PARAMETER);
         }
-        final var paramId = new Identifier.Builder(ctx.simpleIdentifier().getText()).build();
-        classParamBuilder.identifier(paramId);
-        final var paramTypeId = new Identifier.Builder(ctx.type().getText()).build();
-        classParamBuilder.type(List.of(paramTypeId));
+        classParamBuilder.identifier(visitSimpleIdentifier(ctx.simpleIdentifier()).build());
+
+        classParamBuilder.type(visitType(ctx.type()));
         addModifiersAndAnnotations(ctx.modifiers(), classParamBuilder);
 
         return classParamBuilder.build();
@@ -146,8 +142,7 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
         assert ctx != null;
 
         final var functionBuilder = new RealElement.Builder().elementType(FUN);
-        final var functionId = new Identifier.Builder(ctx.simpleIdentifier().getText()).build();
-        functionBuilder.identifier(functionId);
+        functionBuilder.identifier(visitSimpleIdentifier(ctx.simpleIdentifier()).build());
         if (ctx.type() != null) {
             final var functionTypeId = new Identifier.Builder(ctx.type().getText()).build();
             functionBuilder.type(List.of(functionTypeId));
@@ -169,10 +164,8 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
 
         var funParamBuilder = new RealElement.Builder().elementType(PARAMETER);
         final var parameterCtx = ctx.parameter();
-        final var paramId = new Identifier.Builder(parameterCtx.simpleIdentifier().getText()).build();
-        funParamBuilder.identifier(paramId);
-        final var paramTypeId = new Identifier.Builder(parameterCtx.type().getText()).build();
-        funParamBuilder.type(List.of(paramTypeId));
+        funParamBuilder.identifier(visitSimpleIdentifier(parameterCtx.simpleIdentifier()).build());
+        funParamBuilder.type(visitType(parameterCtx.type()));
 
         if (ctx.parameterModifiers() != null) {
             if (ctx.parameterModifiers().VARARG() != null) {
@@ -256,8 +249,7 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
 
         if (primaryExpressionCtx.simpleIdentifier() != null) {
             final var expressionBuilder = new RealExpression.Builder();
-            expressionBuilder.addIdentifier(
-                    new Identifier.Builder(primaryExpressionCtx.simpleIdentifier().getText()).build());
+            expressionBuilder.addIdentifier(visitSimpleIdentifier(primaryExpressionCtx.simpleIdentifier()).build());
             return visitPostfixUnarySuffixes(ctx.postfixUnarySuffix(), expressionBuilder);
         }
 
@@ -297,8 +289,7 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
             final var navSuffixCtx = postfixUnarySuffixCtx.navigationSuffix();
             if (navSuffixCtx != null) {
                 if (navSuffixCtx.memberAccessOperator().DOT() != null) {
-                    final var suffixId = navSuffixCtx.simpleIdentifier().getText();
-                    expressionBuilder.addIdentifier(new Identifier.Builder(suffixId).build());
+                    expressionBuilder.addIdentifier(visitSimpleIdentifier(navSuffixCtx.simpleIdentifier()).build());
                 }
             }
             if (postfixUnarySuffixCtx.typeArguments() != null) {
@@ -313,7 +304,7 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
                         final var callArgumentBuilder = new RealExpression.Builder().type(ARGUMENT);
                         if (valueArgumentCtx.simpleIdentifier() != null) {
                             callArgumentBuilder.addIdentifier(
-                                    new Identifier.Builder(valueArgumentCtx.simpleIdentifier().getText()).build());
+                                    visitSimpleIdentifier(valueArgumentCtx.simpleIdentifier()).build());
                         }
                         if (valueArgumentCtx.annotation() != null) {
                             callArgumentBuilder.annotations(visitAnnotations(List.of(valueArgumentCtx.annotation())));
@@ -329,6 +320,57 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
         }
 
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public @NonNull List<@NonNull Identifier> visitType(final @NonNull TypeContext ctx) {
+        assert ctx != null;
+
+        final var identifierBuilders = new ArrayList<Identifier.Builder>();
+        if (ctx.userType() != null) {
+            for (final var simpleUserTypeCtx : ctx.userType().simpleUserType()) {
+                identifierBuilders.add(visitSimpleUserType(simpleUserTypeCtx));
+            }
+        } else {
+            throw new UnsupportedOperationException();
+        }
+        if (ctx.annotations() != null) {
+            identifierBuilders.getLast().annotations(visitAnnotations(ctx.annotations().annotation()));
+        }
+        return identifierBuilders.stream()
+                .map(Identifier.Builder::build)
+                .toList();
+    }
+
+    @Override
+    public Identifier.@NonNull Builder visitSimpleUserType(final @NonNull SimpleUserTypeContext ctx) {
+        assert ctx != null;
+
+        final var builder = visitSimpleIdentifier(ctx.simpleIdentifier());
+        if (ctx.typeArguments() != null) {
+            for (final var typeProjectionCtx : ctx.typeArguments().typeProjection()) {
+                builder.addParameters(visitTypeProjection(typeProjectionCtx));
+            }
+        }
+
+        return builder;
+    }
+
+    @Override
+    public Identifier.@NonNull Builder visitSimpleIdentifier(final @NonNull SimpleIdentifierContext ctx) {
+        assert ctx != null;
+        return new Identifier.Builder(ctx.getText());
+    }
+
+    @Override
+    public @NonNull List<@NonNull Identifier> visitTypeProjection(final @NonNull TypeProjectionContext ctx) {
+        assert ctx != null;
+
+        final var types = visitType(ctx.type());
+        if (ctx.typeProjectionModifiers() != null) {
+            throw new UnsupportedOperationException();
+        }
+        return types;
     }
 
     @Override
@@ -385,7 +427,7 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
                 }
             }
         }
-        return annotations;
+        return annotations.isEmpty() ? List.of() : List.copyOf(annotations);
     }
 
     private static @NonNull Annotation visitAnnotation(
