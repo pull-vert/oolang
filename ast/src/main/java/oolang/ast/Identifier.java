@@ -6,23 +6,37 @@ import org.jspecify.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
-public sealed interface Identifier extends Ast permits Identifier.Simple, RealIdentifier {
-    @NonNull String identifier();
-
-    default @NonNull String rawName() {
-        return identifier();
+public record Identifier(
+        @NonNull String identifier,
+        @NonNull List<@NonNull Identifier> parameters,
+        @NonNull List<@NonNull Annotation> annotations,
+        boolean nullable,
+        @Override @NonNull List<@NonNull Ast> content
+) implements AstNode {
+    public @NonNull String rawName() {
+        final var sb = new StringBuilder();
+        sb.append(identifier);
+        if (!parameters.isEmpty()) {
+            sb.append("<");
+            sb.append(parameters.stream()
+                    .map(Identifier::rawName)
+                    .collect(Collectors.joining(", ")));
+            sb.append(">");
+        }
+        if (nullable) {
+            sb.append("?");
+        }
+        return sb.toString();
     }
 
     @Override
-    default @NonNull String description() {
+    public @NonNull String description() {
         return "Identifier(" + rawName() + ")";
     }
 
-    record Simple(@NonNull String identifier) implements Identifier {
-    }
-
-    final class Builder {
+    public static final class Builder {
         private final @NonNull String identifier;
         private final @NonNull List<@NonNull Identifier> parameters = new ArrayList<>();
         private boolean nullable = false;
@@ -44,15 +58,7 @@ public sealed interface Identifier extends Ast permits Identifier.Simple, RealId
         }
 
         public @NonNull Identifier build() {
-            // fast-path for simple identifier
-            if (parameters.isEmpty() &&
-                    annotations == null &&
-                    !nullable &&
-                    children.isEmpty()) {
-                return new Simple(identifier);
-            }
-
-            return new RealIdentifier(
+            return new Identifier(
                     identifier,
                     List.copyOf(parameters),
                     (annotations != null) ? List.copyOf(annotations) : List.of(),
