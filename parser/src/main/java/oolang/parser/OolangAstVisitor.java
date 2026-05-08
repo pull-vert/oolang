@@ -144,8 +144,7 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Object> {
         final var functionBuilder = new RealElement.Builder().elementType(FUN);
         functionBuilder.identifier(visitSimpleIdentifier(ctx.simpleIdentifier()).build());
         if (ctx.type() != null) {
-            final var functionTypeId = new Identifier.Builder(ctx.type().getText()).build();
-            functionBuilder.type(List.of(functionTypeId));
+            functionBuilder.type(visitType(ctx.type()));
         }
         addModifiersAndAnnotations(ctx.modifiers(), functionBuilder);
 

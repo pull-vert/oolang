@@ -19,15 +19,15 @@ public record RealIdentifier(
     public @NonNull String rawName() {
         final var sb = new StringBuilder();
         sb.append(identifier);
-        if (nullable) {
-            sb.append("?");
-        }
         if (!parameters.isEmpty()) {
             sb.append("<");
             sb.append(parameters.stream()
                     .map(Identifier::rawName)
                     .collect(Collectors.joining(", ")));
             sb.append(">");
+        }
+        if (nullable) {
+            sb.append("?");
         }
         return sb.toString();
     }
