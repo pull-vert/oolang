@@ -59,7 +59,6 @@ public class OolangAstVisitorTest {
         assertThat(root.elementType()).isEqualTo(CLASS);
         assertThat(root.annotations()).hasSize(1);
         var annotation = root.annotations().getFirst();
-        assertThat(annotation.identifier()).hasSize(1);
         assertThat(annotation.description()).isEqualTo("Annotation(Service)");
         assertThat(root.identifier()).isNotNull();
         assertThat(root.identifier().identifier()).isEqualTo("ExampleTest");
@@ -128,7 +127,6 @@ public class OolangAstVisitorTest {
         assertThat(constructor.children()).hasSize(1);
         var constructorParam = (RealElement) constructor.children().getFirst();
         var annotation = constructorParam.annotations().getFirst();
-        assertThat(annotation.identifier()).hasSize(1);
         assertThat(annotation.description()).isEqualTo("Annotation(get:JsonIgnore)");
         print(fileAst);
     }
@@ -149,11 +147,9 @@ public class OolangAstVisitorTest {
         assertThat(constructorParam.annotations()).hasSize(2);
         // Inject
         var annotation = constructorParam.annotations().getFirst();
-        assertThat(annotation.identifier()).hasSize(1);
         assertThat(annotation.description()).isEqualTo("Annotation(set:Inject)");
         // VisibleForTesting
         annotation = constructorParam.annotations().getLast();
-        assertThat(annotation.identifier()).hasSize(1);
         assertThat(annotation.description()).isEqualTo("Annotation(set:VisibleForTesting)");
         print(fileAst);
     }
@@ -175,7 +171,7 @@ public class OolangAstVisitorTest {
         assertThat(funDeclaration.elementType()).isEqualTo(FUN);
         assertThat(funDeclaration.identifier()).isNotNull();
         assertThat(funDeclaration.identifier().identifier()).isEqualTo("foo");
-        assertThat(funDeclaration.type()).isEmpty();
+        assertThat(funDeclaration.type()).isNull();
         assertThat(funDeclaration.children()).hasSize(1);
         assertThat(funDeclaration.children().getFirst()).isInstanceOf(Block.class);
         print(fileAst);
@@ -198,9 +194,8 @@ public class OolangAstVisitorTest {
         assertThat(funDeclaration.elementType()).isEqualTo(FUN);
         assertThat(funDeclaration.identifier()).isNotNull();
         assertThat(funDeclaration.identifier().identifier()).isEqualTo("foo");
-        assertThat(funDeclaration.type()).isEmpty();
+        assertThat(funDeclaration.type()).isNull();
         var annotation = funDeclaration.annotations().getFirst();
-        assertThat(annotation.identifier()).hasSize(1);
         assertThat(annotation.description()).isEqualTo("Annotation(Test)");
         assertThat(funDeclaration.children().getFirst()).isInstanceOf(Block.class);
         print(fileAst);
@@ -223,7 +218,7 @@ public class OolangAstVisitorTest {
         assertThat(funDeclaration.elementType()).isEqualTo(FUN);
         assertThat(funDeclaration.identifier()).isNotNull();
         assertThat(funDeclaration.identifier().identifier()).isEqualTo("foo");
-        assertThat(funDeclaration.type()).isEmpty();
+        assertThat(funDeclaration.type()).isNull();
         assertThat(funDeclaration.children()).hasSize(2);
         var funParam = (RealElement) funDeclaration.children().getFirst();
         assertThat(funParam.elementType()).isEqualTo(PARAMETER);
@@ -251,7 +246,7 @@ public class OolangAstVisitorTest {
         assertThat(funDeclaration.elementType()).isEqualTo(FUN);
         assertThat(funDeclaration.identifier()).isNotNull();
         assertThat(funDeclaration.identifier().identifier()).isEqualTo("main");
-        assertThat(funDeclaration.type()).isEmpty();
+        assertThat(funDeclaration.type()).isNull();
         assertThat(funDeclaration.modifiers()).extracting(ElementModifier::modifier)
                 .containsExactly("static");
         assertThat(funDeclaration.children()).hasSize(2);

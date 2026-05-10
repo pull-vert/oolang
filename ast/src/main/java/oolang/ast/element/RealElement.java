@@ -4,10 +4,7 @@
 
 package oolang.ast.element;
 
-import oolang.ast.Annotation;
-import oolang.ast.Ast;
-import oolang.ast.AstNode;
-import oolang.ast.Identifier;
+import oolang.ast.*;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
@@ -16,12 +13,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-import static oolang.ast.AstUtils.identifierName;
-
 public record RealElement(
         @NonNull ElementType elementType,
         @Nullable Identifier identifier,
-        @NonNull List<@NonNull Identifier> type,
+        @Nullable Type type,
         @NonNull List<@NonNull Annotation> annotations,
         @NonNull List<@NonNull ElementModifier> modifiers,
         @NonNull List<@NonNull AstNode> children
@@ -35,8 +30,8 @@ public record RealElement(
         if (identifier != null) {
             sb.append(" ").append(identifier.rawName());
         }
-        if (!type.isEmpty()) {
-            sb.append(":").append(identifierName(type));
+        if (type != null) {
+            sb.append(":").append(type.rawName());
         }
         sb.append(")");
         return sb.toString();
@@ -53,7 +48,7 @@ public record RealElement(
     public static final class Builder {
         private ElementType elementType = null;
         private @Nullable Identifier identifier = null;
-        private @NonNull List<@NonNull Identifier> type = new ArrayList<>();
+        private @Nullable Type type = null;
         private @Nullable List<@NonNull Annotation> annotations = null;
         private final @NonNull List<@NonNull ElementModifier> modifiers = new ArrayList<>();
         private final @NonNull List<@NonNull AstNode> children = new ArrayList<>();
@@ -68,7 +63,7 @@ public record RealElement(
             return this;
         }
 
-        public @NonNull Builder type(final @NonNull List<@NonNull Identifier> type) {
+        public @NonNull Builder type(final @NonNull Type type) {
             this.type = Objects.requireNonNull(type);
             return this;
         }
@@ -89,11 +84,11 @@ public record RealElement(
         }
 
         public @NonNull RealElement build() {
-            Objects.requireNonNull(elementType, "type must be set");
+            Objects.requireNonNull(elementType, "expressionType must be set");
             return new RealElement(
                     elementType,
                     identifier,
-                    List.copyOf(type),
+                    type,
                     (annotations != null) ? List.copyOf(annotations) : List.of(),
                     List.copyOf(modifiers),
                     List.copyOf(children));

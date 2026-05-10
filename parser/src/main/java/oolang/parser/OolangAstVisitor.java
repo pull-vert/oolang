@@ -4,9 +4,7 @@
 
 package oolang.parser;
 
-import oolang.ast.Annotation;
-import oolang.ast.FileAst;
-import oolang.ast.Identifier;
+import oolang.ast.*;
 import oolang.ast.element.ClassBody;
 import oolang.ast.element.ElementModifier;
 import oolang.ast.element.RealElement;
@@ -322,37 +320,42 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Object> {
     }
 
     @Override
-    public @NonNull List<@NonNull Identifier> visitType(final @NonNull TypeContext ctx) {
+    public @NonNull Type visitType(final @NonNull TypeContext ctx) {
         assert ctx != null;
 
-        final var identifierBuilders = new ArrayList<Identifier.Builder>();
+        final Type.Builder builder;
         if (ctx.userType() != null) {
-            for (final var simpleUserTypeCtx : ctx.userType().simpleUserType()) {
-                identifierBuilders.add(visitSimpleUserType(simpleUserTypeCtx));
-            }
+            builder = visitUserType(ctx.userType());
         } else {
             throw new UnsupportedOperationException();
         }
         if (ctx.annotations() != null) {
-            identifierBuilders.getLast().annotations(visitAnnotations(ctx.annotations().annotation()));
+            builder.annotations(visitAnnotations(ctx.annotations().annotation()));
         }
-        return identifierBuilders.stream()
-                .map(Identifier.Builder::build)
-                .toList();
+        return builder.build();
     }
 
     @Override
-    public Identifier.@NonNull Builder visitSimpleUserType(final @NonNull SimpleUserTypeContext ctx) {
+    public Type.@NonNull Builder visitUserType(final @NonNull UserTypeContext ctx) {
+        final var builder = new Type.Builder();
+        for (final var simpleUserTypeCtx : ctx.simpleUserType()) {
+            builder.addIdentifier(visitSimpleUserType(simpleUserTypeCtx));
+        }
+        return builder;
+    }
+
+    @Override
+    public @NonNull Identifier visitSimpleUserType(final @NonNull SimpleUserTypeContext ctx) {
         assert ctx != null;
 
-        final var builder = visitSimpleIdentifier(ctx.simpleIdentifier());
+        final var builder = new Identifier.Builder(ctx.simpleIdentifier().getText());
         if (ctx.typeArguments() != null) {
             for (final var typeProjectionCtx : ctx.typeArguments().typeProjection()) {
-                builder.addParameters(visitTypeProjection(typeProjectionCtx));
+                builder.addParameter(visitTypeProjection(typeProjectionCtx));
             }
         }
 
-        return builder;
+        return builder.build();
     }
 
     @Override
@@ -362,14 +365,14 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Object> {
     }
 
     @Override
-    public @NonNull List<@NonNull Identifier> visitTypeProjection(final @NonNull TypeProjectionContext ctx) {
+    public @NonNull Type visitTypeProjection(final @NonNull TypeProjectionContext ctx) {
         assert ctx != null;
 
-        final var types = visitType(ctx.type());
+        final var type = visitType(ctx.type());
         if (ctx.typeProjectionModifiers() != null) {
             throw new UnsupportedOperationException();
         }
-        return types;
+        return type;
     }
 
     @Override
@@ -406,7 +409,7 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Object> {
         elementBuilder.annotations(visitAnnotations(ctx.annotation()));
     }
 
-    private static @NonNull List<@NonNull Annotation> visitAnnotations(
+    private @NonNull List<@NonNull Annotation> visitAnnotations(
             final @NonNull List<@NonNull AnnotationContext> annotationContexts) {
         assert annotationContexts != null;
 
@@ -429,15 +432,13 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Object> {
         return annotations.isEmpty() ? List.of() : List.copyOf(annotations);
     }
 
-    private static @NonNull Annotation visitAnnotation(
+    private @NonNull Annotation visitAnnotation(
             final @NonNull UnescapedAnnotationContext unescapedAnnotationContext,
             final @Nullable AnnotationUseSiteTargetContext annotationUseSiteTargetContext
     ) {
         assert unescapedAnnotationContext != null;
 
-        final var annotationBuilder = new Annotation.Builder();
-        final var annotationIdentifier = new Identifier.Builder(unescapedAnnotationContext.getText()).build();
-        annotationBuilder.addIdentifier(annotationIdentifier);
+        final var annotationBuilder = new Annotation.Builder(visitUserType(unescapedAnnotationContext.userType()).build());
         if (annotationUseSiteTargetContext != null) {
             final var useSiteTarget = annotationUseSiteTargetContext.getText();
             annotationBuilder.useSiteTarget(toEnumUseSiteTarget(useSiteTarget));

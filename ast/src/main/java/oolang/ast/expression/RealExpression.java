@@ -14,11 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static oolang.ast.AstUtils.identifierName;
-
 public record RealExpression(
         @NonNull ExpressionType type,
-        @NonNull List<@NonNull Identifier> identifier,
+        @NonNull List<@NonNull Identifier> identifiers,
         @NonNull List<@NonNull Annotation> annotations,
         @NonNull List<@NonNull Ast> children
 ) implements ExpressionNode {
@@ -27,8 +25,14 @@ public record RealExpression(
         final var sb = new StringBuilder();
         sb.append("Expression(");
         sb.append(type.label);
-        if (!identifier.isEmpty()) {
-            sb.append(" ").append(identifierName(identifier));
+        if (!identifiers.isEmpty()) {
+            sb.append(" ");
+            for (var i = 0; i < identifiers.size(); i++) {
+                if (i > 0) {
+                    sb.append(".");
+                }
+                sb.append(identifiers.get(i).rawName());
+            }
         }
         sb.append(")");
         return sb.toString();
@@ -43,7 +47,7 @@ public record RealExpression(
 
     public static final class Builder {
         private ExpressionType type = null;
-        private final @NonNull List<@NonNull Identifier> identifier = new ArrayList<>();
+        private final @NonNull List<@NonNull Identifier> identifiers = new ArrayList<>();
         private @Nullable List<@NonNull Annotation> annotations = null;
         private final @NonNull List<@NonNull Ast> children = new ArrayList<>();
 
@@ -53,7 +57,7 @@ public record RealExpression(
         }
 
         public @NonNull Builder addIdentifier(final @NonNull Identifier identifier) {
-            this.identifier.add(Objects.requireNonNull(identifier));
+            this.identifiers.add(Objects.requireNonNull(identifier));
             return this;
         }
 
@@ -71,7 +75,7 @@ public record RealExpression(
             Objects.requireNonNull(type, "type must be set");
             return new RealExpression(
                     type,
-                    List.copyOf(identifier),
+                    List.copyOf(identifiers),
                     (annotations != null) ? List.copyOf(annotations) : List.of(),
                     List.copyOf(children));
         }

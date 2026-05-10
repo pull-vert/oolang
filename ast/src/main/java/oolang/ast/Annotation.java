@@ -7,15 +7,12 @@ package oolang.ast;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-import static oolang.ast.AstUtils.identifierName;
-
 public record Annotation(
-        @NonNull List<@NonNull Identifier> identifier,
+        @NonNull Type type,
         @Nullable UseSiteTarget target
 ) implements AstNode {
     @Override
@@ -25,7 +22,7 @@ public record Annotation(
         if (target != null) {
             sb.append(target.name().toLowerCase(Locale.US)).append(":");
         }
-        sb.append(identifierName(identifier)).append(")");
+        sb.append(type.rawName()).append(")");
         return sb.toString();
     }
 
@@ -35,12 +32,11 @@ public record Annotation(
     }
 
     public static final class Builder {
-        private final @NonNull List<@NonNull Identifier> identifier = new ArrayList<>();
+        private final @NonNull Type type;
         private @Nullable UseSiteTarget target;
 
-        public Builder addIdentifier(final @NonNull Identifier identifier) {
-            this.identifier.add(Objects.requireNonNull(identifier));
-            return this;
+        public Builder(final @NonNull Type type) {
+            this.type = Objects.requireNonNull(type);
         }
 
         public Builder useSiteTarget(final @NonNull UseSiteTarget target) {
@@ -49,7 +45,7 @@ public record Annotation(
         }
 
         public @NonNull Annotation build() {
-            return new Annotation(List.copyOf(identifier), target);
+            return new Annotation(type, target);
         }
     }
 
