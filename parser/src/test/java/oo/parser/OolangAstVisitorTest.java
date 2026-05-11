@@ -28,11 +28,11 @@ public class OolangAstVisitorTest {
     @Test
     public void parseSimplestClass() {
         var fileAst = astForCode("class Example");
-        var root = fileAst.rootElements().getFirst();
+        var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
-        assertThat(root.elementType()).isEqualTo(CLASS);
-        assertThat(root.identifier()).isNotNull();
-        assertThat(root.identifier().identifier()).isEqualTo("Example");
+        assertThat(root.elementType).isEqualTo(CLASS);
+        assertThat(root.identifier).isNotNull();
+        assertThat(root.identifier.identifier).isEqualTo("Example");
         assertThat(root.description()).isEqualTo("Element(class Example)");
         print(fileAst);
     }
@@ -40,28 +40,28 @@ public class OolangAstVisitorTest {
     @Test
     public void parseClass() {
         var fileAst = astForCode("class Example {}");
-        var root = fileAst.rootElements().getFirst();
+        var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
-        assertThat(root.elementType()).isEqualTo(CLASS);
-        assertThat(root.identifier()).isNotNull();
-        assertThat(root.identifier().identifier()).isEqualTo("Example");
+        assertThat(root.elementType).isEqualTo(CLASS);
+        assertThat(root.identifier).isNotNull();
+        assertThat(root.identifier.identifier).isEqualTo("Example");
         assertThat(root.description()).isEqualTo("Element(class Example)");
-        assertThat(root.children()).hasSize(1);
-        assertThat(root.children().getFirst()).isInstanceOf(ClassBody.class);
+        assertThat(root.children).hasSize(1);
+        assertThat(root.children.getFirst()).isInstanceOf(ClassBody.class);
         print(fileAst);
     }
 
     @Test
     public void parseAnnotatedClass() {
         var fileAst = astForCode("@Service\nclass ExampleTest");
-        var root = fileAst.rootElements().getFirst();
+        var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
-        assertThat(root.elementType()).isEqualTo(CLASS);
-        assertThat(root.annotations()).hasSize(1);
-        var annotation = root.annotations().getFirst();
+        assertThat(root.elementType).isEqualTo(CLASS);
+        assertThat(root.annotations).hasSize(1);
+        var annotation = root.annotations.getFirst();
         assertThat(annotation.description()).isEqualTo("Annotation(Service)");
-        assertThat(root.identifier()).isNotNull();
-        assertThat(root.identifier().identifier()).isEqualTo("ExampleTest");
+        assertThat(root.identifier).isNotNull();
+        assertThat(root.identifier.identifier).isEqualTo("ExampleTest");
         assertThat(root.description()).isEqualTo("Element(class ExampleTest)");
         print(fileAst);
     }
@@ -69,13 +69,13 @@ public class OolangAstVisitorTest {
     @Test
     public void parseEnumClass() {
         var fileAst = astForCode("enum class Example");
-        var root = fileAst.rootElements().getFirst();
+        var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
-        assertThat(root.elementType()).isEqualTo(CLASS);
-        assertThat(root.modifiers()).extracting(ElementModifier::modifier)
+        assertThat(root.elementType).isEqualTo(CLASS);
+        assertThat(root.modifiers).extracting(ElementModifier::modifier)
                 .containsExactly("enum");
-        assertThat(root.identifier()).isNotNull();
-        assertThat(root.identifier().identifier()).isEqualTo("Example");
+        assertThat(root.identifier).isNotNull();
+        assertThat(root.identifier.identifier).isEqualTo("Example");
         assertThat(root.description()).isEqualTo("Element(class Example)");
         print(fileAst);
     }
@@ -83,13 +83,13 @@ public class OolangAstVisitorTest {
     @Test
     public void parsePublicEnumClass() {
         var fileAst = astForCode("public enum class Example");
-        var root = fileAst.rootElements().getFirst();
+        var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
-        assertThat(root.elementType()).isEqualTo(CLASS);
-        assertThat(root.modifiers()).extracting(ElementModifier::modifier)
+        assertThat(root.elementType).isEqualTo(CLASS);
+        assertThat(root.modifiers).extracting(ElementModifier::modifier)
                 .containsExactly("public", "enum");
-        assertThat(root.identifier()).isNotNull();
-        assertThat(root.identifier().identifier()).isEqualTo("Example");
+        assertThat(root.identifier).isNotNull();
+        assertThat(root.identifier.identifier).isEqualTo("Example");
         assertThat(root.description()).isEqualTo("Element(class Example)");
         print(fileAst);
     }
@@ -97,18 +97,18 @@ public class OolangAstVisitorTest {
     @Test
     public void parseClassWithPrimaryConstructor() {
         var fileAst = astForCode("class Example(val foo: String)");
-        var root = fileAst.rootElements().getFirst();
+        var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
-        assertThat(root.elementType()).isEqualTo(CLASS);
-        assertThat(root.identifier()).isNotNull();
-        assertThat(root.identifier().identifier()).isEqualTo("Example");
+        assertThat(root.elementType).isEqualTo(CLASS);
+        assertThat(root.identifier).isNotNull();
+        assertThat(root.identifier.identifier).isEqualTo("Example");
         assertThat(root.description()).isEqualTo("Element(class Example)");
-        assertThat(root.children()).hasSize(1);
-        var constructor = (RealElement) root.children().getFirst();
-        assertThat(constructor.elementType()).isEqualTo(CONSTRUCTOR);
-        assertThat(constructor.children()).hasSize(1);
-        var constructorParam = (RealElement) constructor.children().getFirst();
-        assertThat(constructorParam.elementType()).isEqualTo(VAL);
+        assertThat(root.children).hasSize(1);
+        var constructor = (RealElement) root.children.getFirst();
+        assertThat(constructor.elementType).isEqualTo(CONSTRUCTOR);
+        assertThat(constructor.children).hasSize(1);
+        var constructorParam = (RealElement) constructor.children.getFirst();
+        assertThat(constructorParam.elementType).isEqualTo(VAL);
         assertThat(constructorParam.description()).isEqualTo("Element(val foo:String)");
         print(fileAst);
     }
@@ -116,17 +116,17 @@ public class OolangAstVisitorTest {
     @Test
     public void parseClassWithUseSiteAnnotatedConstructor() {
         var fileAst = astForCode("class Example(@get:JsonIgnore val foo: String)");
-        var root = fileAst.rootElements().getFirst();
+        var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
-        assertThat(root.elementType()).isEqualTo(CLASS);
-        assertThat(root.identifier()).isNotNull();
-        assertThat(root.identifier().identifier()).isEqualTo("Example");
+        assertThat(root.elementType).isEqualTo(CLASS);
+        assertThat(root.identifier).isNotNull();
+        assertThat(root.identifier.identifier).isEqualTo("Example");
         assertThat(root.description()).isEqualTo("Element(class Example)");
-        assertThat(root.children()).hasSize(1);
-        var constructor = (RealElement) root.children().getFirst();
-        assertThat(constructor.children()).hasSize(1);
-        var constructorParam = (RealElement) constructor.children().getFirst();
-        var annotation = constructorParam.annotations().getFirst();
+        assertThat(root.children).hasSize(1);
+        var constructor = (RealElement) root.children.getFirst();
+        assertThat(constructor.children).hasSize(1);
+        var constructorParam = (RealElement) constructor.children.getFirst();
+        var annotation = constructorParam.annotations.getFirst();
         assertThat(annotation.description()).isEqualTo("Annotation(get:JsonIgnore)");
         print(fileAst);
     }
@@ -134,22 +134,22 @@ public class OolangAstVisitorTest {
     @Test
     public void parseUseSiteMultipleAnnotatedClass() {
         var fileAst = astForCode("class Example(@set:[Inject VisibleForTesting] val foo: String)");
-        var root = fileAst.rootElements().getFirst();
+        var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
-        assertThat(root.elementType()).isEqualTo(CLASS);
-        assertThat(root.identifier()).isNotNull();
-        assertThat(root.identifier().identifier()).isEqualTo("Example");
+        assertThat(root.elementType).isEqualTo(CLASS);
+        assertThat(root.identifier).isNotNull();
+        assertThat(root.identifier.identifier).isEqualTo("Example");
         assertThat(root.description()).isEqualTo("Element(class Example)");
-        assertThat(root.children()).hasSize(1);
-        var constructor = (RealElement) root.children().getFirst();
-        assertThat(constructor.children()).hasSize(1);
-        var constructorParam = (RealElement) constructor.children().getFirst();
-        assertThat(constructorParam.annotations()).hasSize(2);
+        assertThat(root.children).hasSize(1);
+        var constructor = (RealElement) root.children.getFirst();
+        assertThat(constructor.children).hasSize(1);
+        var constructorParam = (RealElement) constructor.children.getFirst();
+        assertThat(constructorParam.annotations).hasSize(2);
         // Inject
-        var annotation = constructorParam.annotations().getFirst();
+        var annotation = constructorParam.annotations.getFirst();
         assertThat(annotation.description()).isEqualTo("Annotation(set:Inject)");
         // VisibleForTesting
-        annotation = constructorParam.annotations().getLast();
+        annotation = constructorParam.annotations.getLast();
         assertThat(annotation.description()).isEqualTo("Annotation(set:VisibleForTesting)");
         print(fileAst);
     }
@@ -157,73 +157,73 @@ public class OolangAstVisitorTest {
     @Test
     public void parseClassWithSimplestFunction() {
         var fileAst = astForCode("class Example {\nfun foo() {}\n}");
-        var root = fileAst.rootElements().getFirst();
+        var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
-        assertThat(root.elementType()).isEqualTo(CLASS);
-        assertThat(root.identifier()).isNotNull();
-        assertThat(root.identifier().identifier()).isEqualTo("Example");
+        assertThat(root.elementType).isEqualTo(CLASS);
+        assertThat(root.identifier).isNotNull();
+        assertThat(root.identifier.identifier).isEqualTo("Example");
         assertThat(root.description()).isEqualTo("Element(class Example)");
-        assertThat(root.children()).hasSize(1);
-        assertThat(root.children().getFirst()).isInstanceOf(ClassBody.class);
-        var classBody = (ClassBody) root.children().getFirst();
+        assertThat(root.children).hasSize(1);
+        assertThat(root.children.getFirst()).isInstanceOf(ClassBody.class);
+        var classBody = (ClassBody) root.children.getFirst();
         assertThat(classBody.content()).hasSize(1);
         var funDeclaration = (RealElement) classBody.content().getFirst();
-        assertThat(funDeclaration.elementType()).isEqualTo(FUN);
-        assertThat(funDeclaration.identifier()).isNotNull();
-        assertThat(funDeclaration.identifier().identifier()).isEqualTo("foo");
-        assertThat(funDeclaration.type()).isNull();
-        assertThat(funDeclaration.children()).hasSize(1);
-        assertThat(funDeclaration.children().getFirst()).isInstanceOf(Block.class);
+        assertThat(funDeclaration.elementType).isEqualTo(FUN);
+        assertThat(funDeclaration.identifier).isNotNull();
+        assertThat(funDeclaration.identifier.identifier).isEqualTo("foo");
+        assertThat(funDeclaration.type).isNull();
+        assertThat(funDeclaration.children).hasSize(1);
+        assertThat(funDeclaration.children.getFirst()).isInstanceOf(Block.class);
         print(fileAst);
     }
 
     @Test
     public void parseClassWithAnnotatedFunction() {
         var fileAst = astForCode("class Example {\n@Test\nfun foo() {}\n}");
-        var root = fileAst.rootElements().getFirst();
+        var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
-        assertThat(root.elementType()).isEqualTo(CLASS);
-        assertThat(root.identifier()).isNotNull();
-        assertThat(root.identifier().identifier()).isEqualTo("Example");
+        assertThat(root.elementType).isEqualTo(CLASS);
+        assertThat(root.identifier).isNotNull();
+        assertThat(root.identifier.identifier).isEqualTo("Example");
         assertThat(root.description()).isEqualTo("Element(class Example)");
-        assertThat(root.children()).hasSize(1);
-        assertThat(root.children().getFirst()).isInstanceOf(ClassBody.class);
-        var classBody = (ClassBody) root.children().getFirst();
+        assertThat(root.children).hasSize(1);
+        assertThat(root.children.getFirst()).isInstanceOf(ClassBody.class);
+        var classBody = (ClassBody) root.children.getFirst();
         assertThat(classBody.content()).hasSize(1);
         var funDeclaration = (RealElement) classBody.content().getFirst();
-        assertThat(funDeclaration.elementType()).isEqualTo(FUN);
-        assertThat(funDeclaration.identifier()).isNotNull();
-        assertThat(funDeclaration.identifier().identifier()).isEqualTo("foo");
-        assertThat(funDeclaration.type()).isNull();
-        var annotation = funDeclaration.annotations().getFirst();
+        assertThat(funDeclaration.elementType).isEqualTo(FUN);
+        assertThat(funDeclaration.identifier).isNotNull();
+        assertThat(funDeclaration.identifier.identifier).isEqualTo("foo");
+        assertThat(funDeclaration.type).isNull();
+        var annotation = funDeclaration.annotations.getFirst();
         assertThat(annotation.description()).isEqualTo("Annotation(Test)");
-        assertThat(funDeclaration.children().getFirst()).isInstanceOf(Block.class);
+        assertThat(funDeclaration.children.getFirst()).isInstanceOf(Block.class);
         print(fileAst);
     }
 
     @Test
     public void parseClassWithFunctionWithParameter() {
         var fileAst = astForCode("class Example {\nfun foo(bar: String) {}\n}");
-        var root = fileAst.rootElements().getFirst();
+        var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
-        assertThat(root.elementType()).isEqualTo(CLASS);
-        assertThat(root.identifier()).isNotNull();
-        assertThat(root.identifier().identifier()).isEqualTo("Example");
+        assertThat(root.elementType).isEqualTo(CLASS);
+        assertThat(root.identifier).isNotNull();
+        assertThat(root.identifier.identifier).isEqualTo("Example");
         assertThat(root.description()).isEqualTo("Element(class Example)");
-        assertThat(root.children()).hasSize(1);
-        var classBody = (ClassBody) root.children().getFirst();
+        assertThat(root.children).hasSize(1);
+        var classBody = (ClassBody) root.children.getFirst();
         assertThat(classBody.content()).hasSize(1);
         var funDeclaration = (RealElement) classBody.content().getFirst();
         assertThat(funDeclaration.description()).isEqualTo("Element(fun foo)");
-        assertThat(funDeclaration.elementType()).isEqualTo(FUN);
-        assertThat(funDeclaration.identifier()).isNotNull();
-        assertThat(funDeclaration.identifier().identifier()).isEqualTo("foo");
-        assertThat(funDeclaration.type()).isNull();
-        assertThat(funDeclaration.children()).hasSize(2);
-        var funParam = (RealElement) funDeclaration.children().getFirst();
-        assertThat(funParam.elementType()).isEqualTo(PARAMETER);
+        assertThat(funDeclaration.elementType).isEqualTo(FUN);
+        assertThat(funDeclaration.identifier).isNotNull();
+        assertThat(funDeclaration.identifier.identifier).isEqualTo("foo");
+        assertThat(funDeclaration.type).isNull();
+        assertThat(funDeclaration.children).hasSize(2);
+        var funParam = (RealElement) funDeclaration.children.getFirst();
+        assertThat(funParam.elementType).isEqualTo(PARAMETER);
         assertThat(funParam.description()).isEqualTo("Element(parameter bar:String)");
-        assertThat(funDeclaration.children().getLast()).isInstanceOf(Block.class);
+        assertThat(funDeclaration.children.getLast()).isInstanceOf(Block.class);
         print(fileAst);
     }
 
@@ -231,30 +231,30 @@ public class OolangAstVisitorTest {
     public void parseClassWithMainFunction() {
         var fileAst = astForCode(
                 "class Example {\nstatic fun main(args: Array<String>) {\nSystem.out.println(\"Hello, World!\")}\n}");
-        var root = fileAst.rootElements().getFirst();
+        var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
-        assertThat(root.elementType()).isEqualTo(CLASS);
-        assertThat(root.identifier()).isNotNull();
-        assertThat(root.identifier().identifier()).isEqualTo("Example");
+        assertThat(root.elementType).isEqualTo(CLASS);
+        assertThat(root.identifier).isNotNull();
+        assertThat(root.identifier.identifier).isEqualTo("Example");
         assertThat(root.description()).isEqualTo("Element(class Example)");
-        assertThat(root.children()).hasSize(1);
-        var classBody = (ClassBody) root.children().getFirst();
+        assertThat(root.children).hasSize(1);
+        var classBody = (ClassBody) root.children.getFirst();
         assertThat(classBody.content()).hasSize(1);
         assertThat(classBody.content()).hasSize(1);
         var funDeclaration = (RealElement) classBody.content().getFirst();
         assertThat(funDeclaration.description()).isEqualTo("Element(fun main)");
-        assertThat(funDeclaration.elementType()).isEqualTo(FUN);
-        assertThat(funDeclaration.identifier()).isNotNull();
-        assertThat(funDeclaration.identifier().identifier()).isEqualTo("main");
-        assertThat(funDeclaration.type()).isNull();
-        assertThat(funDeclaration.modifiers()).extracting(ElementModifier::modifier)
+        assertThat(funDeclaration.elementType).isEqualTo(FUN);
+        assertThat(funDeclaration.identifier).isNotNull();
+        assertThat(funDeclaration.identifier.identifier).isEqualTo("main");
+        assertThat(funDeclaration.type).isNull();
+        assertThat(funDeclaration.modifiers).extracting(ElementModifier::modifier)
                 .containsExactly("static");
-        assertThat(funDeclaration.children()).hasSize(2);
-        var funParam = (RealElement) funDeclaration.children().getFirst();
-        assertThat(funParam.elementType()).isEqualTo(PARAMETER);
+        assertThat(funDeclaration.children).hasSize(2);
+        var funParam = (RealElement) funDeclaration.children.getFirst();
+        assertThat(funParam.elementType).isEqualTo(PARAMETER);
         assertThat(funParam.description()).isEqualTo("Element(parameter args:Array<String>)");
-        assertThat(funDeclaration.children().getLast()).isInstanceOf(Block.class);
-        var codeBlock = (Block) funDeclaration.children().getLast();
+        assertThat(funDeclaration.children.getLast()).isInstanceOf(Block.class);
+        var codeBlock = (Block) funDeclaration.children.getLast();
         assertThat(codeBlock.description()).isEqualTo("Block");
         assertThat(codeBlock.content()).hasSize(1);
         var statement = (RealStatement) codeBlock.content().getFirst();
@@ -262,7 +262,7 @@ public class OolangAstVisitorTest {
         assertThat(statement.content()).hasSize(1);
         var funCall = (RealExpression) statement.content().getFirst();
         assertThat(funCall.description()).isEqualTo("Expression(funCall System.out.println)");
-        assertThat(funCall.type()).isEqualTo(FUN_CALL);
+        assertThat(funCall.type).isEqualTo(FUN_CALL);
         assertThat(funCall.content()).hasSize(1);
         var funCallParam = (RealExpression) funCall.content().getFirst();
         assertThat(funCallParam.description()).isEqualTo("Expression(argument)");

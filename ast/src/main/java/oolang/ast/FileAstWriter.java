@@ -21,7 +21,7 @@ public final class FileAstWriter {
         Objects.requireNonNull(appendable);
 
         try {
-            for (final var element : fileAst.rootElements()) {
+            for (final var element : fileAst.rootElements) {
                 write(element, appendable, 0);
             }
         } catch (IOException e) {

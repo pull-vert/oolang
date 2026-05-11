@@ -10,22 +10,16 @@ import org.jspecify.annotations.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public record Block(@Override @NonNull List<@NonNull Ast> content) implements StatementNode {
+public final class Block implements StatementNode {
+    public final @NonNull List<@NonNull Statement> children = new ArrayList<>();
+
     @Override
     public @NonNull String description() {
         return "Block";
     }
 
-    public static final class Builder {
-        private final @NonNull List<@NonNull Statement> children = new ArrayList<>();
-
-        public @NonNull Builder addChild(final @NonNull Statement child) {
-            children.add(child);
-            return this;
-        }
-
-        public @NonNull Block build() {
-            return new Block(List.copyOf(children));
-        }
+    @Override
+    public @NonNull List<? extends @NonNull Ast> content() {
+        return children;
     }
 }

@@ -12,14 +12,20 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public record RealExpression(
-        @NonNull ExpressionType type,
-        @NonNull List<@NonNull Identifier> identifiers,
-        @NonNull List<@NonNull Annotation> annotations,
-        @NonNull List<@NonNull Ast> children
-) implements ExpressionNode {
+public final class RealExpression implements ExpressionNode {
+    public /* lateinit */ ExpressionType type;
+    public @NonNull List<@NonNull Identifier> identifiers = new ArrayList<>();
+    public @Nullable List<@NonNull Annotation> annotations = null;
+    public @NonNull List<@NonNull Ast> children = new ArrayList<>();
+
+    public RealExpression() {
+    }
+
+    public RealExpression(final @NonNull ExpressionType type) {
+        this.type = type;
+    }
+
     @Override
     public @NonNull String description() {
         final var sb = new StringBuilder();
@@ -40,45 +46,12 @@ public record RealExpression(
 
     @Override
     public @NonNull List<@NonNull Ast> content() {
-        final var content = new ArrayList<Ast>(annotations);
+        final var content = new ArrayList<Ast>();
+        if (annotations != null) {
+            content.addAll(annotations);
+        }
         content.addAll(children);
         return content;
-    }
-
-    public static final class Builder {
-        private ExpressionType type = null;
-        private final @NonNull List<@NonNull Identifier> identifiers = new ArrayList<>();
-        private @Nullable List<@NonNull Annotation> annotations = null;
-        private final @NonNull List<@NonNull Ast> children = new ArrayList<>();
-
-        public @NonNull Builder type(final @NonNull ExpressionType type) {
-            this.type = Objects.requireNonNull(type);
-            return this;
-        }
-
-        public @NonNull Builder addIdentifier(final @NonNull Identifier identifier) {
-            this.identifiers.add(Objects.requireNonNull(identifier));
-            return this;
-        }
-
-        public @NonNull Builder annotations(final @NonNull List<@NonNull Annotation> annotations) {
-            this.annotations = Objects.requireNonNull(annotations);
-            return this;
-        }
-
-        public @NonNull Builder addChild(final @NonNull Ast child) {
-            this.children.add(Objects.requireNonNull(child));
-            return this;
-        }
-
-        public @NonNull RealExpression build() {
-            Objects.requireNonNull(type, "type must be set");
-            return new RealExpression(
-                    type,
-                    List.copyOf(identifiers),
-                    (annotations != null) ? List.copyOf(annotations) : List.of(),
-                    List.copyOf(children));
-        }
     }
 
     public enum ExpressionType {

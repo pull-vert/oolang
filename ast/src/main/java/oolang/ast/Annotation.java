@@ -11,16 +11,20 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-public record Annotation(
-        @NonNull Type type,
-        @Nullable UseSiteTarget target
-) implements AstNode {
+public final class Annotation implements AstNode {
+    public final @NonNull Type type;
+    public @Nullable UseSiteTarget useSiteTarget;
+
+    public Annotation(final @NonNull Type type) {
+        this.type = Objects.requireNonNull(type);
+    }
+
     @Override
     public @NonNull String description() {
         final var sb = new StringBuilder();
         sb.append("Annotation(");
-        if (target != null) {
-            sb.append(target.name().toLowerCase(Locale.US)).append(":");
+        if (useSiteTarget != null) {
+            sb.append(useSiteTarget.name().toLowerCase(Locale.US)).append(":");
         }
         sb.append(type.rawName()).append(")");
         return sb.toString();
@@ -29,24 +33,6 @@ public record Annotation(
     @Override
     public @NonNull List<@NonNull Ast> content() {
         return List.of();
-    }
-
-    public static final class Builder {
-        private final @NonNull Type type;
-        private @Nullable UseSiteTarget target;
-
-        public Builder(final @NonNull Type type) {
-            this.type = Objects.requireNonNull(type);
-        }
-
-        public Builder useSiteTarget(final @NonNull UseSiteTarget target) {
-            this.target = Objects.requireNonNull(target);
-            return this;
-        }
-
-        public @NonNull Annotation build() {
-            return new Annotation(type, target);
-        }
     }
 
     public enum UseSiteTarget {

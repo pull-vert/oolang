@@ -9,9 +9,10 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public record FileAst(@NonNull List<@NonNull RealElement> rootElements) implements Ast {
+public final class FileAst implements AstNode {
+    public final @NonNull List<@NonNull RealElement> rootElements = new ArrayList<>();
+
     @Override
     public @NonNull String description() {
         final var sb = new StringBuilder();
@@ -19,16 +20,8 @@ public record FileAst(@NonNull List<@NonNull RealElement> rootElements) implemen
         return sb.toString();
     }
 
-    public static final class Builder {
-        private final @NonNull List<@NonNull RealElement> rootElements = new ArrayList<>();
-
-        public Builder addRootElement(final @NonNull RealElement element) {
-            rootElements.add(Objects.requireNonNull(element));
-            return this;
-        }
-
-        public FileAst build() {
-            return new FileAst(rootElements);
-        }
+    @Override
+    public @NonNull List<? extends @NonNull Ast> content() {
+        return rootElements;
     }
 }
