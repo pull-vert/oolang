@@ -10,10 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public record Identifier(
-        @NonNull String identifier,
-        @NonNull List<@NonNull Type> parameters
-) implements Ast {
+public final class Identifier implements Ast {
+    public final @NonNull String identifier;
+    public final @NonNull List<@NonNull Type> parameters = new ArrayList<>();
+
+    public Identifier(final @NonNull String identifier) {
+        this.identifier = Objects.requireNonNull(identifier);
+    }
+
     public @NonNull String rawName() {
         final var sb = new StringBuilder();
         sb.append(identifier);
@@ -33,25 +37,5 @@ public record Identifier(
     @Override
     public @NonNull String description() {
         return "Identifier(" + rawName() + ")";
-    }
-
-    public static final class Builder {
-        private final @NonNull String identifier;
-        private final @NonNull List<@NonNull Type> parameters = new ArrayList<>();
-
-        public Builder(final @NonNull String identifier) {
-            this.identifier = Objects.requireNonNull(identifier);
-        }
-
-        public @NonNull Builder addParameter(final @NonNull Type parameter) {
-            this.parameters.add(Objects.requireNonNull(parameter));
-            return this;
-        }
-
-        public @NonNull Identifier build() {
-            return new Identifier(
-                    identifier,
-                    List.copyOf(parameters));
-        }
     }
 }

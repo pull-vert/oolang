@@ -33,90 +33,88 @@ import static oolang.ast.element.RealElement.ElementType.VAR;
 import static oolang.ast.expression.RealExpression.ExpressionType.ARGUMENT;
 import static oolang.ast.expression.RealExpression.ExpressionType.FUN_CALL;
 
-public final class OolangAstVisitor extends OolangParserBaseVisitor<Object> {
+public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
     @Override
     public @NonNull FileAst visitOolangFile(final @NonNull OolangFileContext ctx) {
         assert ctx != null;
 
-        final var fileAstBuilder = new FileAst.Builder();
+        final var fileAst = new FileAst();
         for (final var topLevelObjectCtx : ctx.topLevelObject()) {
-            fileAstBuilder.addRootElement(visitClassDeclaration(topLevelObjectCtx.classDeclaration()));
+            fileAst.rootElements.add(visitClassDeclaration(topLevelObjectCtx.classDeclaration()));
         }
-        return fileAstBuilder.build();
+        return fileAst;
     }
 
     @Override
     public @NonNull RealElement visitClassDeclaration(final @NonNull ClassDeclarationContext ctx) {
         assert ctx != null;
 
-        final var classBuilder = new RealElement.Builder().elementType(CLASS);
+        final var clazz = new RealElement(CLASS);
 
         if (ctx.simpleIdentifier() != null) {
-            classBuilder.identifier(visitSimpleIdentifier(ctx.simpleIdentifier()).build());
+            clazz.identifier = visitSimpleIdentifier(ctx.simpleIdentifier());
         }
 
-        addModifiersAndAnnotations(ctx.modifiers(), classBuilder);
+        addModifiersAndAnnotations(ctx.modifiers(), clazz);
 
         if (ctx.primaryConstructor() != null) {
-            classBuilder.addChild(visitPrimaryConstructor(ctx.primaryConstructor()));
+            clazz.children.add(visitPrimaryConstructor(ctx.primaryConstructor()));
         }
 
         if (ctx.classBody() != null) {
-            classBuilder.addChild(visitClassBody(ctx.classBody()));
+            clazz.children.add(visitClassBody(ctx.classBody()));
         }
 
-        return classBuilder.build();
+        return clazz;
     }
 
     @Override
     public @NonNull RealElement visitPrimaryConstructor(final @NonNull PrimaryConstructorContext ctx) {
         assert ctx != null;
 
-        final var constructorBuilder = new RealElement.Builder().elementType(CONSTRUCTOR);
-        addModifiersAndAnnotations(ctx.modifiers(), constructorBuilder);
+        final var constructor = new RealElement(CONSTRUCTOR);
+        addModifiersAndAnnotations(ctx.modifiers(), constructor);
 
         for (final var classParamCtx : ctx.classParameters().classParameter()) {
-            constructorBuilder.addChild(visitClassParameter(classParamCtx));
+            constructor.children.add(visitClassParameter(classParamCtx));
         }
 
-        return constructorBuilder.build();
+        return constructor;
     }
 
     @Override
     public @NonNull RealElement visitClassParameter(final @NonNull ClassParameterContext ctx) {
         assert ctx != null;
 
-        final var classParamBuilder = new RealElement.Builder();
+        final RealElement classParam;
         if (ctx.VAL() != null) {
-            classParamBuilder.elementType(VAL);
+            classParam = new RealElement(VAL);
         } else if (ctx.VAR() != null) {
-            classParamBuilder.elementType(VAR);
+            classParam = new RealElement(VAR);
         } else {
-            classParamBuilder.elementType(PARAMETER);
+            classParam = new RealElement(PARAMETER);
         }
-        classParamBuilder.identifier(visitSimpleIdentifier(ctx.simpleIdentifier()).build());
+        classParam.identifier = visitSimpleIdentifier(ctx.simpleIdentifier());
 
-        classParamBuilder.type(visitType(ctx.type()));
-        addModifiersAndAnnotations(ctx.modifiers(), classParamBuilder);
+        classParam.type = visitType(ctx.type());
+        addModifiersAndAnnotations(ctx.modifiers(), classParam);
 
-        return classParamBuilder.build();
+        return classParam;
     }
 
     @Override
     public @NonNull ClassBody visitClassBody(final @NonNull ClassBodyContext ctx) {
         assert ctx != null;
 
-        final var classBodyBuilder = new ClassBody.Builder();
+        final var classBody = new ClassBody();
         for (final var classMemberDeclarationCtx : ctx.classMemberDeclarations().classMemberDeclaration()) {
-            classBodyBuilder.addChild(visitClassMemberDeclaration(classMemberDeclarationCtx));
+            classBody.children.add(visitClassMemberDeclaration(classMemberDeclarationCtx));
         }
-        return classBodyBuilder.build();
+        return classBody;
     }
 
     @Override
-    public @NonNull RealElement visitClassMemberDeclaration(
-            final @NonNull ClassMemberDeclarationContext ctx
-    ) {
+    public @NonNull RealElement visitClassMemberDeclaration(final @NonNull ClassMemberDeclarationContext ctx) {
         assert ctx != null;
 
         if (ctx.declaration() != null) {
@@ -139,69 +137,69 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Object> {
     public @NonNull RealElement visitFunctionDeclaration(final @NonNull FunctionDeclarationContext ctx) {
         assert ctx != null;
 
-        final var functionBuilder = new RealElement.Builder().elementType(FUN);
-        functionBuilder.identifier(visitSimpleIdentifier(ctx.simpleIdentifier()).build());
+        final var function = new RealElement(FUN);
+        function.identifier = visitSimpleIdentifier(ctx.simpleIdentifier());
         if (ctx.type() != null) {
-            functionBuilder.type(visitType(ctx.type()));
+            function.type = visitType(ctx.type());
         }
-        addModifiersAndAnnotations(ctx.modifiers(), functionBuilder);
+        addModifiersAndAnnotations(ctx.modifiers(), function);
 
         for (final var funParamCtx : ctx.functionValueParameters().functionValueParameter()) {
-            functionBuilder.addChild(visitFunctionValueParameter(funParamCtx));
+            function.children.add(visitFunctionValueParameter(funParamCtx));
         }
 
-        functionBuilder.addChild(visitFunctionBody(ctx.functionBody()));
+        function.children.add(visitFunctionBody(ctx.functionBody()));
 
-        return functionBuilder.build();
+        return function;
     }
 
     @Override
     public @NonNull RealElement visitFunctionValueParameter(final @NonNull FunctionValueParameterContext ctx) {
         assert ctx != null;
 
-        var funParamBuilder = new RealElement.Builder().elementType(PARAMETER);
+        var funParam = new RealElement(PARAMETER);
         final var parameterCtx = ctx.parameter();
-        funParamBuilder.identifier(visitSimpleIdentifier(parameterCtx.simpleIdentifier()).build());
-        funParamBuilder.type(visitType(parameterCtx.type()));
+        funParam.identifier = visitSimpleIdentifier(parameterCtx.simpleIdentifier());
+        funParam.type = visitType(parameterCtx.type());
 
         if (ctx.parameterModifiers() != null) {
             if (ctx.parameterModifiers().VARARG() != null) {
-                funParamBuilder.addModifier(new ElementModifier(ElementModifier.ModifierType.PARAMETER, "vararg"));
+                funParam.modifiers.add(new ElementModifier(ElementModifier.ModifierType.PARAMETER, "vararg"));
             }
-            funParamBuilder.annotations(visitAnnotations(ctx.parameterModifiers().annotation()));
+            funParam.annotations = visitAnnotations(ctx.parameterModifiers().annotation());
         }
 
-        return funParamBuilder.build();
+        return funParam;
     }
 
     @Override
     public @NonNull Block visitFunctionBody(final @NonNull FunctionBodyContext ctx) {
         assert ctx != null;
 
-        final var functionBodyBuilder = new Block.Builder();
+        final var functionBody = new Block();
         if (ctx.block() != null) {
             for (final var statementCtx : ctx.block().statements().statement()) {
-                functionBodyBuilder.addChild(visitStatement(statementCtx));
+                functionBody.children.add(visitStatement(statementCtx));
             }
         } else {
             Objects.requireNonNull(ctx.expression());
             throw new UnsupportedOperationException();
         }
-        return functionBodyBuilder.build();
+        return functionBody;
     }
 
     @Override
     public @NonNull Statement visitStatement(final @NonNull StatementContext ctx) {
         assert ctx != null;
 
-        final var statementBuilder = new RealStatement.Builder();
-        statementBuilder.annotations(visitAnnotations(ctx.annotation()));
+        final var statement = new RealStatement();
+        statement.annotations = visitAnnotations(ctx.annotation());
         if (ctx.expression() != null) {
-            statementBuilder.addChild(visitExpression(ctx.expression()));
+            statement.children.add(visitExpression(ctx.expression()));
         } else {
             throw new UnsupportedOperationException();
         }
-        return statementBuilder.build();
+        return statement;
     }
 
     @Override
@@ -245,9 +243,9 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Object> {
         }
 
         if (primaryExpressionCtx.simpleIdentifier() != null) {
-            final var expressionBuilder = new RealExpression.Builder();
-            expressionBuilder.addIdentifier(visitSimpleIdentifier(primaryExpressionCtx.simpleIdentifier()).build());
-            return visitPostfixUnarySuffixes(ctx.postfixUnarySuffix(), expressionBuilder);
+            final var expression = new RealExpression();
+            expression.identifiers.add(visitSimpleIdentifier(primaryExpressionCtx.simpleIdentifier()));
+            return visitPostfixUnarySuffixes(ctx.postfixUnarySuffix(), expression);
         }
 
         if (primaryExpressionCtx.literalConstant() != null) {
@@ -259,6 +257,8 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Object> {
 
     @Override
     public @NonNull Expression visitStringLiteral(final @NonNull StringLiteralContext ctx) {
+        assert ctx != null;
+
         if (ctx.lineStringLiteral() != null) {
             return visitLineStringLiteral(ctx.lineStringLiteral());
         }
@@ -274,45 +274,47 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Object> {
         if (ctx.lineStringContent().size() == 1 && ctx.lineStringExpression().isEmpty()) {
             return new SimpleString(ctx.lineStringContent().getFirst().getText());
         }
-//        final var expressionBuilder = new RealExpression.Builder().type(STRING_LITERAL);
+//        final var expression = new RealExpression(STRING_LITERAL);
         throw new UnsupportedOperationException();
     }
 
     private @NonNull RealExpression visitPostfixUnarySuffixes(
             final @NonNull List<@NonNull PostfixUnarySuffixContext> ctx,
-            final RealExpression.@NonNull Builder expressionBuilder
+            final @NonNull RealExpression expression
     ) {
+        assert ctx != null;
+        assert expression != null;
+
         for (final var postfixUnarySuffixCtx : ctx) {
             final var navSuffixCtx = postfixUnarySuffixCtx.navigationSuffix();
             if (navSuffixCtx != null) {
                 if (navSuffixCtx.memberAccessOperator().DOT() != null) {
-                    expressionBuilder.addIdentifier(visitSimpleIdentifier(navSuffixCtx.simpleIdentifier()).build());
+                    expression.identifiers.add(visitSimpleIdentifier(navSuffixCtx.simpleIdentifier()));
                 }
             }
             if (postfixUnarySuffixCtx.typeArguments() != null) {
                 System.out.println("typeArguments " + postfixUnarySuffixCtx.typeArguments().getText());
             }
             if (postfixUnarySuffixCtx.callSuffix() != null) {
-                expressionBuilder.type(FUN_CALL);
+                expression.type = FUN_CALL;
                 // add function arguments
-                final var valueArgumentsCtx = postfixUnarySuffixCtx.callSuffix().valueArguments();
-                if (valueArgumentsCtx != null) {
-                    for (final var valueArgumentCtx : valueArgumentsCtx.valueArgument()) {
-                        final var callArgumentBuilder = new RealExpression.Builder().type(ARGUMENT);
-                        if (valueArgumentCtx.simpleIdentifier() != null) {
-                            callArgumentBuilder.addIdentifier(
-                                    visitSimpleIdentifier(valueArgumentCtx.simpleIdentifier()).build());
+                final var valueArgsCtx = postfixUnarySuffixCtx.callSuffix().valueArguments();
+                if (valueArgsCtx != null) {
+                    for (final var valueArgCtx : valueArgsCtx.valueArgument()) {
+                        final var callArgument = new RealExpression(ARGUMENT);
+                        if (valueArgCtx.simpleIdentifier() != null) {
+                            callArgument.identifiers.add(visitSimpleIdentifier(valueArgCtx.simpleIdentifier()));
                         }
-                        if (valueArgumentCtx.annotation() != null) {
-                            callArgumentBuilder.annotations(visitAnnotations(List.of(valueArgumentCtx.annotation())));
+                        if (valueArgCtx.annotation() != null) {
+                            callArgument.annotations = visitAnnotations(List.of(valueArgCtx.annotation()));
                         }
-                        if (valueArgumentCtx.expression() != null) {
-                            callArgumentBuilder.addChild(visitExpression(valueArgumentCtx.expression()));
+                        if (valueArgCtx.expression() != null) {
+                            callArgument.children.add(visitExpression(valueArgCtx.expression()));
                         }
-                        expressionBuilder.addChild(callArgumentBuilder.build());
+                        expression.children.add(callArgument);
                     }
                 }
-                return expressionBuilder.build();
+                return expression;
             }
         }
 
@@ -323,45 +325,47 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Object> {
     public @NonNull Type visitType(final @NonNull TypeContext ctx) {
         assert ctx != null;
 
-        final Type.Builder builder;
+        final Type type;
         if (ctx.userType() != null) {
-            builder = visitUserType(ctx.userType());
+            type = visitUserType(ctx.userType());
         } else {
             throw new UnsupportedOperationException();
         }
         if (ctx.annotations() != null) {
-            builder.annotations(visitAnnotations(ctx.annotations().annotation()));
+            type.annotations = visitAnnotations(ctx.annotations().annotation());
         }
-        return builder.build();
+        return type;
     }
 
     @Override
-    public Type.@NonNull Builder visitUserType(final @NonNull UserTypeContext ctx) {
-        final var builder = new Type.Builder();
+    public @NonNull Type visitUserType(final @NonNull UserTypeContext ctx) {
+        assert ctx != null;
+
+        final var type = new Type();
         for (final var simpleUserTypeCtx : ctx.simpleUserType()) {
-            builder.addIdentifier(visitSimpleUserType(simpleUserTypeCtx));
+            type.identifiers.add(visitSimpleUserType(simpleUserTypeCtx));
         }
-        return builder;
+        return type;
     }
 
     @Override
     public @NonNull Identifier visitSimpleUserType(final @NonNull SimpleUserTypeContext ctx) {
         assert ctx != null;
 
-        final var builder = new Identifier.Builder(ctx.simpleIdentifier().getText());
+        final var identifier = visitSimpleIdentifier(ctx.simpleIdentifier());
         if (ctx.typeArguments() != null) {
             for (final var typeProjectionCtx : ctx.typeArguments().typeProjection()) {
-                builder.addParameter(visitTypeProjection(typeProjectionCtx));
+                identifier.parameters.add(visitTypeProjection(typeProjectionCtx));
             }
         }
 
-        return builder.build();
+        return identifier;
     }
 
     @Override
-    public Identifier.@NonNull Builder visitSimpleIdentifier(final @NonNull SimpleIdentifierContext ctx) {
+    public @NonNull Identifier visitSimpleIdentifier(final @NonNull SimpleIdentifierContext ctx) {
         assert ctx != null;
-        return new Identifier.Builder(ctx.getText());
+        return new Identifier(ctx.getText());
     }
 
     @Override
@@ -396,17 +400,16 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Object> {
         return new ElementModifier(type, ctx.getText());
     }
 
-    private void addModifiersAndAnnotations(final @Nullable ModifiersContext ctx,
-                                            final RealElement.@NonNull Builder elementBuilder) {
-        assert elementBuilder != null;
+    private void addModifiersAndAnnotations(final @Nullable ModifiersContext ctx, final @NonNull RealElement element) {
+        assert element != null;
         if (ctx == null) {
             return;
         }
 
         for (final var modifierCtx : ctx.modifier()) {
-            elementBuilder.addModifier(visitModifier(modifierCtx));
+            element.modifiers.add(visitModifier(modifierCtx));
         }
-        elementBuilder.annotations(visitAnnotations(ctx.annotation()));
+        element.annotations = visitAnnotations(ctx.annotation());
     }
 
     private @NonNull List<@NonNull Annotation> visitAnnotations(
@@ -438,12 +441,12 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Object> {
     ) {
         assert unescapedAnnotationContext != null;
 
-        final var annotationBuilder = new Annotation.Builder(visitUserType(unescapedAnnotationContext.userType()).build());
+        final var annotation = new Annotation(visitUserType(unescapedAnnotationContext.userType()));
         if (annotationUseSiteTargetContext != null) {
             final var useSiteTarget = annotationUseSiteTargetContext.getText();
-            annotationBuilder.useSiteTarget(toEnumUseSiteTarget(useSiteTarget));
+            annotation.useSiteTarget = toEnumUseSiteTarget(useSiteTarget);
         }
-        return annotationBuilder.build();
+        return annotation;
     }
 
     private static Annotation.@NonNull UseSiteTarget toEnumUseSiteTarget(final @NonNull String useSiteTarget) {

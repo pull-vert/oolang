@@ -13,14 +13,17 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-public record RealElement(
-        @NonNull ElementType elementType,
-        @Nullable Identifier identifier,
-        @Nullable Type type,
-        @NonNull List<@NonNull Annotation> annotations,
-        @NonNull List<@NonNull ElementModifier> modifiers,
-        @NonNull List<@NonNull AstNode> children
-) implements ElementNode {
+public final class RealElement implements ElementNode {
+    public final @NonNull ElementType elementType;
+    public @Nullable Identifier identifier;
+    public @Nullable Type type;
+    public @Nullable List<@NonNull Annotation> annotations = null;
+    public @NonNull List<@NonNull ElementModifier> modifiers = new ArrayList<>();
+    public @NonNull List<@NonNull AstNode> children = new ArrayList<>();
+
+    public RealElement(final @NonNull ElementType elementType) {
+        this.elementType = Objects.requireNonNull(elementType);
+    }
 
     @Override
     public @NonNull String description() {
@@ -39,60 +42,13 @@ public record RealElement(
 
     @Override
     public @NonNull List<@NonNull Ast> content() {
-        final var content = new ArrayList<Ast>(annotations);
+        final var content = new ArrayList<Ast>();
+        if (annotations != null) {
+            content.addAll(annotations);
+        }
         content.addAll(modifiers);
         content.addAll(children);
         return content;
-    }
-
-    public static final class Builder {
-        private ElementType elementType = null;
-        private @Nullable Identifier identifier = null;
-        private @Nullable Type type = null;
-        private @Nullable List<@NonNull Annotation> annotations = null;
-        private final @NonNull List<@NonNull ElementModifier> modifiers = new ArrayList<>();
-        private final @NonNull List<@NonNull AstNode> children = new ArrayList<>();
-
-        public @NonNull Builder elementType(final @NonNull ElementType type) {
-            this.elementType = Objects.requireNonNull(type);
-            return this;
-        }
-
-        public @NonNull Builder identifier(final @NonNull Identifier identifier) {
-            this.identifier = Objects.requireNonNull(identifier);
-            return this;
-        }
-
-        public @NonNull Builder type(final @NonNull Type type) {
-            this.type = Objects.requireNonNull(type);
-            return this;
-        }
-
-        public @NonNull Builder annotations(final @NonNull List<@NonNull Annotation> annotations) {
-            this.annotations = Objects.requireNonNull(annotations);
-            return this;
-        }
-
-        public @NonNull Builder addModifier(final @NonNull ElementModifier modifier) {
-            this.modifiers.add(Objects.requireNonNull(modifier));
-            return this;
-        }
-
-        public @NonNull Builder addChild(final @NonNull AstNode child) {
-            this.children.add(Objects.requireNonNull(child));
-            return this;
-        }
-
-        public @NonNull RealElement build() {
-            Objects.requireNonNull(elementType, "expressionType must be set");
-            return new RealElement(
-                    elementType,
-                    identifier,
-                    type,
-                    (annotations != null) ? List.copyOf(annotations) : List.of(),
-                    List.copyOf(modifiers),
-                    List.copyOf(children));
-        }
     }
 
     public enum ElementType {
