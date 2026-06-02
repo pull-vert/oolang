@@ -10,6 +10,8 @@ import org.jspecify.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static oolang.ast.Identifier.identifierName;
+
 public final class Type implements AstNode {
     public final @NonNull List<@NonNull Identifier> identifiers = new ArrayList<>();
     public @Nullable List<@NonNull Annotation> annotations = null;
@@ -18,12 +20,7 @@ public final class Type implements AstNode {
 
     public @NonNull String rawName() {
         final var sb = new StringBuilder();
-        for (var i = 0; i < identifiers.size(); i++) {
-            if (i > 0) {
-                sb.append(".");
-            }
-            sb.append(identifiers.get(i).rawName());
-        }
+        identifierName(identifiers, sb);
         if (nullable) {
             sb.append("?");
         }

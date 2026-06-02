@@ -7,8 +7,8 @@ package oo.parser;
 import oolang.ast.FileAst;
 import oolang.ast.FileAstWriter;
 import oolang.ast.element.ClassBody;
-import oolang.ast.element.RealElement;
 import oolang.ast.element.ElementModifier;
+import oolang.ast.element.RealElement;
 import oolang.ast.expression.RealExpression;
 import oolang.ast.expression.SimpleString;
 import oolang.ast.statement.Block;
@@ -27,7 +27,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class OolangAstVisitorTest {
     @Test
     public void parseSimplestClass() {
-        var fileAst = astForCode("class Example");
+        var fileAst = astForCode("""
+                package com.example
+                class Example""");
+        verifyPackage(fileAst);
+        var imports = fileAst.imports;
+        assertThat(imports).isEmpty();
         var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
         assertThat(root.elementType).isEqualTo(CLASS);
@@ -39,7 +44,10 @@ public class OolangAstVisitorTest {
 
     @Test
     public void parseClass() {
-        var fileAst = astForCode("class Example {}");
+        var fileAst = astForCode("""
+                package com.example
+                class Example {}""");
+        verifyPackage(fileAst);
         var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
         assertThat(root.elementType).isEqualTo(CLASS);
@@ -52,23 +60,34 @@ public class OolangAstVisitorTest {
     }
 
     @Test
-    public void parseAnnotatedClass() {
-        var fileAst = astForCode("@Service\nclass ExampleTest");
+    public void parseAnnotatedClassWithImport() {
+        var fileAst = astForCode("""
+                package com.example
+                import jakarta.enterprise.inject.Default
+                @Default
+                class Example""");
+        verifyPackage(fileAst);
+        var imports = fileAst.imports;
+        assertThat(imports).hasSize(1);
+        assertThat(imports.getFirst().description()).isEqualTo("Import(jakarta.enterprise.inject.Default)");
         var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
         assertThat(root.elementType).isEqualTo(CLASS);
         assertThat(root.annotations).hasSize(1);
         var annotation = root.annotations.getFirst();
-        assertThat(annotation.description()).isEqualTo("Annotation(Service)");
+        assertThat(annotation.description()).isEqualTo("Annotation(Default)");
         assertThat(root.identifier).isNotNull();
-        assertThat(root.identifier.identifier).isEqualTo("ExampleTest");
-        assertThat(root.description()).isEqualTo("Element(class ExampleTest)");
+        assertThat(root.identifier.identifier).isEqualTo("Example");
+        assertThat(root.description()).isEqualTo("Element(class Example)");
         print(fileAst);
     }
 
     @Test
     public void parseEnumClass() {
-        var fileAst = astForCode("enum class Example");
+        var fileAst = astForCode("""
+                package com.example
+                enum class Example""");
+        verifyPackage(fileAst);
         var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
         assertThat(root.elementType).isEqualTo(CLASS);
@@ -82,7 +101,10 @@ public class OolangAstVisitorTest {
 
     @Test
     public void parsePublicEnumClass() {
-        var fileAst = astForCode("public enum class Example");
+        var fileAst = astForCode("""
+                package com.example
+                public enum class Example""");
+        verifyPackage(fileAst);
         var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
         assertThat(root.elementType).isEqualTo(CLASS);
@@ -96,7 +118,10 @@ public class OolangAstVisitorTest {
 
     @Test
     public void parseClassWithPrimaryConstructor() {
-        var fileAst = astForCode("class Example(val foo: String)");
+        var fileAst = astForCode("""
+                package com.example
+                class Example(val foo: String)""");
+        verifyPackage(fileAst);
         var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
         assertThat(root.elementType).isEqualTo(CLASS);
@@ -115,7 +140,10 @@ public class OolangAstVisitorTest {
 
     @Test
     public void parseClassWithUseSiteAnnotatedConstructor() {
-        var fileAst = astForCode("class Example(@get:JsonIgnore val foo: String)");
+        var fileAst = astForCode("""
+                package com.example
+                class Example(@get:JsonIgnore val foo: String)""");
+        verifyPackage(fileAst);
         var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
         assertThat(root.elementType).isEqualTo(CLASS);
@@ -133,7 +161,10 @@ public class OolangAstVisitorTest {
 
     @Test
     public void parseUseSiteMultipleAnnotatedClass() {
-        var fileAst = astForCode("class Example(@set:[Inject VisibleForTesting] val foo: String)");
+        var fileAst = astForCode("""
+                package com.example
+                class Example(@set:[Inject VisibleForTesting] val foo: String)""");
+        verifyPackage(fileAst);
         var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
         assertThat(root.elementType).isEqualTo(CLASS);
@@ -156,7 +187,12 @@ public class OolangAstVisitorTest {
 
     @Test
     public void parseClassWithSimplestFunction() {
-        var fileAst = astForCode("class Example {\nfun foo() {}\n}");
+        var fileAst = astForCode("""
+                package com.example
+                class Example {
+                fun foo() {}
+                }""");
+        verifyPackage(fileAst);
         var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
         assertThat(root.elementType).isEqualTo(CLASS);
@@ -179,7 +215,13 @@ public class OolangAstVisitorTest {
 
     @Test
     public void parseClassWithAnnotatedFunction() {
-        var fileAst = astForCode("class Example {\n@Test\nfun foo() {}\n}");
+        var fileAst = astForCode("""
+                package com.example
+                class Example {
+                @Test
+                fun foo() {}
+                }""");
+        verifyPackage(fileAst);
         var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
         assertThat(root.elementType).isEqualTo(CLASS);
@@ -203,7 +245,12 @@ public class OolangAstVisitorTest {
 
     @Test
     public void parseClassWithFunctionWithParameter() {
-        var fileAst = astForCode("class Example {\nfun foo(bar: String) {}\n}");
+        var fileAst = astForCode("""
+                package com.example
+                class Example {
+                fun foo(bar: String) {}
+                }""");
+        verifyPackage(fileAst);
         var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
         assertThat(root.elementType).isEqualTo(CLASS);
@@ -229,8 +276,14 @@ public class OolangAstVisitorTest {
 
     @Test
     public void parseClassWithMainFunction() {
-        var fileAst = astForCode(
-                "class Example {\nstatic fun main(args: Array<String>) {\nSystem.out.println(\"Hello, World!\")}\n}");
+        var fileAst = astForCode("""
+                package com.example
+                class Example {
+                static fun main(args: Array<String>) {
+                System.out.println("Hello, World!")
+                }
+                }""");
+        verifyPackage(fileAst);
         var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
         assertThat(root.elementType).isEqualTo(CLASS);
@@ -277,6 +330,10 @@ public class OolangAstVisitorTest {
         var oolangFile = parser.oolangFile();
         var visitor = new OolangAstVisitor();
         return visitor.visitOolangFile(oolangFile);
+    }
+
+    private static void verifyPackage(FileAst fileAst) {
+        assertThat(fileAst.packageHeader.description()).isEqualTo("PackageHeader(com.example)");
     }
 
     private static void print(FileAst fileAst) {
