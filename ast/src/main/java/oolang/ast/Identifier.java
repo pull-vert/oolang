@@ -38,4 +38,14 @@ public final class Identifier implements Ast {
     public @NonNull String description() {
         return "Identifier(" + rawName() + ")";
     }
+
+    static void identifierName(final @NonNull List<@NonNull Identifier> identifiers,
+                               final @NonNull StringBuilder sb) {
+        for (var i = 0; i < identifiers.size(); i++) {
+            if (i > 0) {
+                sb.append(".");
+            }
+            sb.append(identifiers.get(i).rawName());
+        }
+    }
 }

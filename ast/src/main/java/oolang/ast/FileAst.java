@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class FileAst implements AstNode {
+    public /* lateinit */ PackageHeader packageHeader;
+    public final @NonNull List<@NonNull Import> imports = new ArrayList<>();
     public final @NonNull List<@NonNull RealElement> rootElements = new ArrayList<>();
 
     @Override
@@ -22,6 +24,10 @@ public final class FileAst implements AstNode {
 
     @Override
     public @NonNull List<? extends @NonNull Ast> content() {
-        return rootElements;
+        final var content = new ArrayList<Ast>();
+        content.add(packageHeader);
+        content.addAll(imports);
+        content.addAll(rootElements);
+        return content;
     }
 }

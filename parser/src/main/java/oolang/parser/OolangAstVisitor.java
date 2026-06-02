@@ -39,10 +39,41 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
         assert ctx != null;
 
         final var fileAst = new FileAst();
+
+        // package
+        fileAst.packageHeader = visitPackageHeader(ctx.packageHeader());
+
+        // imports
+        for (final var importHeaderCtx : ctx.importList().importHeader()) {
+            fileAst.imports.add(visitImportHeader(importHeaderCtx));
+        }
+
         for (final var topLevelObjectCtx : ctx.topLevelObject()) {
             fileAst.rootElements.add(visitClassDeclaration(topLevelObjectCtx.classDeclaration()));
         }
         return fileAst;
+    }
+
+    @Override
+    public @NonNull PackageHeader visitPackageHeader(final @NonNull PackageHeaderContext ctx) {
+        assert ctx != null;
+
+        final var packageHeader = new PackageHeader();
+        for (final var simpleIdentifierCtx : ctx.identifier().simpleIdentifier()) {
+            packageHeader.identifiers.add(visitSimpleIdentifier(simpleIdentifierCtx));
+        }
+        return packageHeader;
+    }
+
+    @Override
+    public @NonNull Import visitImportHeader(final @NonNull ImportHeaderContext ctx) {
+        assert ctx != null;
+
+        final var importHeader = new Import();
+        for (final var simpleIdentifierCtx : ctx.identifier().simpleIdentifier()) {
+            importHeader.identifiers.add(visitSimpleIdentifier(simpleIdentifierCtx));
+        }
+        return importHeader;
     }
 
     @Override
