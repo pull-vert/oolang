@@ -25,6 +25,8 @@ dependencies {
     testImplementation("org.assertj:assertj-core:${catalogVersion("assertj")}")
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:${catalogVersion("junit")}")
+    testRuntimeOnly("org.slf4j:slf4j-jdk-platform-logging:${catalogVersion("slf4j")}")
+    testRuntimeOnly("ch.qos.logback:logback-classic:${catalogVersion("logback")}")
 }
 
 java {
