@@ -14,11 +14,14 @@ import static oolang.ast.Identifier.identifierName;
 public final class PackageHeader implements Ast {
     public final @NonNull List<@NonNull Identifier> identifiers = new ArrayList<>();
 
+    public @NonNull String raw() {
+        final var sb = new StringBuilder();
+        identifierName(identifiers, sb);
+        return sb.toString();
+    }
+
     @Override
     public @NonNull String description() {
-        final var sb = new StringBuilder("PackageHeader(");
-        identifierName(identifiers, sb);
-        sb.append(")");
-        return sb.toString();
+        return "PackageHeader(" + raw() + ")";
     }
 }

@@ -17,16 +17,19 @@ public final class Import implements Ast {
     public boolean starProjection = false;
     public @Nullable Identifier alias = null;
 
-    @Override
-    public @NonNull String description() {
-        final var sb = new StringBuilder("Import(");
+    public @NonNull String raw() {
+        final var sb = new StringBuilder();
         identifierName(identifiers, sb);
         if (starProjection) {
             sb.append(".*");
         } else if (alias != null) {
             sb.append(" as ").append(alias.rawName());
         }
-        sb.append(")");
         return sb.toString();
+    }
+
+    @Override
+    public @NonNull String description() {
+        return "Import(" + raw() + ")";
     }
 }
