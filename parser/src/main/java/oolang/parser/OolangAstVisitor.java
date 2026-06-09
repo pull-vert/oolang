@@ -11,7 +11,7 @@ import oolang.ast.element.RealElement;
 import oolang.ast.expression.Expression;
 import oolang.ast.expression.RealExpression;
 import oolang.ast.expression.SimpleString;
-import oolang.ast.statement.Block;
+import oolang.ast.statement.CodeBlock;
 import oolang.ast.statement.RealStatement;
 import oolang.ast.statement.Statement;
 import oolang.parser.generated.OolangParser.*;
@@ -204,10 +204,10 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
     }
 
     @Override
-    public @NonNull Block visitFunctionBody(final @NonNull FunctionBodyContext ctx) {
+    public @NonNull CodeBlock visitFunctionBody(final @NonNull FunctionBodyContext ctx) {
         assert ctx != null;
 
-        final var functionBody = new Block();
+        final var functionBody = new CodeBlock();
         if (ctx.block() != null) {
             for (final var statementCtx : ctx.block().statements().statement()) {
                 functionBody.children.add(visitStatement(statementCtx));

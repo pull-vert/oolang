@@ -11,7 +11,7 @@ import oolang.ast.element.ElementModifier;
 import oolang.ast.element.RealElement;
 import oolang.ast.expression.RealExpression;
 import oolang.ast.expression.SimpleString;
-import oolang.ast.statement.Block;
+import oolang.ast.statement.CodeBlock;
 import oolang.ast.statement.RealStatement;
 import oolang.parser.OolangAstVisitor;
 import oolang.parser.generated.OolangLexer;
@@ -36,6 +36,7 @@ public class OolangAstVisitorTest {
         var root = fileAst.rootElements.getFirst();
         assertThat(root).isNotNull();
         assertThat(root.elementType).isEqualTo(CLASS);
+        assertThat(root.modifiers).isEmpty();
         assertThat(root.identifier).isNotNull();
         assertThat(root.identifier.identifier).isEqualTo("Example");
         assertThat(root.description()).isEqualTo("Element(class Example)");
@@ -43,7 +44,64 @@ public class OolangAstVisitorTest {
     }
 
     @Test
-    public void parseClass() {
+    public void parseFinalClass() {
+        var fileAst = astForCode("""
+                package com.example
+                final class Example""");
+        verifyPackage(fileAst);
+        var imports = fileAst.imports;
+        assertThat(imports).isEmpty();
+        var root = fileAst.rootElements.getFirst();
+        assertThat(root).isNotNull();
+        assertThat(root.elementType).isEqualTo(CLASS);
+        assertThat(root.modifiers).extracting(ElementModifier::modifier)
+                .containsExactly("final");
+        assertThat(root.identifier).isNotNull();
+        assertThat(root.identifier.identifier).isEqualTo("Example");
+        assertThat(root.description()).isEqualTo("Element(class Example)");
+        print(fileAst);
+    }
+
+    @Test
+    public void parseAbstractClass() {
+        var fileAst = astForCode("""
+                package com.example
+                abstract class Example""");
+        verifyPackage(fileAst);
+        var imports = fileAst.imports;
+        assertThat(imports).isEmpty();
+        var root = fileAst.rootElements.getFirst();
+        assertThat(root).isNotNull();
+        assertThat(root.elementType).isEqualTo(CLASS);
+        assertThat(root.modifiers).extracting(ElementModifier::modifier)
+                .containsExactly("abstract");
+        assertThat(root.identifier).isNotNull();
+        assertThat(root.identifier.identifier).isEqualTo("Example");
+        assertThat(root.description()).isEqualTo("Element(class Example)");
+        print(fileAst);
+    }
+
+    @Test
+    public void parseOpenClass() {
+        var fileAst = astForCode("""
+                package com.example
+                open class Example""");
+        verifyPackage(fileAst);
+        var imports = fileAst.imports;
+        assertThat(imports).isEmpty();
+        var root = fileAst.rootElements.getFirst();
+        assertThat(root).isNotNull();
+        assertThat(root.elementType).isEqualTo(CLASS);
+        assertThat(root.modifiers).extracting(ElementModifier::modifier)
+                .containsExactly("open");
+        assertThat(root.identifier).isNotNull();
+        assertThat(root.identifier.identifier).isEqualTo("Example");
+        assertThat(root.description()).isEqualTo("Element(class Example)");
+        print(fileAst);
+    }
+
+    @Test
+    public void parseClassWithEmptyBody() {
         var fileAst = astForCode("""
                 package com.example
                 class Example {}""");
@@ -209,7 +267,7 @@ public class OolangAstVisitorTest {
         assertThat(funDeclaration.identifier.identifier).isEqualTo("foo");
         assertThat(funDeclaration.type).isNull();
         assertThat(funDeclaration.children).hasSize(1);
-        assertThat(funDeclaration.children.getFirst()).isInstanceOf(Block.class);
+        assertThat(funDeclaration.children.getFirst()).isInstanceOf(CodeBlock.class);
         print(fileAst);
     }
 
@@ -239,7 +297,7 @@ public class OolangAstVisitorTest {
         assertThat(funDeclaration.type).isNull();
         var annotation = funDeclaration.annotations.getFirst();
         assertThat(annotation.description()).isEqualTo("Annotation(Test)");
-        assertThat(funDeclaration.children.getFirst()).isInstanceOf(Block.class);
+        assertThat(funDeclaration.children.getFirst()).isInstanceOf(CodeBlock.class);
         print(fileAst);
     }
 
@@ -270,7 +328,7 @@ public class OolangAstVisitorTest {
         var funParam = (RealElement) funDeclaration.children.getFirst();
         assertThat(funParam.elementType).isEqualTo(PARAMETER);
         assertThat(funParam.description()).isEqualTo("Element(parameter bar:String)");
-        assertThat(funDeclaration.children.getLast()).isInstanceOf(Block.class);
+        assertThat(funDeclaration.children.getLast()).isInstanceOf(CodeBlock.class);
         print(fileAst);
     }
 
@@ -306,9 +364,9 @@ public class OolangAstVisitorTest {
         var funParam = (RealElement) funDeclaration.children.getFirst();
         assertThat(funParam.elementType).isEqualTo(PARAMETER);
         assertThat(funParam.description()).isEqualTo("Element(parameter args:Array<String>)");
-        assertThat(funDeclaration.children.getLast()).isInstanceOf(Block.class);
-        var codeBlock = (Block) funDeclaration.children.getLast();
-        assertThat(codeBlock.description()).isEqualTo("Block");
+        assertThat(funDeclaration.children.getLast()).isInstanceOf(CodeBlock.class);
+        var codeBlock = (CodeBlock) funDeclaration.children.getLast();
+        assertThat(codeBlock.description()).isEqualTo("CodeBlock");
         assertThat(codeBlock.content()).hasSize(1);
         var statement = (RealStatement) codeBlock.content().getFirst();
         assertThat(statement.description()).isEqualTo("Statement");

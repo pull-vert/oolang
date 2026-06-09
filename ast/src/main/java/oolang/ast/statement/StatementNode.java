@@ -6,5 +6,5 @@ package oolang.ast.statement;
 
 import oolang.ast.AstNode;
 
-public sealed interface StatementNode extends Statement, AstNode permits Block, RealStatement {
+public sealed interface StatementNode extends Statement, AstNode permits CodeBlock, RealStatement {
 }
