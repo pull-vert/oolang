@@ -6,5 +6,8 @@ package oolang.ast.expression;
 
 import oolang.ast.Ast;
 
-public sealed interface Expression extends Ast permits ExpressionNode, SimpleString {
+import java.lang.invoke.TypeDescriptor;
+
+public sealed interface Expression extends Ast, TypeDescriptor
+        permits ConstantExpression, ExpressionNode, LoadExpression {
 }

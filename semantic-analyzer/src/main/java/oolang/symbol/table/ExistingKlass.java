@@ -49,10 +49,10 @@ final class ExistingKlass implements Klass {
     private ClassModel classModelFromClass(final @NonNull Class<?> javaClass) {
         assert javaClass != null;
 
-        // 1. Convert the class name to its expected resource path format
+        // 1) Convert the class name to its expected resource path format
         String resourceName = javaClass.getSimpleName() + ".class";
 
-        // 2. Read the raw bytecode bytes using the class loader
+        // 2) Read the raw bytecode bytes using the class loader
         byte[] classBytes;
         try (final var is = javaClass.getResourceAsStream(resourceName)) {
             if (is == null) {
@@ -63,7 +63,7 @@ final class ExistingKlass implements Klass {
             throw new UncheckedIOException(e);
         }
 
-        // 3. Parse the bytes into a ClassModel using the Class-File API
+        // 3) Parse the bytes into a ClassModel using the Class-File API
         return ClassFile.of().parse(classBytes);
     }
 
@@ -135,7 +135,8 @@ final class ExistingKlass implements Klass {
                 .map(field -> {
                     final var name = field.getName();
                     final var mod = field.getModifiers();
-                    return new Property(name,
+                    return new Property(this,
+                            name,
                             visibilityFromModifiers(mod),
                             Modifier.isStatic(mod),
                             Modifier.isAbstract(mod),
@@ -180,6 +181,16 @@ final class ExistingKlass implements Klass {
     @Override
     public @NonNull String descriptorString() {
         return javaClass.descriptorString();
+    }
+
+    @Override
+    public boolean isArray() {
+        return javaClass.isArray();
+    }
+
+    @Override
+    public @NonNull Klass componentType() {
+        return TypeResolver.resolveKlass(javaClass.componentType());
     }
 
     @Override

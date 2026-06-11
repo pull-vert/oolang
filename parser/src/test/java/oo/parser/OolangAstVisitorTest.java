@@ -9,8 +9,8 @@ import oolang.ast.AstFileWriter;
 import oolang.ast.element.ClassBody;
 import oolang.ast.element.ElementModifier;
 import oolang.ast.element.RealElement;
+import oolang.ast.expression.ConstantExpression;
 import oolang.ast.expression.RealExpression;
-import oolang.ast.expression.SimpleString;
 import oolang.ast.statement.CodeBlock;
 import oolang.ast.statement.RealStatement;
 import oolang.parser.OolangAstVisitor;
@@ -18,10 +18,11 @@ import oolang.parser.generated.OolangLexer;
 import oolang.parser.generated.OolangParser;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.Test;
 
 import static oolang.ast.element.RealElement.ElementType.*;
-import static oolang.ast.expression.RealExpression.ExpressionType.FUN_CALL;
+import static oolang.ast.expression.RealExpression.ExpressionType.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class OolangAstVisitorTest {
@@ -406,6 +407,19 @@ public class OolangAstVisitorTest {
                 System.out.println("Hello, World!")
                 }
                 }""");
+        var funCall = verifyMainUntilStatement(astFile);
+        assertThat(funCall.description()).isEqualTo("Expression(funCall System.out.println)");
+        assertThat(funCall.type).isEqualTo(FUN_CALL);
+        assertThat(funCall.content()).hasSize(1);
+        var funCallParam = (RealExpression) funCall.content().getFirst();
+        assertThat(funCallParam.description()).isEqualTo("Expression(funCallParameter)");
+        assertThat(funCallParam.content()).hasSize(1);
+        var funCallParamString = (ConstantExpression) funCallParam.content().getFirst();
+        assertThat(funCallParamString.description()).isEqualTo("ConstantExpression(\"Hello, World!\")");
+        print(astFile);
+    }
+
+    private @NonNull RealExpression verifyMainUntilStatement(AstFile astFile) {
         verifyPackage(astFile);
         var root = astFile.rootElements.getFirst();
         assertThat(root).isNotNull();
@@ -436,15 +450,37 @@ public class OolangAstVisitorTest {
         var statement = (RealStatement) codeBlock.content().getFirst();
         assertThat(statement.description()).isEqualTo("Statement");
         assertThat(statement.content()).hasSize(1);
-        var funCall = (RealExpression) statement.content().getFirst();
+        return (RealExpression) statement.children.getFirst();
+    }
+
+    @Test
+    public void parseClassWithMainFunctionAndParameterUsage() {
+        var astFile = astForCode("""
+                package com.example
+                class Example {
+                static fun main(args: Array<String>) {
+                System.out.println("Hello, " + args[0])
+                }
+                }""");
+        var funCall = verifyMainUntilStatement(astFile);
         assertThat(funCall.description()).isEqualTo("Expression(funCall System.out.println)");
         assertThat(funCall.type).isEqualTo(FUN_CALL);
         assertThat(funCall.content()).hasSize(1);
         var funCallParam = (RealExpression) funCall.content().getFirst();
         assertThat(funCallParam.description()).isEqualTo("Expression(funCallParameter)");
         assertThat(funCallParam.content()).hasSize(1);
-        var funCallParamString = (SimpleString) funCallParam.content().getFirst();
-        assertThat(funCallParamString.description()).isEqualTo("SimpleString(\"Hello, World!\")");
+        var funCallParamAdd = (RealExpression) funCallParam.content().getFirst();
+        assertThat(funCallParamAdd.description()).isEqualTo("Expression(add)");
+        assertThat(funCallParamAdd.type).isEqualTo(ADD);
+        assertThat(funCallParamAdd.content()).hasSize(2);
+        var funCallParamConstant = (ConstantExpression) funCallParamAdd.content().getFirst();
+        assertThat(funCallParamConstant.description()).isEqualTo("ConstantExpression(\"Hello, \")");
+        var funCallParamArray = (RealExpression) funCallParamAdd.content().getLast();
+        assertThat(funCallParamArray.description()).isEqualTo("Expression(indexing args)");
+        assertThat(funCallParamArray.type).isEqualTo(INDEXING);
+        assertThat(funCallParamArray.content()).hasSize(1);
+        var funCallParamArrayIndex = (ConstantExpression) funCallParamArray.content().getFirst();
+        assertThat(funCallParamArrayIndex.description()).isEqualTo("ConstantExpression(0)");
         print(astFile);
     }
 

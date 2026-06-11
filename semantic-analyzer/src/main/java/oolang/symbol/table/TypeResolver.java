@@ -9,6 +9,8 @@ import oolang.symbol.table.Type.GenericType;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+import java.lang.constant.ConstantDesc;
+import java.lang.constant.ConstantDescs;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.WildcardType;
 import java.util.Arrays;
@@ -78,7 +80,7 @@ public final class TypeResolver {
         if (astType.parameters != null) {
             final var klass = resolveKlass(astType, imports, isArray);
 
-            // Array pseudo-class specific case
+            // specific array pseudo-class case
             if (klass == Array.getInstance()) {
                 if (astType.parameters.size() != 1) {
                     // todo throw a semantic analysis exception
@@ -137,6 +139,15 @@ public final class TypeResolver {
                 case INT_KLASS_NAME -> {
                     return INT_KLASS;
                 }
+                case LONG_KLASS_NAME -> {
+                    return LONG_KLASS;
+                }
+                case FLOAT_KLASS_NAME -> {
+                    return FLOAT_KLASS;
+                }
+                case DOUBLE_KLASS_NAME -> {
+                    return DOUBLE_KLASS;
+                }
                 case ARRAY_KLASS_NAME -> {
                     return Array.getInstance();
                 }
@@ -180,6 +191,23 @@ public final class TypeResolver {
         };
     }
 
+    public static @NonNull Klass getKlassFromConstantDesc(final @NonNull ConstantDesc value) {
+        assert value != null;
+
+        // should we avoid switch expressions here? (why?)
+        if (value == ConstantDescs.NULL) {
+            throw new UnsupportedOperationException("Null value is not supported yet");
+        }
+        return switch (value) {
+            case String _ -> STRING_KLASS;
+            case Integer _ -> INT_KLASS;
+            case Long _ -> LONG_KLASS;
+            case Float _ -> FLOAT_KLASS;
+            case Double _ -> DOUBLE_KLASS;
+            default -> resolveKlass(value.getClass());
+        };
+    }
+
 
     // Array pseudo-class
     private static final @NonNull String ARRAY_KLASS_NAME = "Array";
@@ -192,8 +220,17 @@ public final class TypeResolver {
     private static final @NonNull Klass VOID_KLASS = resolveKlass(Void.TYPE);
     private static final @NonNull String VOID_KLASS_NAME = "Void";
     // Int
-    private static final @NonNull Klass INT_KLASS = resolveKlass(Integer.TYPE);
+    public static final @NonNull Klass INT_KLASS = resolveKlass(Integer.TYPE);
     private static final @NonNull String INT_KLASS_NAME = "Int";
+    // Long
+    public static final @NonNull Klass LONG_KLASS = resolveKlass(Long.TYPE);
+    private static final @NonNull String LONG_KLASS_NAME = "Long";
+    // Float
+    public static final @NonNull Klass FLOAT_KLASS = resolveKlass(Float.TYPE);
+    private static final @NonNull String FLOAT_KLASS_NAME = "Float";
+    // Double
+    public static final @NonNull Klass DOUBLE_KLASS = resolveKlass(Double.TYPE);
+    private static final @NonNull String DOUBLE_KLASS_NAME = "Double";
     // String
     public static final @NonNull Klass STRING_KLASS = resolveKlass(String.class);
     private static final @NonNull String STRING_KLASS_NAME = "String";

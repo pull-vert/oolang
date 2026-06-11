@@ -65,6 +65,16 @@ final class Array implements Klass {
     }
 
     @Override
+    public boolean isArray() {
+        throw new IllegalCallerException("Array is a pseudo-class, don't call it!");
+    }
+
+    @Override
+    public Klass componentType() {
+        throw new IllegalCallerException("Array is a pseudo-class, don't call it!");
+    }
+
+    @Override
     public @NonNull Klass arrayType() {
         throw new IllegalCallerException("Array is a pseudo-class, don't call it!");
     }

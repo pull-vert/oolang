@@ -83,6 +83,16 @@ public final class OolangKlass extends BaseSymbol implements Klass {
     }
 
     @Override
+    public boolean isArray() {
+        return false;
+    }
+
+    @Override
+    public @NonNull Klass componentType() {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    @Override
     public @NonNull Klass arrayType() {
         throw new UnsupportedOperationException("Not implemented yet");
     }
