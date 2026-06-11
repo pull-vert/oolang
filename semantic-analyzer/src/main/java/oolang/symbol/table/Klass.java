@@ -229,14 +229,4 @@ public sealed interface Klass extends TypeDescriptor.OfField<Klass>, Type
     default boolean isPrimitive() {
         throw new UnsupportedOperationException("We don't need this method");
     }
-
-    @Override
-    default boolean isArray() {
-        throw new UnsupportedOperationException("We don't need this method");
-    }
-
-    @Override
-    default @Nullable Klass componentType() {
-        throw new UnsupportedOperationException("We don't need this method");
-    }
 }

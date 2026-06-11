@@ -42,31 +42,41 @@ public sealed class BaseSymbol permits BaseSymbol.Property, BaseSymbol.Function,
         return isFinal;
     }
 
+    @SuppressWarnings("preview")
     public static final class Property extends BaseSymbol implements Variable, TypeDescriptor {
+        public final @NonNull Klass declaringKlass;
         private final @Nullable LazyType lazyType;
         private final @Nullable Type type;
+        private final @NonNull LazyConstant<@NonNull String> descriptorString =
+                LazyConstant.of(this::buildDescriptorString);
 
-        Property(final @NonNull BaseSymbol baseSymbol,
+        Property(final @NonNull Klass declaringKlass,
+                 final @NonNull BaseSymbol baseSymbol,
                  final @NonNull LazyType lazyType) {
+            assert declaringKlass != null;
             assert baseSymbol != null;
             assert lazyType != null;
             super(baseSymbol);
 
+            this.declaringKlass = declaringKlass;
             this.lazyType = lazyType;
             this.type = null;
         }
 
-        Property(final @NonNull String name,
+        Property(final @NonNull Klass declaringKlass,
+                 final @NonNull String name,
                  final @NonNull Visibility visibility,
                  final boolean isStatic,
                  final boolean isAbstract,
                  final boolean isFinal,
                  final @NonNull Type type) {
+            assert declaringKlass != null;
             assert name != null;
             assert visibility != null;
             assert type != null;
             super(name, visibility, isStatic, isAbstract, isFinal);
 
+            this.declaringKlass = declaringKlass;
             this.type = type;
             this.lazyType = null;
         }
@@ -80,9 +90,13 @@ public sealed class BaseSymbol permits BaseSymbol.Property, BaseSymbol.Function,
             return lazyType.type();
         }
 
+        private @NonNull String buildDescriptorString() {
+            return TypeResolver.getKlassFromType(type()).descriptorString();
+        }
+
         @Override
         public String descriptorString() {
-            return TypeResolver.getKlassFromType(type()).descriptorString();
+            return descriptorString.get();
         }
     }
 
@@ -107,6 +121,8 @@ public sealed class BaseSymbol permits BaseSymbol.Property, BaseSymbol.Function,
         public final @NonNull List<@NonNull Parameter> parameters;
         private final @NonNull LazyConstant<@NonNull String> descriptorString =
                 LazyConstant.of(this::buildDescriptorString);
+        private final @NonNull LazyConstant<@NonNull String> typeDescriptorString =
+                LazyConstant.of(this::buildTypeDescriptorString);
 
         Function(final @NonNull Klass declaringKlass,
                  final @NonNull BaseSymbol baseSymbol,
@@ -159,17 +175,25 @@ public sealed class BaseSymbol permits BaseSymbol.Property, BaseSymbol.Function,
         }
 
         private @NonNull String buildDescriptorString() {
+            return TypeResolver.getKlassFromType(returnType()).descriptorString();
+        }
+
+        private @NonNull String buildTypeDescriptorString() {
             return parameters.stream()
                     .map(parameter -> TypeResolver.getKlassFromType(parameter.type()).descriptorString())
                     .collect(Collectors.joining(
-                            /*delimiter*/ ",",
+                            /*delimiter*/ "",
                             /*prefix*/ "(",
-                            /*suffix*/ ")" + TypeResolver.getKlassFromType(returnType()).descriptorString()));
+                            /*suffix*/ ")" + buildDescriptorString()));
         }
 
         @Override
-        public String descriptorString() {
+        public @NonNull String descriptorString() {
             return descriptorString.get();
+        }
+
+        public @NonNull String typeDescriptorString() {
+            return typeDescriptorString.get();
         }
 
         public static final class Parameter {

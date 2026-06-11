@@ -8,9 +8,9 @@ import oolang.ast.*;
 import oolang.ast.element.ClassBody;
 import oolang.ast.element.ElementModifier;
 import oolang.ast.element.RealElement;
+import oolang.ast.expression.ConstantExpression;
 import oolang.ast.expression.Expression;
 import oolang.ast.expression.RealExpression;
-import oolang.ast.expression.SimpleString;
 import oolang.ast.statement.CodeBlock;
 import oolang.ast.statement.RealStatement;
 import oolang.ast.statement.Statement;
@@ -32,8 +32,9 @@ import static oolang.ast.element.RealElement.ElementType.CONSTRUCTOR;
 import static oolang.ast.element.RealElement.ElementType.FUN;
 import static oolang.ast.element.RealElement.ElementType.VAL;
 import static oolang.ast.element.RealElement.ElementType.VAR;
-import static oolang.ast.expression.RealExpression.ExpressionType.FUN_CALL_PARAMETER;
-import static oolang.ast.expression.RealExpression.ExpressionType.FUN_CALL;
+import static oolang.ast.expression.RealExpression.ExpressionType.*;
+import static oolang.ast.expression.RealExpression.ExpressionType.ADD;
+import static oolang.ast.expression.RealExpression.ExpressionType.SUB;
 
 public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
     @Override
@@ -270,12 +271,7 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
                             for (final var infixFunctionCallCtx : elvisExpressionCtx.infixFunctionCall()) {
                                 for (final var rangeExpressionCtx : infixFunctionCallCtx.rangeExpression()) {
                                     for (final var additiveExpressionCtx : rangeExpressionCtx.additiveExpression()) {
-                                        for (final var multiplicativeExpressionCtx : additiveExpressionCtx.multiplicativeExpression()) {
-                                            for (final var asExpressionCtx : multiplicativeExpressionCtx.asExpression()) {
-                                                final var prefixUnaryExpressionCtx = asExpressionCtx.prefixUnaryExpression();
-                                                return visitPostfixUnaryExpression(prefixUnaryExpressionCtx.postfixUnaryExpression());
-                                            }
-                                        }
+                                        return visitAdditiveExpression(additiveExpressionCtx);
                                     }
                                 }
                             }
@@ -288,10 +284,51 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
     }
 
     @Override
+    public @NonNull Expression visitAdditiveExpression(final @NonNull AdditiveExpressionContext ctx) {
+        assert ctx != null;
+
+        final var additiveOperators = ctx.additiveOperator();
+        final var multiplicativeExpressions = ctx.multiplicativeExpression();
+        assert multiplicativeExpressions.size() == additiveOperators.size() + 1;
+
+        // fast-path for non-additive expression
+        if (additiveOperators.isEmpty()) {
+            return visitMultiplicativeExpression(multiplicativeExpressions.getFirst());
+        }
+
+        var i = 0;
+        var expression = visitMultiplicativeExpression(multiplicativeExpressions.get(i));
+        while (i < additiveOperators.size()) {
+            final var expressionType = (additiveOperators.get(i).ADD() != null) ? ADD : SUB;
+            final var nextExpression = visitMultiplicativeExpression(multiplicativeExpressions.get(++i));
+            final var additiveExpression = new RealExpression(expressionType);
+            // "a - b + c" -> ADD(SUB(a, b), c)
+            additiveExpression.children.add(expression);
+            additiveExpression.children.add(nextExpression);
+            expression = additiveExpression;
+        }
+
+        return expression;
+    }
+
+    @Override
+    public @NonNull Expression visitMultiplicativeExpression(final @NonNull MultiplicativeExpressionContext ctx) {
+        for (final var asExpressionCtx : ctx.asExpression()) {
+            final var prefixUnaryExpressionCtx = asExpressionCtx.prefixUnaryExpression();
+            return visitPostfixUnaryExpression(prefixUnaryExpressionCtx.postfixUnaryExpression());
+        }
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public @NonNull Expression visitPostfixUnaryExpression(final @NonNull PostfixUnaryExpressionContext ctx) {
         assert ctx != null;
 
         final var primaryExpressionCtx = ctx.primaryExpression();
+
+        if (primaryExpressionCtx.literalConstant() != null) {
+            return visitLiteralConstant(primaryExpressionCtx.literalConstant());
+        }
 
         if (primaryExpressionCtx.stringLiteral() != null) {
             return visitStringLiteral(primaryExpressionCtx.stringLiteral());
@@ -303,8 +340,18 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
             return visitPostfixUnarySuffixes(ctx.postfixUnarySuffix(), expression);
         }
 
-        if (primaryExpressionCtx.literalConstant() != null) {
-            System.out.println("literalConstant " + primaryExpressionCtx.literalConstant().getText());
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public @NonNull Expression visitLiteralConstant(final @NonNull LiteralConstantContext ctx) {
+        assert ctx != null;
+
+        if (ctx.IntegerLiteral() != null) {
+            return new ConstantExpression(Integer.parseInt(ctx.getText()));
+        }
+        if (ctx.LongLiteral() != null) {
+            return new ConstantExpression(Long.parseLong(ctx.getText()));
         }
 
         throw new UnsupportedOperationException();
@@ -327,9 +374,8 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
 
         // fast-path for single String content
         if (ctx.lineStringContent().size() == 1 && ctx.lineStringExpression().isEmpty()) {
-            return new SimpleString(ctx.lineStringContent().getFirst().getText());
+            return new ConstantExpression(ctx.lineStringContent().getFirst().getText());
         }
-//        final var expression = new RealExpression(STRING_LITERAL);
         throw new UnsupportedOperationException();
     }
 
@@ -373,6 +419,16 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
                         }
                         expression.children.add(callArgument);
                     }
+                }
+                return expression;
+            }
+
+            // "args[index]"
+            final var indexingSuffixCtx = postfixUnarySuffixCtx.indexingSuffix();
+            if (indexingSuffixCtx != null) {
+                expression.type = INDEXING;
+                for (final var indexedExpressionCtx : indexingSuffixCtx.expression()) {
+                    expression.children.add(visitExpression(indexedExpressionCtx));
                 }
                 return expression;
             }

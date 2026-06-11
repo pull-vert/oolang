@@ -34,9 +34,9 @@ public final class SymbolTableBuilder {
         for (final var element : ast.rootElements) {
             switch (element.elementType) {
                 case CLASS -> visitClass(element,
-                        symbolTable.addKlass(baseSymbol(element, true, true), true),
+                        symbolTable.addKlass(baseSymbol(element, true, true), false),
                         imports);
-                case INTERFACE -> throw new UnsupportedOperationException();
+                case INTERFACE -> throw new UnsupportedOperationException("interface");
             }
         }
         return symbolTable;
@@ -68,7 +68,7 @@ public final class SymbolTableBuilder {
                 case FUN -> visitFunction(child, klass, imports);
                 case VAR, VAL -> visitProperty(child, klass, imports);
                 case CLASS -> visitClass(child,
-                        klass.addKlass(baseSymbol(child, true, true), true),
+                        klass.addKlass(baseSymbol(child, true, true), false),
                         imports);
                 case INTERFACE, CONSTRUCTOR -> throw new UnsupportedOperationException();
                 default -> throw new IllegalStateException("Unknown element: " + child.elementType);
@@ -110,7 +110,8 @@ public final class SymbolTableBuilder {
         assert propertyElement.type != null;
         final var baseSymbol = baseSymbol(propertyElement, false,
                 propertyElement.elementType == RealElement.ElementType.VAL);
-        klass.properties().put(baseSymbol.name, new Property(baseSymbol, new LazyType(propertyElement.type, imports)));
+        klass.properties()
+                .put(baseSymbol.name, new Property(klass, baseSymbol, new LazyType(propertyElement.type, imports)));
     }
 
     private static @NonNull BaseSymbol baseSymbol(final @NonNull RealElement element,

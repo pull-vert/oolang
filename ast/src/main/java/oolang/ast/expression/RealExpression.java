@@ -14,7 +14,7 @@ import java.util.List;
 
 import static oolang.ast.Identifier.SimpleIdentifier;
 
-public final class RealExpression implements ExpressionNode {
+public non-sealed class RealExpression implements ExpressionNode {
     public /* lateinit */ ExpressionType type;
     public final @NonNull List<@NonNull SimpleIdentifier> identifiers = new ArrayList<>();
     public @Nullable List<@NonNull Annotation> annotations = null;
@@ -24,6 +24,7 @@ public final class RealExpression implements ExpressionNode {
     public @Nullable String invocation; // getstatic / invokevirtual / invokedynamic etc.
     public @Nullable String ownerDescriptorString;
     public @Nullable String typeDescriptorString;
+    public @Nullable String descriptorString;
 
     public RealExpression() {
     }
@@ -61,11 +62,19 @@ public final class RealExpression implements ExpressionNode {
         return content;
     }
 
+    @Override
+    public @Nullable String descriptorString() {
+        return descriptorString;
+    }
+
     public enum ExpressionType {
         PROP_ACCESS("propAccess"),
         FUN_CALL("funCall"),
         FUN_CALL_PARAMETER("funCallParameter"),
-        STRING_LITERAL("stringLiteral");
+        STRING_LITERAL("stringLiteral"),
+        ADD("add"),
+        SUB("sub"),
+        INDEXING("indexing");
 
         private final @NonNull String label;
 

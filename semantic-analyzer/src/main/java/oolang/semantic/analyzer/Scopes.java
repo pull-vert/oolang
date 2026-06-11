@@ -4,11 +4,19 @@
 
 package oolang.semantic.analyzer;
 
+import oolang.symbol.table.BaseSymbol.Property;
+import oolang.symbol.table.Type;
 import oolang.symbol.table.Variable;
+import oolang.symbol.table.Variable.SimpleVariable;
+
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.Map;
+
+import static oolang.symbol.table.TypeResolver.DOUBLE_KLASS;
+import static oolang.symbol.table.TypeResolver.LONG_KLASS;
 
 final class Scopes {
     @NonNull Scope current = new Scope();
@@ -33,7 +41,7 @@ final class Scopes {
     @Nullable Variable resolveVariable(final @NonNull String name) {
         var scope = current;
         while (scope != null) {
-            final var variable = scope.get(name);
+            final var variable = scope.variables.get(name);
             if (variable != null) {
                 return variable;
             }
@@ -42,7 +50,26 @@ final class Scopes {
         return null;
     }
 
-    static final class Scope extends HashMap<@NonNull String, @NonNull Variable> {
+    static final class Scope {
+        private final @NonNull Map<@NonNull String, @NonNull Variable> variables = new HashMap<>();
+        private int slot = 0;
+
+        void putProperty(final @NonNull Property property) {
+            assert property != null;
+
+            variables.put(property.name, property);
+        }
+
+        void putVariable(final @NonNull String name,
+                         final @NonNull Type type,
+                         final boolean isFinal) {
+            assert name != null;
+            assert type != null;
+
+            variables.put(name, new SimpleVariable(type, isFinal, slot));
+            slot += (type == LONG_KLASS || type == DOUBLE_KLASS) ? 2 : 1;
+        }
+
         private @Nullable Scope previous = null;
     }
 }
