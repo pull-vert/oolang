@@ -14,15 +14,12 @@ import static oolang.ast.Identifier.identifierName;
 
 public final class Import implements Ast {
     public final @NonNull List<@NonNull Identifier> identifiers = new ArrayList<>();
-    public boolean starProjection = false;
     public @Nullable Identifier alias = null;
 
     public @NonNull String raw() {
         final var sb = new StringBuilder();
         identifierName(identifiers, sb);
-        if (starProjection) {
-            sb.append(".*");
-        } else if (alias != null) {
+        if (alias != null) {
             sb.append(" as ").append(alias.rawName());
         }
         return sb.toString();
