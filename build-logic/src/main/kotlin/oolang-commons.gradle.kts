@@ -5,6 +5,7 @@ import kotlin.jvm.optionals.getOrNull
 plugins {
     `java-library`
     `maven-publish`
+    signing
 }
 
 val versionCatalog: VersionCatalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
@@ -62,6 +63,47 @@ tasks {
     }
 }
 
-publishing.publications.withType<MavenPublication> {
-    from(components["java"])
+publishing {
+    repositories {
+        maven {
+            url = uri(layout.buildDirectory.dir("repos/releases"))
+        }
+    }
+
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+
+            pom {
+                name = project.name
+                description = "The Oolang JVM language"
+                url = "https://github.com/pull-vert/oolang"
+
+                licenses {
+                    license {
+                        name = "The Unlicence"
+                        url = "https://unlicense.org"
+                    }
+                }
+
+                developers {
+                    developer {
+                        name.set("pull-vert")
+                        url.set("https://github.com/pull-vert")
+                    }
+                }
+
+                scm {
+                    connection = "scm:git:git://github.com/pull-vert/oolang"
+                    developerConnection = "scm:git:git://github.com/pull-vert/oolang.git"
+                    url = "https://github.com/pull-vert/oolang.git"
+                }
+            }
+        }
+    }
+}
+
+signing {
+    // Require signing.keyId, signing.password and signing.secretKeyRingFile
+    sign(publishing.publications)
 }
