@@ -12,10 +12,10 @@ import java.util.Locale;
 import java.util.Objects;
 
 public final class Annotation implements AstNode {
-    public final @NonNull Type type;
+    public final @NonNull AstType type;
     public @Nullable UseSiteTarget useSiteTarget;
 
-    public Annotation(final @NonNull Type type) {
+    public Annotation(final @NonNull AstType type) {
         this.type = Objects.requireNonNull(type);
     }
 

@@ -185,12 +185,6 @@ public interface OolangParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVariableDeclaration(OolangParser.VariableDeclarationContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link OolangParser#multiVariableDeclaration}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMultiVariableDeclaration(OolangParser.MultiVariableDeclarationContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link OolangParser#propertyDeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -676,12 +670,6 @@ public interface OolangParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLambdaParameters(OolangParser.LambdaParametersContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link OolangParser#lambdaParameter}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLambdaParameter(OolangParser.LambdaParameterContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link OolangParser#anonymousFunction}.
 	 * @param ctx the parse tree

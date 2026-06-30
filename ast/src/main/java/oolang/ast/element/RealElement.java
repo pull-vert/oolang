@@ -13,10 +13,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+import static oolang.ast.Identifier.SimpleIdentifier;
+
 public final class RealElement implements ElementNode {
     public final @NonNull ElementType elementType;
-    public @Nullable Identifier identifier;
-    public @Nullable Type type;
+    public /* lateinit */ SimpleIdentifier identifier;
+    public @Nullable AstType type;
     public @Nullable List<@NonNull Annotation> annotations = null;
     public @NonNull List<@NonNull ElementModifier> modifiers = new ArrayList<>();
     public @NonNull List<@NonNull AstNode> children = new ArrayList<>();
@@ -42,7 +44,7 @@ public final class RealElement implements ElementNode {
 
     @Override
     public @NonNull List<@NonNull Ast> content() {
-        final var content = new ArrayList<Ast>();
+        final var content = new ArrayList<@NonNull Ast>();
         if (annotations != null) {
             content.addAll(annotations);
         }

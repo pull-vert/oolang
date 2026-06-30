@@ -23,7 +23,7 @@ public final class RealStatement implements StatementNode {
 
     @Override
     public @NonNull List<@NonNull Ast> content() {
-        final var content = new ArrayList<Ast>();
+        final var content = new ArrayList<@NonNull Ast>();
         if (annotations != null) {
             content.addAll(annotations);
         }

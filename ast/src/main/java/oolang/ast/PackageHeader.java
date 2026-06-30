@@ -9,10 +9,11 @@ import org.jspecify.annotations.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import static oolang.ast.Identifier.SimpleIdentifier;
 import static oolang.ast.Identifier.identifierName;
 
 public final class PackageHeader implements Ast {
-    public final @NonNull List<@NonNull Identifier> identifiers = new ArrayList<>();
+    public final @NonNull List<@NonNull SimpleIdentifier> identifiers = new ArrayList<>();
 
     public @NonNull String raw() {
         final var sb = new StringBuilder();

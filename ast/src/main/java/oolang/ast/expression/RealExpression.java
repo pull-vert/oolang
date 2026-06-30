@@ -6,23 +6,28 @@ package oolang.ast.expression;
 
 import oolang.ast.Annotation;
 import oolang.ast.Ast;
-import oolang.ast.Identifier;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static oolang.ast.Identifier.SimpleIdentifier;
+
 public final class RealExpression implements ExpressionNode {
     public /* lateinit */ ExpressionType type;
-    public @NonNull List<@NonNull Identifier> identifiers = new ArrayList<>();
+    public final @NonNull List<@NonNull SimpleIdentifier> identifiers = new ArrayList<>();
     public @Nullable List<@NonNull Annotation> annotations = null;
-    public @NonNull List<@NonNull Ast> children = new ArrayList<>();
+    public final @NonNull List<@NonNull Expression> children = new ArrayList<>();
+
+    // set during semantic analysis phase.
+    public /* lateinit */ String descriptorString;
 
     public RealExpression() {
     }
 
     public RealExpression(final @NonNull ExpressionType type) {
+        assert type != null;
         this.type = type;
     }
 
@@ -46,7 +51,7 @@ public final class RealExpression implements ExpressionNode {
 
     @Override
     public @NonNull List<@NonNull Ast> content() {
-        final var content = new ArrayList<Ast>();
+        final var content = new ArrayList<@NonNull Ast>();
         if (annotations != null) {
             content.addAll(annotations);
         }
@@ -55,8 +60,9 @@ public final class RealExpression implements ExpressionNode {
     }
 
     public enum ExpressionType {
+        PROP_ACCESS("propAccess"),
         FUN_CALL("funCall"),
-        ARGUMENT("argument"),
+        FUN_CALL_PARAMETER("funCallParameter"),
         STRING_LITERAL("stringLiteral");
 
         private final @NonNull String label;

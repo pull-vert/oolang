@@ -174,15 +174,15 @@ variableDeclaration
     : annotation* NL* simpleIdentifier (NL* COLON NL* type)?
     ;
 
-multiVariableDeclaration
+/*multiVariableDeclaration
     : LPAREN NL* variableDeclaration (NL* COMMA NL* variableDeclaration)* (NL* COMMA)? NL* RPAREN
-    ;
+    ;*/
 
 propertyDeclaration
     : modifiers? (VAL | VAR)
       (NL* typeParameters)?
       (NL* receiverType NL* DOT)?
-      (NL* (multiVariableDeclaration | variableDeclaration))
+      (NL* /*(multiVariableDeclaration | variableDeclaration)*/ variableDeclaration)
       (NL* typeConstraints)?
       (NL* (ASSIGNMENT NL* expression | propertyDelegate))?
       (NL* SEMICOLON)? NL* (getter? (NL* semi? setter)? | setter? (NL* semi? getter)?)
@@ -343,7 +343,7 @@ loopStatement
     ;
 
 forStatement
-    : FOR NL* LPAREN annotation* (variableDeclaration | multiVariableDeclaration)
+    : FOR NL* LPAREN annotation* /*(variableDeclaration | multiVariableDeclaration)*/ variableDeclaration
       IN expression RPAREN NL* controlStructureBody?
     ;
 
@@ -575,13 +575,14 @@ lambdaLiteral
     ;
 
 lambdaParameters
-    : lambdaParameter (NL* COMMA NL* lambdaParameter)* (NL* COMMA)?
+    : variableDeclaration (NL* COMMA NL* variableDeclaration)* (NL* COMMA)?
     ;
+    /* was : lambdaParameter (NL* COMMA NL* lambdaParameter)* (NL* COMMA)?
 
 lambdaParameter
     : variableDeclaration
     | multiVariableDeclaration (NL* COLON NL* type)?
-    ;
+    ;*/
 
 anonymousFunction
     : /* SUSPEND?

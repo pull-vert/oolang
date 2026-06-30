@@ -4,7 +4,7 @@
 
 package oolang.compiler;
 
-import oolang.ast.FileAst;
+import oolang.ast.AstFile;
 import org.jspecify.annotations.NonNull;
 
 import java.nio.file.Path;
@@ -15,7 +15,7 @@ public final class OolangCompiler {
     private OolangCompiler() {
     }
 
-    public static void compile(final @NonNull FileAst ast, final @NonNull Path classPath) {
+    public static void compile(final @NonNull AstFile ast, final @NonNull Path classPath) {
         Objects.requireNonNull(ast);
         Objects.requireNonNull(classPath);
 

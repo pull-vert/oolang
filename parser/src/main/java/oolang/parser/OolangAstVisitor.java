@@ -24,34 +24,36 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+import static oolang.ast.Identifier.MultipleIdentifier;
+import static oolang.ast.Identifier.SimpleIdentifier;
 import static oolang.ast.element.RealElement.ElementType.*;
 import static oolang.ast.element.RealElement.ElementType.CLASS;
 import static oolang.ast.element.RealElement.ElementType.CONSTRUCTOR;
 import static oolang.ast.element.RealElement.ElementType.FUN;
 import static oolang.ast.element.RealElement.ElementType.VAL;
 import static oolang.ast.element.RealElement.ElementType.VAR;
-import static oolang.ast.expression.RealExpression.ExpressionType.ARGUMENT;
+import static oolang.ast.expression.RealExpression.ExpressionType.FUN_CALL_PARAMETER;
 import static oolang.ast.expression.RealExpression.ExpressionType.FUN_CALL;
 
 public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
     @Override
-    public @NonNull FileAst visitOolangFile(final @NonNull OolangFileContext ctx) {
+    public @NonNull AstFile visitOolangFile(final @NonNull OolangFileContext ctx) {
         assert ctx != null;
 
-        final var fileAst = new FileAst();
+        final var astFile = new AstFile();
 
         // package
-        fileAst.packageHeader = visitPackageHeader(ctx.packageHeader());
+        astFile.packageHeader = visitPackageHeader(ctx.packageHeader());
 
         // imports
         for (final var importHeaderCtx : ctx.importList().importHeader()) {
-            fileAst.imports.add(visitImportHeader(importHeaderCtx));
+            astFile.imports.add(visitImportHeader(importHeaderCtx));
         }
 
         for (final var topLevelObjectCtx : ctx.topLevelObject()) {
-            fileAst.rootElements.add(visitClassDeclaration(topLevelObjectCtx.classDeclaration()));
+            astFile.rootElements.add(visitClassDeclaration(topLevelObjectCtx.classDeclaration()));
         }
-        return fileAst;
+        return astFile;
     }
 
     @Override
@@ -82,9 +84,7 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
 
         final var clazz = new RealElement(CLASS);
 
-        if (ctx.simpleIdentifier() != null) {
-            clazz.identifier = visitSimpleIdentifier(ctx.simpleIdentifier());
-        }
+        clazz.identifier = visitSimpleIdentifier(ctx.simpleIdentifier());
 
         addModifiersAndAnnotations(ctx.modifiers(), clazz);
 
@@ -161,7 +161,31 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
         if (ctx.functionDeclaration() != null) {
             return visitFunctionDeclaration(ctx.functionDeclaration());
         }
+        if (ctx.propertyDeclaration() != null) {
+            return visitPropertyDeclaration(ctx.propertyDeclaration());
+        }
+        if (ctx.classDeclaration() != null) {
+            return visitClassDeclaration(ctx.classDeclaration());
+        }
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public @NonNull RealElement visitPropertyDeclaration(final @NonNull PropertyDeclarationContext ctx) {
+        assert ctx != null;
+
+        final RealElement property;
+        if (ctx.VAL() != null) {
+            property = new RealElement(VAL);
+        } else {
+            property = new RealElement(VAR);
+        }
+        final var variableDeclarationCtx = ctx.variableDeclaration();
+        property.identifier = visitSimpleIdentifier(variableDeclarationCtx.simpleIdentifier());
+        property.type = visitType(variableDeclarationCtx.type());
+        addModifiersAndAnnotations(ctx.modifiers(), property);
+
+        return property;
     }
 
     @Override
@@ -224,12 +248,12 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
         assert ctx != null;
 
         final var statement = new RealStatement();
-        statement.annotations = visitAnnotations(ctx.annotation());
         if (ctx.expression() != null) {
             statement.children.add(visitExpression(ctx.expression()));
         } else {
             throw new UnsupportedOperationException();
         }
+        statement.annotations = visitAnnotations(ctx.annotation());
         return statement;
     }
 
@@ -322,25 +346,30 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
                 if (navSuffixCtx.memberAccessOperator().DOT() != null) {
                     expression.identifiers.add(visitSimpleIdentifier(navSuffixCtx.simpleIdentifier()));
                 }
+                continue;
             }
-            if (postfixUnarySuffixCtx.typeArguments() != null) {
-                System.out.println("typeArguments " + postfixUnarySuffixCtx.typeArguments().getText());
+
+            final var typeArgumentsCtx = postfixUnarySuffixCtx.typeArguments();
+            if (typeArgumentsCtx != null) {
+                System.out.println("typeArguments " + typeArgumentsCtx.getText());
+                continue;
             }
-            if (postfixUnarySuffixCtx.callSuffix() != null) {
+
+            final var callSuffixCtx = postfixUnarySuffixCtx.callSuffix();
+            if (callSuffixCtx != null) {
                 expression.type = FUN_CALL;
                 // add function arguments
-                final var valueArgsCtx = postfixUnarySuffixCtx.callSuffix().valueArguments();
+                final var valueArgsCtx = callSuffixCtx.valueArguments();
                 if (valueArgsCtx != null) {
                     for (final var valueArgCtx : valueArgsCtx.valueArgument()) {
-                        final var callArgument = new RealExpression(ARGUMENT);
+                        final var callArgument = new RealExpression(FUN_CALL_PARAMETER);
                         if (valueArgCtx.simpleIdentifier() != null) {
                             callArgument.identifiers.add(visitSimpleIdentifier(valueArgCtx.simpleIdentifier()));
+                        } else if (valueArgCtx.expression() != null) {
+                            callArgument.children.add(visitExpression(valueArgCtx.expression()));
                         }
                         if (valueArgCtx.annotation() != null) {
                             callArgument.annotations = visitAnnotations(List.of(valueArgCtx.annotation()));
-                        }
-                        if (valueArgCtx.expression() != null) {
-                            callArgument.children.add(visitExpression(valueArgCtx.expression()));
                         }
                         expression.children.add(callArgument);
                     }
@@ -353,10 +382,10 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
     }
 
     @Override
-    public @NonNull Type visitType(final @NonNull TypeContext ctx) {
+    public @NonNull AstType visitType(final @NonNull TypeContext ctx) {
         assert ctx != null;
 
-        final Type type;
+        final AstType type;
         if (ctx.userType() != null) {
             type = visitUserType(ctx.userType());
         } else {
@@ -369,38 +398,45 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
     }
 
     @Override
-    public @NonNull Type visitUserType(final @NonNull UserTypeContext ctx) {
+    public @NonNull AstType visitUserType(final @NonNull UserTypeContext ctx) {
         assert ctx != null;
 
-        final var type = new Type();
-        for (final var simpleUserTypeCtx : ctx.simpleUserType()) {
-            type.identifiers.add(visitSimpleUserType(simpleUserTypeCtx));
-        }
-        return type;
-    }
-
-    @Override
-    public @NonNull Identifier visitSimpleUserType(final @NonNull SimpleUserTypeContext ctx) {
-        assert ctx != null;
-
-        final var identifier = visitSimpleIdentifier(ctx.simpleIdentifier());
-        if (ctx.typeArguments() != null) {
-            for (final var typeProjectionCtx : ctx.typeArguments().typeProjection()) {
-                identifier.parameters.add(visitTypeProjection(typeProjectionCtx));
-            }
+        final var simpleUserTypes = ctx.simpleUserType();
+        if (simpleUserTypes.size() == 1) {
+            final var simpleUserTypeCtx = simpleUserTypes.getFirst();
+            return new AstType(
+                    visitSimpleIdentifier(simpleUserTypeCtx.simpleIdentifier()),
+                    genericParameters(simpleUserTypeCtx) // add generic parameters
+            );
         }
 
-        return identifier;
+        // else multiple identifiers
+        final var multipleIdentifier = new MultipleIdentifier();
+        for (final var simpleUserTypeCtx : simpleUserTypes) {
+            multipleIdentifier.identifiers.add(visitSimpleIdentifier(simpleUserTypeCtx.simpleIdentifier()));
+        }
+        return new AstType(
+                multipleIdentifier,
+                genericParameters(simpleUserTypes.getLast()) // the last item contains the generic parameters
+        );
     }
 
-    @Override
-    public @NonNull Identifier visitSimpleIdentifier(final @NonNull SimpleIdentifierContext ctx) {
+    private @Nullable List<@NonNull AstType> genericParameters(final @NonNull SimpleUserTypeContext ctx) {
         assert ctx != null;
-        return new Identifier(ctx.getText());
+
+        if (ctx.typeArguments() == null) {
+            return null;
+        }
+
+        final var parameters = new ArrayList<@NonNull AstType>();
+        for (final var typeProjectionCtx : ctx.typeArguments().typeProjection()) {
+            parameters.add(visitTypeProjection(typeProjectionCtx));
+        }
+        return parameters;
     }
 
     @Override
-    public @NonNull Type visitTypeProjection(final @NonNull TypeProjectionContext ctx) {
+    public @NonNull AstType visitTypeProjection(final @NonNull TypeProjectionContext ctx) {
         assert ctx != null;
 
         final var type = visitType(ctx.type());
@@ -443,16 +479,16 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
         element.annotations = visitAnnotations(ctx.annotation());
     }
 
-    private @NonNull List<@NonNull Annotation> visitAnnotations(
-            final @NonNull List<@NonNull AnnotationContext> annotationContexts) {
-        assert annotationContexts != null;
+    private @Nullable List<@NonNull Annotation> visitAnnotations(
+            final @NonNull List<@NonNull AnnotationContext> annotationsCtx) {
+        assert annotationsCtx != null;
 
-        if (annotationContexts.isEmpty()) {
-            return List.of();
+        if (annotationsCtx.isEmpty()) {
+            return null;
         }
 
-        final var annotations = new ArrayList<Annotation>();
-        for (final var annotationCtx : annotationContexts) {
+        final var annotations = new ArrayList<@NonNull Annotation>();
+        for (final var annotationCtx : annotationsCtx) {
             if (annotationCtx.singleAnnotation() != null) {
                 annotations.add(visitAnnotation(annotationCtx.singleAnnotation().unescapedAnnotation(),
                         annotationCtx.singleAnnotation().annotationUseSiteTarget()));
@@ -463,18 +499,18 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
                 }
             }
         }
-        return annotations.isEmpty() ? List.of() : List.copyOf(annotations);
+        return annotations;
     }
 
     private @NonNull Annotation visitAnnotation(
-            final @NonNull UnescapedAnnotationContext unescapedAnnotationContext,
-            final @Nullable AnnotationUseSiteTargetContext annotationUseSiteTargetContext
+            final @NonNull UnescapedAnnotationContext unescapedAnnotationCtx,
+            final @Nullable AnnotationUseSiteTargetContext annotationUseSiteTargetCtx
     ) {
-        assert unescapedAnnotationContext != null;
+        assert unescapedAnnotationCtx != null;
 
-        final var annotation = new Annotation(visitUserType(unescapedAnnotationContext.userType()));
-        if (annotationUseSiteTargetContext != null) {
-            final var useSiteTarget = annotationUseSiteTargetContext.getText();
+        final var annotation = new Annotation(visitUserType(unescapedAnnotationCtx.userType()));
+        if (annotationUseSiteTargetCtx != null) {
+            final var useSiteTarget = annotationUseSiteTargetCtx.getText();
             annotation.useSiteTarget = toEnumUseSiteTarget(useSiteTarget);
         }
         return annotation;
@@ -484,5 +520,11 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
         // A use-site target is like '@get:', we want 'GET'
         final var cleaned = useSiteTarget.substring(1, useSiteTarget.length() - 1).toUpperCase(Locale.US);
         return Annotation.UseSiteTarget.valueOf(cleaned);
+    }
+
+    @Override
+    public @NonNull SimpleIdentifier visitSimpleIdentifier(final @NonNull SimpleIdentifierContext ctx) {
+        assert ctx != null;
+        return new SimpleIdentifier(ctx.getText());
     }
 }
