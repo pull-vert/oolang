@@ -10,18 +10,18 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Objects;
 
-public final class FileAstWriter {
-    private final @NonNull FileAst fileAst;
+public final class AstFileWriter {
+    private final @NonNull AstFile astFile;
 
-    public FileAstWriter(final @NonNull FileAst fileAst) {
-        this.fileAst = Objects.requireNonNull(fileAst);
+    public AstFileWriter(final @NonNull AstFile astFile) {
+        this.astFile = Objects.requireNonNull(astFile);
     }
 
     public void write(final @NonNull Appendable appendable) {
         Objects.requireNonNull(appendable);
 
         try {
-            for (final var ast : fileAst.content()) {
+            for (final var ast : astFile.content()) {
                 write(ast, appendable, 0);
             }
         } catch (IOException e) {

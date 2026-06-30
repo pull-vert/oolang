@@ -44,6 +44,17 @@ tasks {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
 
+    withType<JavaCompile> {
+        options.compilerArgs.add("--enable-preview")
+    }
+
+    withType<Javadoc> {
+        val javadocOptions = options as CoreJavadocOptions
+
+        javadocOptions.addStringOption("source", "26")
+        javadocOptions.addBooleanOption("-enable-preview", true)
+    }
+
     val testJavaVersion = System.getProperty("test.java.version", "").toIntOrNull()
     withType<Test> {
         if (testJavaVersion != null) {
@@ -59,7 +70,7 @@ tasks {
             exceptionFormat = TestExceptionFormat.FULL
             showStandardStreams = true
         }
-        //jvmArgs("--enable-preview")
+        jvmArgs("--enable-preview")
     }
 }
 

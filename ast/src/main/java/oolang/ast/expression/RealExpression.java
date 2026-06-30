@@ -6,16 +6,17 @@ package oolang.ast.expression;
 
 import oolang.ast.Annotation;
 import oolang.ast.Ast;
-import oolang.ast.Identifier;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static oolang.ast.Identifier.SimpleIdentifier;
+
 public final class RealExpression implements ExpressionNode {
     public /* lateinit */ ExpressionType type;
-    public @NonNull List<@NonNull Identifier> identifiers = new ArrayList<>();
+    public @NonNull List<@NonNull SimpleIdentifier> identifiers = new ArrayList<>();
     public @Nullable List<@NonNull Annotation> annotations = null;
     public @NonNull List<@NonNull Ast> children = new ArrayList<>();
 

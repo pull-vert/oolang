@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+import static oolang.ast.Identifier.MultipleIdentifier;
+import static oolang.ast.Identifier.SimpleIdentifier;
 import static oolang.ast.element.RealElement.ElementType.*;
 import static oolang.ast.element.RealElement.ElementType.CLASS;
 import static oolang.ast.element.RealElement.ElementType.CONSTRUCTOR;
@@ -35,23 +37,23 @@ import static oolang.ast.expression.RealExpression.ExpressionType.FUN_CALL;
 
 public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
     @Override
-    public @NonNull FileAst visitOolangFile(final @NonNull OolangFileContext ctx) {
+    public @NonNull AstFile visitOolangFile(final @NonNull OolangFileContext ctx) {
         assert ctx != null;
 
-        final var fileAst = new FileAst();
+        final var astFile = new AstFile();
 
         // package
-        fileAst.packageHeader = visitPackageHeader(ctx.packageHeader());
+        astFile.packageHeader = visitPackageHeader(ctx.packageHeader());
 
         // imports
         for (final var importHeaderCtx : ctx.importList().importHeader()) {
-            fileAst.imports.add(visitImportHeader(importHeaderCtx));
+            astFile.imports.add(visitImportHeader(importHeaderCtx));
         }
 
         for (final var topLevelObjectCtx : ctx.topLevelObject()) {
-            fileAst.rootElements.add(visitClassDeclaration(topLevelObjectCtx.classDeclaration()));
+            astFile.rootElements.add(visitClassDeclaration(topLevelObjectCtx.classDeclaration()));
         }
-        return fileAst;
+        return astFile;
     }
 
     @Override
@@ -82,9 +84,7 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
 
         final var clazz = new RealElement(CLASS);
 
-        if (ctx.simpleIdentifier() != null) {
-            clazz.identifier = visitSimpleIdentifier(ctx.simpleIdentifier());
-        }
+        clazz.identifier = visitSimpleIdentifier(ctx.simpleIdentifier());
 
         addModifiersAndAnnotations(ctx.modifiers(), clazz);
 
@@ -161,7 +161,31 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
         if (ctx.functionDeclaration() != null) {
             return visitFunctionDeclaration(ctx.functionDeclaration());
         }
+        if (ctx.propertyDeclaration() != null) {
+            return visitPropertyDeclaration(ctx.propertyDeclaration());
+        }
+        if (ctx.classDeclaration() != null) {
+            return visitClassDeclaration(ctx.classDeclaration());
+        }
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public @NonNull RealElement visitPropertyDeclaration(final @NonNull PropertyDeclarationContext ctx) {
+        assert ctx != null;
+
+        final RealElement property;
+        if (ctx.VAL() != null) {
+            property = new RealElement(VAL);
+        } else {
+            property = new RealElement(VAR);
+        }
+        final var variableDeclarationCtx = ctx.variableDeclaration();
+        property.identifier = visitSimpleIdentifier(variableDeclarationCtx.simpleIdentifier());
+        property.type = visitType(variableDeclarationCtx.type());
+        addModifiersAndAnnotations(ctx.modifiers(), property);
+
+        return property;
     }
 
     @Override
@@ -353,10 +377,10 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
     }
 
     @Override
-    public @NonNull Type visitType(final @NonNull TypeContext ctx) {
+    public @NonNull AstType visitType(final @NonNull TypeContext ctx) {
         assert ctx != null;
 
-        final Type type;
+        final AstType type;
         if (ctx.userType() != null) {
             type = visitUserType(ctx.userType());
         } else {
@@ -369,38 +393,50 @@ public final class OolangAstVisitor extends OolangParserBaseVisitor<Ast> {
     }
 
     @Override
-    public @NonNull Type visitUserType(final @NonNull UserTypeContext ctx) {
+    public @NonNull AstType visitUserType(final @NonNull UserTypeContext ctx) {
         assert ctx != null;
 
-        final var type = new Type();
+        if (ctx.simpleUserType().size() == 1) {
+            final var simpleUserTypeCtx = ctx.simpleUserType().getFirst();
+            return new AstType(
+                    visitSimpleIdentifier(simpleUserTypeCtx.simpleIdentifier()),
+                    genericParameters(simpleUserTypeCtx) // add generic parameters
+            );
+        }
+
+        // else multiple identifiers
+        final var multipleIdentifier = new MultipleIdentifier();
         for (final var simpleUserTypeCtx : ctx.simpleUserType()) {
-            type.identifiers.add(visitSimpleUserType(simpleUserTypeCtx));
+            multipleIdentifier.identifiers.add(visitSimpleIdentifier(simpleUserTypeCtx.simpleIdentifier()));
         }
-        return type;
+        return new AstType(
+                multipleIdentifier,
+                genericParameters(ctx.simpleUserType().getLast()) // the last item contains the generic parameters
+        );
     }
 
-    @Override
-    public @NonNull Identifier visitSimpleUserType(final @NonNull SimpleUserTypeContext ctx) {
+    private @Nullable List<@NonNull AstType> genericParameters(final @NonNull SimpleUserTypeContext ctx) {
         assert ctx != null;
 
-        final var identifier = visitSimpleIdentifier(ctx.simpleIdentifier());
-        if (ctx.typeArguments() != null) {
-            for (final var typeProjectionCtx : ctx.typeArguments().typeProjection()) {
-                identifier.parameters.add(visitTypeProjection(typeProjectionCtx));
-            }
+        if (ctx.typeArguments() == null) {
+            return null;
         }
 
-        return identifier;
+        final var parameters = new ArrayList<AstType>();
+        for (final var typeProjectionCtx : ctx.typeArguments().typeProjection()) {
+            parameters.add(visitTypeProjection(typeProjectionCtx));
+        }
+        return parameters;
     }
 
     @Override
-    public @NonNull Identifier visitSimpleIdentifier(final @NonNull SimpleIdentifierContext ctx) {
+    public @NonNull SimpleIdentifier visitSimpleIdentifier(final @NonNull SimpleIdentifierContext ctx) {
         assert ctx != null;
-        return new Identifier(ctx.getText());
+        return new SimpleIdentifier(ctx.getText());
     }
 
     @Override
-    public @NonNull Type visitTypeProjection(final @NonNull TypeProjectionContext ctx) {
+    public @NonNull AstType visitTypeProjection(final @NonNull TypeProjectionContext ctx) {
         assert ctx != null;
 
         final var type = visitType(ctx.type());
