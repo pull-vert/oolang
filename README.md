@@ -35,3 +35,5 @@ During this phase the AST is enriched with the resolved types and method signatu
 ## Compiler
 The compiler phase transforms Oolang AST to JVM bytecode using
 [Java Class-File API](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/classfile/package-summary.html).
+
+You can also read our [draft ideas page](DRAFT_IDEAS.md).
