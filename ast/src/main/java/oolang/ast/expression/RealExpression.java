@@ -21,7 +21,9 @@ public final class RealExpression implements ExpressionNode {
     public final @NonNull List<@NonNull Expression> children = new ArrayList<>();
 
     // set during semantic analysis phase.
-    public /* lateinit */ String descriptorString;
+    public @Nullable String invocation; // getstatic / invokevirtual / invokedynamic etc.
+    public @Nullable String ownerDescriptorString;
+    public @Nullable String typeDescriptorString;
 
     public RealExpression() {
     }

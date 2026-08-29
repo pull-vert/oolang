@@ -4,49 +4,45 @@
 
 package oolang.semantic.analyzer;
 
-import oolang.ast.Import;
-import oolang.symbol.table.Symbol;
+import oolang.symbol.table.Variable;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.HashMap;
-import java.util.List;
 
 final class Scopes {
-    private @Nullable Scopes.Scope head = null;
+    @NonNull Scope current = new Scope();
 
-    private final @NonNull String packageHeader;
-    private final @NonNull List<@NonNull Import> imports;
-
-    Scopes(final @NonNull String packageHeader, final @NonNull List<@NonNull Import> imports) {
-        assert packageHeader != null;
-        assert imports != null;
-
-        this.packageHeader = packageHeader;
-        this.imports = imports;
+    @NonNull Scopes newScopes() {
+        return new Scopes();
     }
 
-    public @NonNull Scopes.Scope push() {
+    void push() {
         final var newHead = new Scope();
-        if (head != null) {
-            newHead.previous = head;
-        }
-        head = newHead;
-        return newHead;
+        newHead.previous = current;
+        current = newHead;
     }
 
-    public void pop() {
-        final var currentHead = head;
-        assert currentHead != null;
-        if (currentHead.previous != null) {
-            head = currentHead.previous;
-            currentHead.previous = null; // release this reference for GC
-        } else {
-            head = null;
-        }
+    void pop() {
+        final var currentHead = current;
+        assert currentHead.previous != null;
+        current = currentHead.previous;
+        currentHead.previous = null; // release this reference for GC
     }
 
-    class Scope extends HashMap<@NonNull String, @NonNull Symbol> {
-        private @Nullable Scopes.Scope previous = null;
+    @Nullable Variable resolveVariable(final @NonNull String name) {
+        var scope = current;
+        while (scope != null) {
+            final var variable = scope.get(name);
+            if (variable != null) {
+                return variable;
+            }
+            scope = scope.previous;
+        }
+        return null;
+    }
+
+    static final class Scope extends HashMap<@NonNull String, @NonNull Variable> {
+        private @Nullable Scope previous = null;
     }
 }
