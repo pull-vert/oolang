@@ -6,5 +6,5 @@ package oolang.ast.expression;
 
 import oolang.ast.Ast;
 
-public interface Expression extends Ast {
+public sealed interface Expression extends Ast permits ExpressionNode, SimpleString {
 }
