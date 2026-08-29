@@ -5,7 +5,7 @@
 package oolang.semantic.analyzer;
 
 import oolang.ast.Import;
-import oolang.symbol.table.Symbol;
+import oolang.symbol.table.Type;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 final class Scopes {
-    private @Nullable Scopes.Scope head = null;
+    @NonNull Scope current = new Scope();
 
     private final @NonNull String packageHeader;
     private final @NonNull List<@NonNull Import> imports;
@@ -26,27 +26,30 @@ final class Scopes {
         this.imports = imports;
     }
 
-    public @NonNull Scopes.Scope push() {
+    @NonNull Scopes newScopes() {
+        return new Scopes(packageHeader, imports);
+    }
+
+    void push() {
         final var newHead = new Scope();
-        if (head != null) {
-            newHead.previous = head;
-        }
-        head = newHead;
-        return newHead;
+        newHead.previous = current;
+        current = newHead;
     }
 
-    public void pop() {
-        final var currentHead = head;
-        assert currentHead != null;
-        if (currentHead.previous != null) {
-            head = currentHead.previous;
-            currentHead.previous = null; // release this reference for GC
-        } else {
-            head = null;
+    void pop() {
+        final var currentHead = current;
+        assert currentHead.previous != null;
+        current = currentHead.previous;
+        currentHead.previous = null; // release this reference for GC
+    }
+
+    class Scope extends HashMap<@NonNull String, @NonNull Variable> {
+        private @Nullable Scope previous = null;
+
+        public void add(@NonNull String name, final @NonNull Variable variable) {
         }
     }
 
-    class Scope extends HashMap<@NonNull String, @NonNull Symbol> {
-        private @Nullable Scopes.Scope previous = null;
+    record Variable(@NonNull Type type, boolean isConst) {
     }
 }
