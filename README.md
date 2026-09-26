@@ -1,3 +1,6 @@
+[![License: Unlicense](https://img.shields.io/github/license/pull-vert/oolang?style=flat-square)](http://unlicense.org/)
+[![Java](https://img.shields.io/badge/Java-27-ED8B00?logo=openjdk&logoColor=white&style=flat-square)](https://www.java.com/en/download/help/whatis_java.html)
+
 # Oolang
 
 Oolang is a JVM language
@@ -24,6 +27,8 @@ class UserService(private val repository: UserRepository) {
 }
 ```
 
+You can read our [draft ideas page](DRAFT_IDEAS.md).
+
 ## Oolang compiler
 Compiling Oolang source code involves 3 stages
 1. lexer + parser
@@ -38,10 +43,8 @@ The output of this first stage is a raw Abstract Syntax Tree, or AST.
 ## Semantic analyzer
 The semantic analysis phase checks that your syntactically correct Oolang source code is also *meaningful*: variables
 are declared before use, types match, function signatures are respected. \
-During this phase the AST is enriched with the resolved types, function signatures, field and function calls, etc.
+During this phase the AST is enriched with the resolved types, function signatures, property and function calls, etc.
 
 ## Compiler
 The compiler phase transforms the enriched Oolang AST to JVM bytecode using
 [Java Class-File API](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/classfile/package-summary.html).
-
-You can also read our [draft ideas page](DRAFT_IDEAS.md).
